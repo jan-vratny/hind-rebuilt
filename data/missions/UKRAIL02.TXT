@@ -1,0 +1,7 @@
+:Situation
+The enemy has found the railway viaduct: every train to the front crosses it. It must stand.
+:Stalemate
+The bridge is damaged but still carries trains. It will not survive another raid like that.
+:Failure
+The viaduct is down. The front will go short of everything for weeks.
+:EOF

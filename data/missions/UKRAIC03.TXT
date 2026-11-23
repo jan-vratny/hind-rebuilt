@@ -1,0 +1,25 @@
+:Title
+Power for the City
+:Description
+Helicopters: 3
+:Para
+Targets: 6 Shahed-136 drones
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 23:30
+:Para
+Flight time: 27 mins
+:Para
+Weather: Overcast
+:Para
+The enemy is after the power works north-east of the town. Six drones are coming in low under the cloud from the east. Every one that gets through leaves thousands in the dark and the cold.
+:Para
+Shoot down at least 4. If 2 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

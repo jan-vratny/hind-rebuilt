@@ -1,0 +1,7 @@
+:Situation
+Fog on the river. The drones follow it at tree-top height towards the railway bridge.
+:Stalemate
+In the fog you saw them too late. Trust the Hip's calls and be where they will be.
+:Failure
+The fog covered the raid all the way to the bridge. It is down again, and this time for good.
+:EOF

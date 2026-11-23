@@ -1,0 +1,7 @@
+:Situation
+The first raids are probing the line south-east of the airbase. Learn how they fly and how the Hip calls them out.
+:Stalemate
+A few got through, but nobody expected the first nights to be easy. Try again.
+:Failure
+The airbase has been hit hard. The squadron cannot fly from it any more.
+:EOF

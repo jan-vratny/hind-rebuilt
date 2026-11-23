@@ -1,0 +1,9 @@
+:Description
+Autumn. The war is in its fourth year, and every night the sky over the towns behind the front fills with the drone of Shahed engines. They are cheap, slow and many: a lawnmower's buzz, fifty kilograms of explosive, a course set for a power station, a bridge, a block of flats. The missiles and the guns of the air defence cannot be everywhere, and every one spent on a drone is one less for a missile.
+
+Your squadron flies old Mi-24s, once Czech, now ours, with a Mi-17 to find the drones in the dark. Out here on the steppe you are the last line between the raids and the town. Fly low, listen to the Hip, match their speed and let the gun do the work.
+:Successful
+The raids have thinned out. The enemy has learnt that the steppe is a bad way in, and the town has had its lights on all week. The squadron has earned its rest, and you, your decorations.
+:Failure
+Too many drones got through. The squadron has been pulled back for new crews and new tactics, and the town will spend the winter in the dark.
+:EOF

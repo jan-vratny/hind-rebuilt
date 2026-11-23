@@ -1,0 +1,25 @@
+:Title
+The Swarm
+:Description
+Helicopters: 3
+:Para
+Targets: 12 Shahed-136 drones, 2 Geran-3 jet drones and 4 Gerbera decoys
+:Para
+Weapons: Gun, door guns, UPK-23 gun pods and R-60 missiles
+:Para
+Take-off time: 2:00
+:Para
+Flight time: 23 mins
+:Para
+Weather: Clear
+:Para
+A mass raid: a dozen drones on the town, the airbase and the power works, all at once from the south-east, and among them Gerbera decoys to soak up the rounds. Stay on the line where their courses cross, and keep the gun busy. Two of them are the jet ones, Geran-3s, at 330 km/h: you will not catch them from behind. Meet them head on, the Hip calls them 'JET SHAHED', and you carry R-60s for them on the outer pylons. Tonight the inner pylons carry UPK-23 gun pods instead of the interceptors: more gun for the swarm.
+:Para
+Shoot down at least 9. If 4 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

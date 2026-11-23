@@ -1,0 +1,25 @@
+:Title
+Operational Training - Jet Drones
+:Description
+Helicopters: 3
+:Para
+Targets: 4 Geran-3 jet drones
+:Para
+Weapons: Gun, door guns, UPK-23 gun pods and R-60 missiles
+:Para
+Take-off time: 11:30
+:Para
+Flight time: 18 mins
+:Para
+Weather: Clear
+:Para
+The enemy has started sending the jet Shahed, the Geran-3: the same black delta with a turbojet in the tail, some 330 km/h, and in its dive on the target some 550. The Mi-24 cannot catch it from behind, and the door gunners will not get a shot. Four will come in from the south-east at our airbase. The Hip calls them 'JET SHAHED': get in front of one, turn to meet it head on, and either let the gun meet it (the WSO lays it on, a burst as it closes) or fire an R-60 from the outer pylons once the HUD shows it in reach. They are on the line within a minute of one another: be quick.
+:Para
+Shoot down at least 2. If 3 get through, the mission has failed.
+:Outstanding
+All four down. Head on and quick: that is how it is done.
+:Success
+Some of them down. Fly it again: be in front of them, not behind.
+:Failure
+Too many got through. Fly it again: meet them head on, and use the R-60s.
+:EOF

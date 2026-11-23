@@ -1,0 +1,27 @@
+:Title
+Autorotation Training
+:Description
+Helicopters: 1
+:Para
+Targets: None
+:Para
+Take-off time: 10:00
+:Para
+Flight time: 2 mins
+:Para
+Weather: Clear
+:Para
+You start at 900 m over the base at 200 km/h, the engines running. Press O: the engines drop to idle and nothing drives the rotor. At once lower the collective to 35 %, or the revolutions fall away in seconds. The HUD now shows the rotor's RPM in place of the torque: keep it at 90-110 %. More collective spends it, less lets it climb; 35-45 % holds it.
+:Para
+Glide at about 150 km/h, sinking 15-20 m/s: 900 m leaves about a minute and 3 km of ground. Turn back towards the base early and lower the gear (U).
+:Para
+At 50 m raise the nose to about +20 degrees: the speed and the sink fall and the RPM climbs. At 12 m bring the nose back level and raise the collective as much as it takes to touch down below 4 m/s. You get this one chance: there is no going round. On the wheels lower the collective and brake (B).
+:Para
+Land anywhere in one piece with the engines disengaged since at least 100 m up. Land within 500 m of the start for an outstanding. O engages the engines again, some seconds to full power, for a try that has gone wrong, but a landing under power fails the drill. Stable or Realistic only: a Novice pilot flies this one in Stable.
+:Outstanding
+Down on the base without power. That one will save your life.
+:Success
+Down in one piece without power, though not on the base. Next time turn back earlier.
+:Failure
+That was no autorotation: the engines have to stay off down to the ground. Fly it again.
+:EOF

@@ -1,0 +1,25 @@
+:Title
+The Long Night
+:Description
+Helicopters: 3
+:Para
+Targets: 16 Shahed-136 drones, 3 Geran-3 jet drones and 4 Gerbera decoys
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 22:30
+:Para
+Flight time: 25 mins
+:Para
+Weather: Overcast
+:Para
+The biggest raid yet: sixteen drones in four waves through the night, on everything we hold, decoys with every wave and a jet Geran-3 in three of them. The interceptor drones are back on the pylons: the door gunners let them go at the jets, and at anything else when you tell them (G). Land to rearm when you must, and get back up. The town is counting on you.
+:Para
+Shoot down at least 11. If 5 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

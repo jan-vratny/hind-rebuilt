@@ -1,0 +1,25 @@
+:Title
+Night Watch
+:Description
+Helicopters: 3
+:Para
+Targets: 3 Shahed-136 drones
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 20:40
+:Para
+Flight time: 20 mins
+:Para
+Weather: Clear
+:Para
+Air defence reports three Shahed-136 drones crossing the line from the south-east, heading for our airbase. Take the flight up and hunt them down before they reach the hangars. The Hip will find them for you and call them out: listen for her, then close in, match their speed and let the gun do the work. The pylons carry racks of interceptor drones: the door gunners send them at the jet drones by themselves, and at the one you have when you tell them (G).
+:Para
+Shoot down at least 2. If 2 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

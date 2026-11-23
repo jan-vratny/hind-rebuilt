@@ -1,0 +1,7 @@
+:Situation
+The raids come from two directions at once, and the enemy mixes in Gerbera decoys to waste our rounds.
+:Stalemate
+The decoys did their job: too many rounds spent on empty drones. Choose your targets.
+:Failure
+Stretched between two lines, the flight could not hold either. The depot and the airfield are gone.
+:EOF

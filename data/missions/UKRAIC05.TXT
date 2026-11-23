@@ -1,0 +1,25 @@
+:Title
+Two Directions
+:Description
+Helicopters: 3
+:Para
+Targets: 8 Shahed-136 drones and 2 Gerbera decoys
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 1:20
+:Para
+Flight time: 27 mins
+:Para
+Weather: Clear
+:Para
+Two raids at once: four drones from the east on the depot, four from the south on the second airfield. The flight cannot be everywhere. Split your time between the two lines and take what you can. Two of them may be Gerbera decoys: no warhead, there only to draw your fire. You cannot tell them apart; the score counts only the Shaheds.
+:Para
+Shoot down at least 5. If 3 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

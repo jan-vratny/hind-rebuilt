@@ -1,0 +1,7 @@
+:Situation
+The biggest raid yet: four waves through the whole night, on everything we hold. Rearm when you must and get back up.
+:Stalemate
+The night was too long. Some waves got through, and the enemy will come again with more.
+:Failure
+Wave after wave got through. By the morning there was little left to defend.
+:EOF

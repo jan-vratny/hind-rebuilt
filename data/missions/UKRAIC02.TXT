@@ -1,0 +1,25 @@
+:Title
+The Railway Bridge
+:Description
+Helicopters: 3
+:Para
+Targets: 5 Shahed-136 drones
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 22:10
+:Para
+Flight time: 23 mins
+:Para
+Weather: Clear
+:Para
+The railway viaduct over the river carries every train to the front. Intelligence expects a raid of five drones in two waves. Patrol south of the bridge and stop them.
+:Para
+Shoot down at least 3. If 2 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

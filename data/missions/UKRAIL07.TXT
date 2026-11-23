@@ -1,0 +1,7 @@
+:Situation
+A swarm: a dozen drones and decoys at once on the town, the airbase and the power works, and the first jet Geran-3s.
+:Stalemate
+The swarm was too big for one flight. Stay where their courses cross and keep the gun busy.
+:Failure
+The swarm got through. The town counts its dead, and the command has lost faith in the helicopters.
+:EOF

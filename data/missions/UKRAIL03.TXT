@@ -1,0 +1,7 @@
+:Situation
+Now it is the power works north-east of the town. Winter is coming, and the enemy knows it.
+:Stalemate
+Part of the town is without power tonight. The engineers are working, but they need you to keep the sky clear.
+:Failure
+The power works are burning. The town faces the winter in the dark and the cold.
+:EOF

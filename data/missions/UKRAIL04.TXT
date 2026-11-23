@@ -1,0 +1,7 @@
+:Situation
+The Hip is down for repairs. You will have to find the drones yourselves, with the WSO's search and your own eyes.
+:Stalemate
+Without the Hip it is hard. Use the WSO, keep low and watch the horizon.
+:Failure
+Blind without the Hip, the flight missed too many. The command grounds the squadron until it is whole again.
+:EOF

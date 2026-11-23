@@ -1,0 +1,25 @@
+:Title
+Without the Hip
+:Description
+Helicopters: 2
+:Para
+Targets: 4 Shahed-136 drones
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 21:15
+:Para
+Flight time: 18 mins
+:Para
+Weather: Clear
+:Para
+The Hip is down for repairs tonight: there is no one to call the drones out for you. Four are heading for the town from the south. Watch the sky low on the horizon and let the WSO search ahead.
+:Para
+Shoot down at least 2. If 2 get through, the mission has failed.
+:Outstanding
+Not one of them got through. The town slept tonight.
+:Success
+Most of them went down before they could do harm. Well done.
+:Failure
+Too many got through. There will be funerals in the morning.
+:EOF

@@ -1,0 +1,25 @@
+:Title
+Operational Training - Interceptor Drones
+:Description
+Helicopters: 3
+:Para
+Targets: 6 Shahed-136 drones and 2 Geran-3 jet drones
+:Para
+Weapons: Gun, door guns, interceptor drones
+:Para
+Take-off time: 10:30
+:Para
+Flight time: 18 mins
+:Para
+Weather: Clear
+:Para
+The pylons carry two racks of interceptor drones, six on each, as the Mi-8 crews have them. They are the door gunners' to fly: when a jet Geran-3 comes within 5 km they let an interceptor go at it, and it steers itself onto it at some 400 km/h. The slower Shaheds they leave to their guns, unless you tell them (G) to send one at your target. A gunner guiding an interceptor has his hands full: his gun is silent till it is close to its drone. D in the air holds them, as it holds the door guns. Six Shaheds and two Geran-3s will come in at our airbase: take the flight to the patrol line and watch the interceptors work, the gun is yours for what they miss.
+:Para
+Shoot down at least 5. If 2 get through, the mission has failed.
+:Outstanding
+Not one got through. The interceptors and the gun together: well done.
+:Success
+Most of them down. Fly it again and let none through.
+:Failure
+Too many got through. Fly it again: be on the line early, in reach of them.
+:EOF

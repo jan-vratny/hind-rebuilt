@@ -1,0 +1,39 @@
+:Task
+:User Task
+:Side
+1
+:Task Type
+5
+:Drone
+:Drone Type
+607
+:Waypoint
+1,145689029,131453648,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,148208714,131453648,755906,5455,92388,0,0,0,0,0,0,0,0,0,0,0,0
+2,145689029,131453648,755906,10909,92388,0,0,0,0,0,0,0,0,0,0,0,0
+:Gun
+1470
+:Laser Timeout
+0
+:Wind Speed
+0
+:Wind Direction
+0
+:Weather Condition
+0
+:Time
+10:00
+:Failure Count
+0
+:Success Count
+0
+:Outstanding Count
+0
+:Humans loaded count
+0
+:Humans deployed count
+0
+:Autorotation
+900
+:Destroy
+
