@@ -1093,7 +1093,7 @@ Cíl: dron 25 m pod tebou, 30–100 m stranou a rozdíl rychlosti pod 70 km/h. P
 
 Brzdná dráha je o kolik metrů se k dronu přiblížíš, než se rychlosti srovnají. Shahedy létají většinou 150 m nad zemí, takže hlubší podlet se vejde jen nad rovinou. Nižší kolektiv (55 %) tě skoro nevynese, na dobrou ránu pak chybí výška.
 
-**Doladění.** `SPD` vpravo nahoře říká, o kolik km/h je dron rychlejší (+ přidat, − ubrat). Každý Shahed letí trochu jinak, 166–194 km/h, tedy −2,5° až −3,5° při kolektivu 54–58 %. Rovnovážný sklon se mění o 1° na 30 km/h. Rychlejší oprava: nos o 3° dál asi na 5 s je 10 km/h, potom ho vrať na nový sklon. Na klávesnici je ťuknutí šipkou 0,1 s asi 0,4° a 0,2 s asi 1,6°. Kolektiv 1 % je asi 0,8 m/s.
+**Doladění.** `SPD` vpravo nahoře říká, o kolik km/h je dron rychlejší (+ přidat, − ubrat). Každý Shahed letí trochu jinak, 166–194 km/h, tedy −2,5° až −3,5° při kolektivu 54–58 %. Rovnovážný sklon se mění o 1° na 30 km/h. Rychlejší oprava: nos o 3° dál asi na 5 s je 10 km/h, potom ho vrať na nový sklon. Na klávesnici je ťuknutí šipkou 0,1 s asi 0,3° a 0,2 s asi 1,1°. Kolektiv 1 % je asi 0,8 m/s.
 
 **Když jsi pomalejší než dron.** Z 150 km/h nos na −6° na zhruba 15 s a pak zpět na −3°. Dron ti mezitím uletí asi o 100 m, proto je lepší přiletět rychleji a brzdit.
 
@@ -1101,13 +1101,13 @@ Brzdná dráha je o kolik metrů se k dronu přiblížíš, než se rychlosti sr
 
 | km/h | Knipl vpřed | Puštěný nos stoupá |
 |---:|---:|---:|
-| 100 | 5 % | 1,4°/s |
-| 180 | 12 % | 2,7°/s |
-| 250 | 22 % | 4,3°/s |
-| 300 | 35 % | 5,7°/s |
+| 100 | 5 % | 0,5°/s |
+| 180 | 12 % | 1,2°/s |
+| 250 | 22 % | 2,1°/s |
+| 300 | 35 % | 3,2°/s |
 
-- Brzdění tím začíná samo: pusť knipl a nos se zvedne, z 300 km/h je +10° asi za 3 s. Přidrž ho tam a v 185 km/h zatlač dopředu přes neutrál, jinak nos stoupá dál. Z vodorovného letu na 180 km/h je po puštění za 5 s nos na +8° a rychlost 160 km/h, za 20 s vrtulník stojí.
-- Kolem 180 km/h je pak potřeba držet knipl 12 % vpřed. Klávesnice se vrací do středu, takže to znamená ťukat dvakrát až třikrát za sekundu (0,2 s je asi 1,1°). Tady se hodí joystick.
+- Brzdění tím začíná samo: pusť knipl a nos se zvedne, z 300 km/h je +10° asi za 4 s. Přidrž ho tam a v 185 km/h zatlač dopředu přes neutrál, jinak nos stoupá dál. Z vodorovného letu na 180 km/h je po puštění za 5 s nos na +5° a rychlost 170 km/h, asi za 25 s vrtulník stojí.
+- Kolem 180 km/h je pak potřeba držet knipl 12 % vpřed. Klávesnice se vrací do středu, takže to znamená ťukat dvakrát až třikrát za sekundu (0,2 s je asi 1,3°). Tady se hodí joystick.
 - Pedál se při 180 km/h a 55 % skoro nepotřebuje, reakční moment je tam vyvážený. Při 300 km/h je potřeba asi 6 %.
 - Náklon se sám nevyrovná: drž ho. Nad 300 km/h se puštěný vrtulník postupně rozjede do zatáčky.
 
@@ -1267,6 +1267,11 @@ Zabrzděný vrtulník na zemi pedály neotočí.
   pravý pedál), posun neutrálu cykliky s rychlostí a turbulence ve visení. Pedály v rychlosti
   vrtulník jen vybočí (kýl ho drží ve směru letu: plný pedál ~50° při 100 km/h, ~10° při
   200 km/h) a vybočení ho naklání na stranu pedálu; zatáčí se náklonem cykliky.
+
+Ve Stable i Realistic reaguje vrtulník na cykliku jako těžký stroj: rychlost náklonu se rozjede
+asi za půl sekundy, rychlost klopení, kvůli dlouhému trupu pomalejší, asi za sekundu. Plná cyklika
+ho naklání asi 35°/s a klopí asi 18°/s (Stable o něco živěji, 40 a 22°/s). Pohyb je potřeba
+brzdit včas.
 
 Vzlet ve Stable: klávesou 9 nastavit 90 %. Vrtulník se odlepí kolem 72–78 % a stoupá.
 Ve výšce kolem 20 m nastavit klávesou 8 80 %, což je přibližně visení (doladit Q/A).

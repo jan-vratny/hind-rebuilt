@@ -452,7 +452,16 @@ void Helicopter::step(const Controls& in, float dt) {
   // ---------------- attitude: desired body rates
   glm::vec3 rateCmd{0.0f};
   glm::vec3 accelExtra{0.0f};
-  const glm::vec3 kResponse{4.0f, 3.0f, 6.0f};
+  // How fast the body rates follow the controls (1/s: pitch, yaw, roll). A heavy helicopter with
+  // an articulated rotor (small hinge offset, little damping from the disc) and a long fuselage
+  // answers slowly, and slower in pitch than in roll: pitch settles in about a second, roll in
+  // half of one. The novice model stays brisk.
+  const glm::vec3 kResponse = model == FlightModel::Novice     ? glm::vec3{4.0f, 3.0f, 6.0f}
+                              : model == FlightModel::Stable ? glm::vec3{1.4f, 3.0f, 2.5f}
+                                                             : glm::vec3{1.0f, 3.0f, 2.0f};
+  // Full cyclic's body rates (rad/s) in the stable and realistic models.
+  const bool stableModel = model == FlightModel::Stable;
+  const float maxPitchRate = stableModel ? 0.38f : 0.32f, maxRollRate = stableModel ? 0.7f : 0.6f;
   float coord = smoothstep(15.0f, 30.0f, speedH);
 
   if (model == FlightModel::Novice) {
@@ -475,7 +484,8 @@ void Helicopter::step(const Controls& in, float dt) {
     bool stable = model == FlightModel::Stable;
     float level = stable ? 1.0f : 0.0f;
     // Stable: centred cyclic holds the pitch attitude (so the keyboard can fly), wings self-level.
-    float pitchRate = -in.cyclicY * 0.55f;
+    // Full cyclic: about 18 deg/s of pitch (stable 22), 35 of roll (stable 40).
+    float pitchRate = -in.cyclicY * maxPitchRate;
     // Lifting off hands off, it does not keep the nose-up the gear and the ground left it at
     // (a few degrees back the thrust drives it off backwards): it levels, until the cyclic moves.
     if (stable) {
@@ -486,7 +496,7 @@ void Helicopter::step(const Controls& in, float dt) {
     // (Not while the pedals turn it slowly: a stall turn goes through a steep bank on the way,
     // which levelled would stop the nose short of coming down.)
     const float pedalTurn = std::min(1.0f, std::fabs(in.pedal) * 3.0f) * (1.0f - smoothstep(15.0f, 30.0f, speedH));
-    float rollRate = in.cyclicX * 0.9f - level * (1.0f - pedalTurn) * 0.3f * roll;
+    float rollRate = in.cyclicX * maxRollRate - level * (1.0f - pedalTurn) * 0.3f * roll;
     // In the realistic model the tail rotor keeps most of its authority with speed; the fin
     // (below) limits the sideslip a full pedal holds: ~50 deg at 100 km/h, ~10 at 200.
     float pedalEff = stable ? tailEff : 0.6f + 0.4f / (1.0f + sq(inplane / 12.0f));
@@ -523,6 +533,10 @@ void Helicopter::step(const Controls& in, float dt) {
 
   // Without the tail rotor nothing holds the heading but the fin: the torque turns the nose left.
   glm::vec3 response = kResponse;
+  // (The disturbances above were sized against the brisk response and the faster rates of full
+  // cyclic (0.55, 0.9 rad/s): scaled so they still take the same stick to hold.)
+  if (model != FlightModel::Novice)
+    accelExtra.x *= response.x / 4.0f * maxPitchRate / 0.55f, accelExtra.z *= response.z / 6.0f * maxRollRate / 0.9f;
   if (tailRotor < 1.0f) {
     response.y *= 0.1f + 0.9f * tailRotor;
     accelExtra.y += (1.0f - tailRotor) * 1.6f * collective * (1.0f - wow);

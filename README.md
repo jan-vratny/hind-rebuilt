@@ -1189,7 +1189,7 @@ The aim: the drone 25 m below you, 30–100 m to the side and less than 70 km/h 
 
 The braking distance is how many metres you close on the drone before the speeds match. Shaheds mostly fly 150 m above the ground, so the deeper approaches fit only over flat land. A lower collective (55 %) hardly lifts you, and a good shot then lacks height.
 
-**Fine-tuning.** `SPD` at the top right says how many km/h faster the drone is (+ add, − take off). Each Shahed flies a little differently, 166–194 km/h, which is −2.5° to −3.5° at a collective of 54–58 %. The steady attitude changes by 1° per 30 km/h. A quicker correction: the nose 3° further for about 5 s is 10 km/h, then bring it to the new attitude. On the keyboard a 0.1 s tap of an arrow is about 0.4° and 0.2 s about 1.6°. 1 % of collective is about 0.8 m/s.
+**Fine-tuning.** `SPD` at the top right says how many km/h faster the drone is (+ add, − take off). Each Shahed flies a little differently, 166–194 km/h, which is −2.5° to −3.5° at a collective of 54–58 %. The steady attitude changes by 1° per 30 km/h. A quicker correction: the nose 3° further for about 5 s is 10 km/h, then bring it to the new attitude. On the keyboard a 0.1 s tap of an arrow is about 0.3° and 0.2 s about 1.1°. 1 % of collective is about 0.8 m/s.
 
 **When you are slower than the drone.** From 150 km/h put the nose at −6° for roughly 15 s, then back to −3°. Meanwhile the drone gets about 100 m further away, so it is better to arrive faster and brake.
 
@@ -1197,13 +1197,13 @@ The braking distance is how many metres you close on the drone before the speeds
 
 | km/h | Stick forward | Released nose rises |
 |---:|---:|---:|
-| 100 | 5 % | 1.4°/s |
-| 180 | 12 % | 2.7°/s |
-| 250 | 22 % | 4.3°/s |
-| 300 | 35 % | 5.7°/s |
+| 100 | 5 % | 0.5°/s |
+| 180 | 12 % | 1.2°/s |
+| 250 | 22 % | 2.1°/s |
+| 300 | 35 % | 3.2°/s |
 
-- So the braking starts by itself: let go of the stick and the nose comes up, from 300 km/h to +10° in about 3 s. Hold it there and at 185 km/h push forward past neutral, or the nose keeps rising. From level flight at 180 km/h, 5 s after letting go the nose is at +8° and the speed 160 km/h; after 20 s the helicopter has stopped.
-- Around 180 km/h you then have to hold the stick 12 % forward. The keyboard returns to the centre, which means tapping two to three times a second (0.2 s is about 1.1°). A joystick helps here.
+- So the braking starts by itself: let go of the stick and the nose comes up, from 300 km/h to +10° in about 4 s. Hold it there and at 185 km/h push forward past neutral, or the nose keeps rising. From level flight at 180 km/h, 5 s after letting go the nose is at +5° and the speed 170 km/h; after about 25 s the helicopter has stopped.
+- Around 180 km/h you then have to hold the stick 12 % forward. The keyboard returns to the centre, which means tapping two to three times a second (0.2 s is about 1.3°). A joystick helps here.
 - The pedal is hardly needed at 180 km/h and 55 %, as the torque reaction is balanced there. At 300 km/h it takes about 6 %.
 - The bank does not level by itself: hold it. Above 300 km/h a released helicopter gradually winds into a turn.
 
@@ -1376,6 +1376,11 @@ pedals steer. The pedals do not turn a braked helicopter on the ground.
   the pedals only make the helicopter sideslip (the fin keeps it in the direction of flight:
   full pedal ~50° at 100 km/h, ~10° at 200 km/h) and the sideslip banks it to the side of the
   pedal; you turn by banking with the cyclic.
+
+In Stable and Realistic the helicopter answers the cyclic as a heavy machine: the roll rate builds
+up in about half a second, the pitch rate, slower for the long fuselage, in about a second. Full
+cyclic rolls it at about 35°/s and pitches it at about 18°/s (Stable a little livelier, 40 and
+22°/s). Start stopping a movement early.
 
 Takeoff in Stable: set 90 % with the key 9. The helicopter lifts off at about 72–78 % and
 climbs. At about 20 m set 80 % with the key 8, which is roughly a hover (fine tune with Q/A).
