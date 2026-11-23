@@ -187,7 +187,7 @@ bool Config::save(const std::string& path) const {
   if (!f) return false;
   f << "; Hind configuration. Key names are SDL scancode names.\n";
   f << "; flight model: novice | stable | realistic\n";
-  f << "; All options are described in README.md (section Konfigurace).\n";
+  f << "; All options are described in README.md (section Configuration).\n";
   for (const auto& [section, kv] : data_) {
     f << "\n[" << section << "]\n";
     for (const auto& [k, v] : kv) f << k << " = " << v << "\n";

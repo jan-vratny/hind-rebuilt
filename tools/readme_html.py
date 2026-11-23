@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Previews of the README and CREDITS (Czech and English) as GitHub shows them: README.html,
-README.en.html, CREDITS.html, CREDITS.en.html beside them (not in git). Rendered by cmark-gfm,
+README.cs.html, CREDITS.html, CREDITS.cs.html beside them (not in git). Rendered by cmark-gfm,
 GitHub's own Markdown, with its tables and autolinks; the headings get GitHub's anchors and the
 links between the .md files lead to their previews. A plain GitHub-like style.
 
@@ -14,7 +14,7 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FILES = ["README.md", "README.en.md", "CREDITS.md", "CREDITS.en.md"]
+FILES = ["README.md", "README.cs.md", "CREDITS.md", "CREDITS.cs.md"]
 
 STYLE = """
 body { margin: 0; background: #ffffff; color: #1f2328; }

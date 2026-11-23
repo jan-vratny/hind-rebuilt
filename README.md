@@ -1,867 +1,952 @@
 # HIND REBUILT
 
-[English](README.en.md)
+[Česky](README.cs.md)
 
 ![HIND REBUILT](data/hind.png)
 
-Simulátor vrtulníku Mi-24 pro Linux a Windows, znovu postavená hra *Hind* (Digital Integration, 1996):
-flat-shaded polygonová grafika, zelený vektorový HUD a ovládání z klávesnice jako v originále.
-Libovolné rozlišení, podpora joysticků, HOTASů a gamepadů přes SDL2 a kooperace po místní síti
-až pro deset hráčů: piloti ve vlastních Hindech i střelci u zaměřovače a dveřních kulometů
-([Hra po síti](#hra-po-síti-pilot-a-střelec)).
+A Mi-24 helicopter simulator for Linux and Windows, a rebuild of the game *Hind* (Digital Integration, 1996):
+flat-shaded polygon graphics, a green vector HUD and keyboard controls as in the original.
+Any resolution, joysticks, HOTASes and gamepads through SDL2, and co-op over the local network
+for up to ten players: pilots in their own Hinds and gunners at the sight and the door guns
+([Network play](#network-play-pilot-and-gunner)).
 
-Hraje se: menu, plánování a vyhodnocení misí originálu, jeho výcvik, samostatné mise a kampaně
-(Afghánistán, Kazachstán, Korea) a deník pilotů. Navíc je tu zcela nová kampaň, kterou původní
-hra neměla: [Ukrajina](#ukrajina), noční lov dronů Shahed a proudových Geranů-3 s Mi-24 v barvách
-bývalých českých Hindů. Vznikají další úpravy a doplňky.
+What can be played: the original's menu, mission planning and debriefing, its training, single
+missions and campaigns (Afghanistan, Kazakhstan, Korea) and the pilots' log. On top of that there
+is an entirely new campaign the original game never had: [Ukraine](#ukraine), hunting Shahed
+drones and jet Geran-3s by night in Mi-24s in the colours of the former Czech Hinds. More changes
+and additions are on the way.
 
-## Obsah
+## Contents
 
 <!-- toc:begin -->
 
-- [Jak začít hrát](#jak-začít-hrát)
-- [Data originální hry](#data-originální-hry)
-- [Zvuk](#zvuk)
+- [Getting started](#getting-started)
+- [The original game's data](#the-original-games-data)
+- [Sound](#sound)
 - [Menu](#menu)
-- [Mise](#mise)
-  - [Ukrajina](#ukrajina)
-  - [Rozkazy wingmanovi](#rozkazy-wingmanovi)
-  - [Průzkum a laserové označování](#průzkum-a-laserové-označování)
-  - [Výsadek a evakuace](#výsadek-a-evakuace)
-  - [Nepřítel střílí](#nepřítel-střílí)
+- [Missions](#missions)
+  - [Ukraine](#ukraine)
+  - [Orders to the wingman](#orders-to-the-wingman)
+  - [Reconnaissance and laser designation](#reconnaissance-and-laser-designation)
+  - [Troop drop and evacuation](#troop-drop-and-evacuation)
+  - [The enemy fires](#the-enemy-fires)
 - [Pilot's Log](#pilots-log)
-- [Hra po síti (pilot a střelec)](#hra-po-síti-pilot-a-střelec)
-  - [Z menu: Flight → Network](#z-menu-flight--network)
-  - [Zprávy](#zprávy)
-  - [Z příkazové řádky](#z-příkazové-řádky)
-  - [Druhý pilot (wingman)](#druhý-pilot-wingman)
-- [Sestavení](#sestavení)
-  - [Pro Windows](#pro-windows)
-- [Jak létat](#jak-létat)
-  - [Tahák: kolektiv pro vodorovný let](#tahák-kolektiv-pro-vodorovný-let)
-  - [Srovnání rychlosti se Shahedem](#srovnání-rychlosti-se-shahedem)
-  - [Autorotace](#autorotace)
-- [Ovládání (klávesnice)](#ovládání-klávesnice)
-  - [Letové modely](#letové-modely)
-- [HUD v navigačním režimu](#hud-v-navigačním-režimu)
-- [HUD ve zbraňovém režimu](#hud-ve-zbraňovém-režimu)
-- [Konfigurace](#konfigurace)
-- [Vývojářské volby](#vývojářské-volby)
-- [Struktura](#struktura)
-- [Licence](#licence)
+- [Network play (pilot and gunner)](#network-play-pilot-and-gunner)
+  - [From the menu: Flight → Network](#from-the-menu-flight--network)
+  - [Messages](#messages)
+  - [From the command line](#from-the-command-line)
+  - [Second pilot (wingman)](#second-pilot-wingman)
+- [Building](#building)
+  - [For Windows](#for-windows)
+- [How to fly](#how-to-fly)
+  - [Cheat sheet: collective for level flight](#cheat-sheet-collective-for-level-flight)
+  - [Matching speed with a Shahed](#matching-speed-with-a-shahed)
+  - [Autorotation](#autorotation)
+- [Controls (keyboard)](#controls-keyboard)
+  - [Flight models](#flight-models)
+- [HUD in navigation mode](#hud-in-navigation-mode)
+- [HUD in weapon mode](#hud-in-weapon-mode)
+- [Configuration](#configuration)
+- [Developer options](#developer-options)
+- [Structure](#structure)
+- [License](#license)
 
 <!-- toc:end -->
 
-## Jak začít hrát
+## Getting started
 
-1. **Opatři si původní Hind.** Data původní hry (modely, kokpity, krajina, zvuky, mise) remake
-   neobsahuje a bez nich nepoběží. Legálně se dá koupit:
-   - na [GOG](https://www.gog.com/en/game/hind) (DOS verze v DOSBoxu, s manuálem),
-   - na [Steamu](https://store.steampowered.com/app/2577400/) (od roku 2025, vydává MicroProse).
+1. **Get the original Hind.** The remake does not contain the original game's data (models,
+   cockpits, landscapes, sounds, missions) and will not run without them. It can be bought
+   legally:
+   - on [GOG](https://www.gog.com/en/game/hind) (the DOS version in DOSBox, with the manual),
+   - on [Steam](https://store.steampowered.com/app/2577400/) (since 2025, published by MicroProse).
 
-   Poslouží i původní CD nebo jeho obraz (`.iso`), případně hra nainstalovaná v DOSBoxu.
-   Na Linuxu se instalátor z GOG (pro Windows) rozbalí příkazem `innoextract setup_hind_*.exe`
-   (balík `innoextract`), nebo se hra nainstaluje přes Heroic či Lutris. Hra ze Steamu se na
-   Linuxu stáhne se zapnutým Protonem.
-2. **Stáhni HIND REBUILT.** Pro Windows je připravený balíček `hind-win.zip`
-   ([ke stažení na GitHubu](https://github.com/jan-vratny/hind-rebuilt/releases), rozbalit a spustit `hind.exe`), na Linuxu se hra přeloží jedním příkazem (viz [Sestavení](#sestavení)).
-3. **Spusť ji.** Při prvním spuštění se zeptá, kde je původní hra: sama nabídne, co najde
-   (instalaci z GOG, Steamu nebo DOSBoxu, CD v mechanice, obraz `.iso`), jinak stačí cestu
-   napsat nebo vybrat v dialogu (viz [První spuštění](#data-originální-hry)).
-4. **Leť.** Z menu Quickstart → Arcade rovnou do mise. Základní ovládání:
+   The original CD or its image (`.iso`) will do too, or the game installed in DOSBox. On Linux,
+   GOG's (Windows) installer unpacks with `innoextract setup_hind_*.exe` (the `innoextract`
+   package), or install the game through Heroic or Lutris. The Steam game downloads on Linux with
+   Proton turned on.
+2. **Get HIND REBUILT.** For Windows there is a ready package, `hind-win.zip`
+   ([download it from GitHub](https://github.com/jan-vratny/hind-rebuilt/releases), unpack it and run `hind.exe`); on Linux the game builds with one command (see [Building](#building)).
+3. **Start it.** At the first start it asks where the original game is: it offers what it finds
+   itself (a GOG, Steam or DOSBox installation, a CD in a drive, an `.iso` image), otherwise type
+   the path or choose it in a dialog (see [The first start](#the-original-games-data)).
+4. **Fly.** From the menu, Quickstart → Arcade goes straight into a mission. The basic controls:
 
-   | Klávesa | |
+   | Key | |
    |---|---|
-   | šipky | cyklika (náklon a sklon) |
-   | Q / A, nebo 1 … 0 | kolektiv (výkon); na vzlet 9 (90 %), na visení asi 8 |
-   | Z / X | pedály |
-   | Enter / mezerník | další zbraň / výstřel (cíl si zaměří počítačový střelec) |
-   | F2 / F3 / F6 | kokpit pilota / střelce / pohled zvenku |
-   | Esc | zpět do menu |
+   | arrows | cyclic (bank and pitch) |
+   | Q / A, or 1 … 0 | collective (power); 9 (90 %) to take off, about 8 to hover |
+   | Z / X | pedals |
+   | Enter / space | next weapon / fire (the computer gunner locks the target) |
+   | F2 / F3 / F6 | pilot's / gunner's cockpit / view from outside |
+   | Esc | back to the menu |
 
-   Joystick, pedály nebo gamepad se nastaví v Preferences. Všechny klávesy jsou v kapitole
-   [Ovládání](#ovládání-klávesnice).
+   A joystick, pedals or a gamepad are set up in Preferences. All the keys are in
+   [Controls](#controls-keyboard).
 
-Vyzkoušené je to zatím s CD, jeho obrazem a s hrou nainstalovanou v DOSBoxu; verze z GOG
-a Steamu by měly fungovat stejně (jsou to tatáž DOS hra v DOSBoxu), kdyby ne, dej vědět.
+So far it has been tried with the CD, its image and the game installed in DOSBox; the GOG and
+Steam versions should work the same (they are the same DOS game in DOSBox). If they do not,
+let us know.
 
-## Data originální hry
+## The original game's data
 
-Hra si všechno, co z originálu potřebuje, načítá přímo z jeho dat: 3D modely a jejich textury
-(`3DDATA`), obrázky menu a plánování (`MENUSCRN`, `UIDATA`, `FONTS`), kokpity (`COCKPITS`),
-krajinu bojových oblastí (`*.WZ`), zvuky (`SOUND`), mise a kampaně (`MISSDATA`) a formace
-jednotek z `HIND.EXE`; z CD pak řeč, hudbu a animace. Z originálu se nic neukládá do
-repozitáře.
+The game loads everything it needs of the original straight from its data: the 3D models and
+their textures (`3DDATA`), the menu and planning pictures (`MENUSCRN`, `UIDATA`, `FONTS`), the
+cockpits (`COCKPITS`), the war zones' landscapes (`*.WZ`), the sounds (`SOUND`), the missions and
+campaigns (`MISSDATA`) and the units' formations from `HIND.EXE`; from the CD the speech, the
+music and the animations. Nothing from the original is stored in the repository.
 
-HIND REBUILT je neoficiální fanouškovský projekt, nemá nic společného s Digital Integration
-ani s držiteli práv na původní hru. *Hind* a *Digital Integration* jsou ochranné známky svých
-vlastníků; jejich jména se tu používají jen k označení původní hry. Projekt neobsahuje žádný kód
-ani data originálu; formáty souborů byly zjištěny kvůli interoperabilitě. Hraje se s daty originálu, která si hráč musí opatřit sám:
-stačí CD originálu, jeho obraz (`.iso`), nebo nainstalovaná hra (třeba v DOSBoxu). Bez nich hra
-nepoběží.
+HIND REBUILT is an unofficial fan project, not affiliated with Digital Integration or with the
+holders of the rights to the original game. *Hind* and *Digital Integration* are trademarks of
+their respective owners; their names are used here only to refer to the original game. The
+project contains no code or data of the original; the file formats were worked out for
+interoperability. It is played with the original's data, which players have to obtain
+themselves: the original's CD is enough, or its image (`.iso`), or the game installed (e.g. in
+DOSBox). Without them the game will not run.
 
-**První spuštění:** hra hledá data v `[data] original_dir` v hind.ini, v `~/dosbox/c/DI/HIND`
-a podobných místech. Když je nenajde, zeptá se na ně na vlastní obrazovce:
-- **Nabídne, co našla:** nainstalovanou hru, CD v mechanice (na Linuxu připojená média
-  v `/media`, na Windows jednotky CD) a obrazy `*.iso` s „hind“ v názvu v domovském adresáři,
-  ve Stažených, na ploše a v adresářích DOSBoxu.
-- **Cestu jde napsat** (Tab ji doplňuje a další stisky procházejí možnosti dokola jako v bashi, Shift+Tab zpět; Ctrl+V vloží) nebo vybrat v systémovém dialogu: F2
-  složka, F3 obraz `.iso`. Na Windows je to dialog systému, na Linuxu zenity nebo kdialog,
-  pokud jsou nainstalované.
-- **Z CD nebo obrazu** si hra jednou zkopíruje svá data (asi 65 MB, všechno je na CD, i
-  `HIND.EXE` v `FILESD`) do složky `original` vedle hind.ini. CD pak potřebuje už jen kvůli
-  řeči v briefinzích, hudbě a animacím.
-- **Výběr se zapíše** do hind.ini (`original_dir`, `cd`). Esc hru ukončí, protože bez dat se
-  hrát nedá. Znovu se obrazovka vyvolá volbou `--setup`, jiný adresář se dá zadat i volbou
-  `--original DIR`.
+**The first start:** the game looks for the data in `[data] original_dir` in hind.ini, in
+`~/dosbox/c/DI/HIND` and similar places. When it does not find them, it asks for them on a
+screen of its own:
+- **It offers what it found:** an installed game, a CD in a drive (on Linux the media mounted
+  under `/media`, on Windows the CD drives) and `*.iso` images with "hind" in the name in the
+  home directory, the downloads, the desktop and DOSBox's directories.
+- **The path can be typed** (Tab completes it and further presses go round the matches as in bash, Shift+Tab back; Ctrl+V pastes) or chosen in the system's
+  dialog: F2 a folder, F3 an `.iso` image. On Windows it is the system's dialog, on Linux zenity
+  or kdialog if installed.
+- **From a CD or an image** the game copies its data once (about 65 MB; everything is on the
+  CD, `HIND.EXE` too, in `FILESD`) into an `original` folder next to hind.ini. The CD is then
+  needed only for the briefings' speech, the music and the animations.
+- **The choice is written** into hind.ini (`original_dir`, `cd`). Esc quits the game, as without
+  the data it cannot be played. The screen comes back with `--setup`; another directory can also
+  be given with `--original DIR`.
 
-(Snímky a listy modelů dělané mimo obrazovku, tedy vývojové volby, běží i bez dat: vozidla
-jsou pak kvádry, kokpit modelovaný a krajina procedurální.)
+(Screenshots and model sheets made off screen, the developer options, run without the data
+too: the vehicles are boxes then, the cockpit modelled and the landscape procedural.)
 
-Krajina: výchozí je Afghánistán (`AFGHAN.WZ`). Mise se odehrává kolem letiště, ze kterého
-startuje, volný let kolem Bagrámu. Další oblasti se volí v `[world] zone` nebo volbou `--zone`:
-`kazak`, `korea`, `saratov`, `ukraine` (saratovská step ukrajinské kampaně), případně
-`procedural` pro vlastní generovanou krajinu se zelenými poli, lesy a jezery. Barvu země
-oblasti odvozujeme z její mlhy (viz Barva země oblastí níže), originál ji bere z textur
-(`TEXT64*.RAW`), které ještě nečteme. Kazachstán a Saratov mají v datech originálu jen kopii
-korejského seznamu letišť; hra si proto jejich letiště najde podle značení drah v krajině.
-Volný let (bez mise) startuje na dráze toho největšího, mise tam, kde je postaví.
+Landscape: the default is Afghanistan (`AFGHAN.WZ`). A mission takes place around the airfield
+it starts from, free flight around Bagram. Other zones are chosen with `[world] zone` or
+`--zone`: `kazak`, `korea`, `saratov`, `ukraine` (the Saratov steppe of the Ukrainian campaign),
+or `procedural` for our own generated landscape with green fields, forests and lakes. The
+zone's ground colour we derive from its fog (see The zones' ground colour below); the original
+takes it from textures (`TEXT64*.RAW`) we do not read yet. Kazakhstan and Saratov have only a
+copy of Korea's list of airfields in the original's data; the game therefore finds their
+airfields by the runway markings in the landscape. Free flight (without a mission) starts on the
+runway of the biggest, missions where they put you.
 
-V krajině stojí budovy, mosty, hájky a křoviny oblasti z `GNDOBJS.BIN` s modely originálu
-(města, vesnice, hangáry, vládní budova v Soulu…). Budovy mají v `3DOBJS.BIN` vrcholy uložené
-zhuštěně, po bajtech (popis v `src/gamedata/original.hpp`). Dráhy letišť oblasti se skládají
-ze značení originálu: řady pruhů středové čáry, čísla na koncích a značky dosednutí. Pod ně
-se položí asfalt a terén kolem se srovná. Pojížděcí dráhy, odstavné plochy a stojánky jsou
-plochy mapy originálu (`FEATURES.BIN`, silnice a letiště), a tak je hra jako originál kreslí
-na zem kolem dráhy, všechno v šedé barvě 11 jeho palety. Hráč stojí tam, kde ho mise postaví
-(ve výcviku na odstavné ploše u hangárů). Kazachstán a Saratov mají letiště podle značení drah
-(viz výše). Vlastní
-letiště se stojánkou a budovami zůstává jen tam, kde oblast žádné nemá (start „v poli“),
-a při `[world] scenery = 0`.
+The landscape has the zone's buildings, bridges, groves and bushes from `GNDOBJS.BIN` with the
+original's models (towns, villages, hangars, the government building in Seoul…). Buildings
+have their vertices packed bytewise in `3DOBJS.BIN` (described in `src/gamedata/original.hpp`).
+The zone's runways are put together from the original's markings: rows of centre line stripes,
+numbers at the ends and touchdown marks. Asphalt is laid under them and the terrain around is
+levelled. The taxiways, aprons and stands are areas of the original's map (`FEATURES.BIN`,
+roads and airfields), and the game paints them on the ground about the runway as the original
+does, all in its palette's grey 11. The player stands where the mission puts them (in training
+on the apron by the hangars). Kazakhstan and Saratov have their airfields by the runway markings
+(see above). Our own airfield with a stand and
+buildings remains only where the zone has none (a start "in the field") and with
+`[world] scenery = 0`.
 
-## Zvuk
+## Sound
 
-Zvuky jsou z originálu (`SOUND/MAXIMAL.BLK`, bloky 8bitových vzorků 11025 Hz). Co který
-blok je, se zjistilo poslechem a seznam je v `src/gamedata/sound.hpp`. Hraje se:
+The sounds are the original's (`SOUND/MAXIMAL.BLK`, blocks of 8-bit samples at 11025 Hz). Which
+block is what was found out by listening, and the list is in `src/gamedata/sound.hpp`. Playing:
 
-- motor a listy rotoru, hlasitější a vyšší s otáčkami rotoru, zvenku slabší se vzdáleností;
-- kanón a kulomet, dokud střílí; odpaly raket, Šturmů a pum; natáčení věže; podvozek;
-  dosednutí od lehkého ťuknutí po tvrdý dopad podle rychlosti klesání; vrzání draku při
-  velkém přetížení; světlice; havárie;
-- výbuchy podle zbraně (ve vodě šplouchnutí) a palba nepřítele. Ozvou se se zpožděním podle
-  rychlosti zvuku a slabší se vzdáleností;
-- hlasy, jeden po druhém:
-  - Nataša: selhání a požár motoru, málo paliva, přetížení motoru, nízké otáčky rotoru,
-    „pull up“, ozáření radarem podle druhu, odpálená střela, pozemní palba;
-  - WSO: zapnutí a vypnutí, nabitá zbraň, zbraně zajištěné, co za cíl zaměřil (podle jména
-    objektu originálu), zničený cíl;
-  - řízení letu: povolení ke startu na začátku mise, kurz k dalšímu waypointu
-    („vector“ a tři číslice), povolení k přistání u domovského letiště, napomenutí za palbu
-    do vlastních.
+- the engine and the rotor blades, louder and higher with the rotor's speed, quieter with
+  distance outside;
+- the cannon and the machine gun while firing; launches of rockets, Shturms and bombs; the
+  turret turning; the landing gear; touchdowns from a light tap to a hard impact by the sink
+  rate; the airframe creaking under high g; flares; crashes;
+- explosions by weapon (a splash in water) and enemy fire. They are heard delayed by the speed
+  of sound and quieter with distance;
+- voices, one after another:
+  - Natasha: engine failure and fire, low fuel, engine overtorque, low rotor speed,
+    "pull up", radar lock by type, missile launch, ground fire;
+  - the WSO: on and off, weapon armed, weapons safe, what target he has locked (by the
+    original's object name), target destroyed;
+  - flight control: clearance for takeoff at the start of a mission, the heading to the next
+    waypoint ("vector" and three digits), clearance to land at the home airfield, a reprimand
+    for firing on friendlies.
 
-Z CD originálu (viz `[data] cd`) hraje hudba v menu a ve vyhodnocení misí a briefingy
-a vyhodnocení se předčítají. Drony v ukrajinské kampani mají vlastní zvuky, které hra skládá
-sama (pístový Shahed, proudový Geran-3).
+From the original's CD (see `[data] cd`) the music plays in the menu and the debriefings, and
+the briefings and debriefings are read aloud. The drones of the Ukrainian campaign have sounds
+of their own that the game synthesises (the piston Shahed, the jet Geran-3).
 
 ## Menu
 
-Hra začíná v menu originálu (obrázky a tlačítka z `MENUSCRN`, stisknuté tlačítko je
-samostatný obrázek originálu):
+The game starts in the original's menu (pictures and buttons from `MENUSCRN`; a pressed button
+is a separate picture of the original):
 
-- **Quickstart**: **Arcade** a **Invincible** nabídnou válku (jako v originálu, manuál str. 5)
-  a vzlétnou rovnou do její náhodné samostatné mise s nejsnazším letovým modelem a nekonečnou
-  municí; Invincible navíc bez havárií a poškození. Quickstart se nehodnotí podle cílů mise: havárie je FAILURE, přežití SUCCESS a přežití s 3000 body OUTSTANDING; debrief ukáže skóre, čas ve vzduchu a co jsi sestřelil. V Arcade má jen dveřní GŠG počítanou munici: po 1500 ranách 6 s nabíjí („RELOADING GSG“) a pak má zase plno.
-  - **Ukrajina** v Quickstartu: mise ve dne (noční nálety se posunou na 11:00) a bez letu na
-    hlídkovou čáru. Bojiště se přetočí, až je první dron 7 km od středu čáry, a Hind, wingman
-    i Hip startují tam ve vzduchu čelem k němu. Pak se nečeká: ve vzduchu je 16 dronů v nepřetržitém proudu, každý přilétá z 2,5–8,5 km před Hindem
-    a míří kolem něj, odkud přesně, je při každém spuštění hry jiné. Sestřelený se za 6 s vrátí a ten, který přeletí 9 km za hráče, taky. V proudu letí i jedna střela Banderol (viz níže): přilétá z 15–22 km, po cestě uhne do strany a pak letí na Hind, kde je právě teď, a mine ho o pár set metrů (za necelé dvě minuty od začátku); sestřelená nebo vzdálená 9 km za ním se vrátí znovu. Co Hind nese, určuje přepínač pod kamenem Ukraine na stránce volby války v Quickstartu (po Arcade nebo Invincible, klávesa W, pamatuje si ho hind.ini jako `[weapons] quick_ukraine`): „Ukraine: R-60“ (výchozí) jsou R-60 na vnějších závěsnících, „Ukraine: Interceptors“ rampa stíhacích dronů, na Banderol ale nestačí. K tomu vždy oba dveřní kulomety. Vystřílené R-60 se za 20 s dobijí („RELOADING R-60“, „R-60 LOADED“), ale jen tady, v misích ne. Proud nekončí, palivo neubývá; let ukončí Ctrl+Q. Vyhodnocení
-    mise počítá jen poslední stav dronů, skóre Arcade všechny sestřely. Wingmani po síti startují také ve vzduchu,
-    vpravo za pilotem (kdo se připojí později, objeví se vedle pilota tam, kde právě letí).
-  - **Arcade boduje:** zničené cíle hráče (voják 10, nákladní auto 40, obrněnec 75, tank 150,
-    protiletadlová obrana navíc 75 až 125, vrtulník 300, letadlo 400, Shahed 150, Banderol 500; naše a
-    neutrální jednotky se odečítají dvojnásobně) a výsledek mise (úspěch 250, výborně 500).
-    Skóre je vpravo nahoře v HUD. Invincible neboduje.
-  - **Top Ten** (T) ukáže deset nejlepších skóre z Arcade (`topten.txt` vedle `hind.ini`), s křížkem u letu, který skončil havárií. Arcade a Invincible se nezapisují do Pilot's Logu, ten je jen pro mise.
-    Když je skóre po letu dost vysoké, objeví se v tabulce prázdný řádek pro jméno pilota
-    (předvyplní se pilot z Pilot's Logu); Enter ho zapíše, Esc ne.
+- **Quickstart**: **Arcade** and **Invincible** offer a war (as in the original, manual p. 5)
+  and take off straight into a random single mission of it with the easiest flight model and
+  infinite ammunition; Invincible also without crashes and damage. Quickstart is not judged by the mission's targets: a crash is FAILURE, coming through SUCCESS and coming through with 3000 points OUTSTANDING; the debriefing shows the score, the time in the air and what you shot down. In Arcade only the door GShG counts its rounds: after 1500 it reloads for 6 s ("RELOADING GSG") and is full again.
+  - **Ukraine** in Quickstart: the mission by day (the night raids move to 11:00) and with no
+    flight out to the patrol line. The battlefield runs ahead until the first drone is 7 km
+    from the line's middle, and the Hind, the wingman and the Hip start there in the air,
+    facing it. Then there is no waiting: 16 drones are in the air in a steady stream, each coming in from 2.5–8.5 km ahead of the Hind and heading past it, from where exactly differs each time the game is run. One shot down comes back after 6 s, and so does one that gets 9 km past the player. One Banderol cruise missile flies in the stream too (see below): it comes in from 15–22 km, turns off to a side on the way and then heads for where the Hind is now, missing it by a few hundred metres (in under two minutes from the start); shot down or 9 km past, it comes again. What the Hind carries is the toggle under the Ukraine stone on Quickstart's choice of the war (after Arcade or Invincible, key W, remembered in hind.ini as `[weapons] quick_ukraine`): "Ukraine: R-60" (the default) is R-60s on the outer pylons, "Ukraine: Interceptors" the interceptor drones' rack, which is no use against the Banderol though. Both door guns always. The R-60s fired off are reloaded 20 s later ("RELOADING R-60", "R-60 LOADED"), but only here, not in the missions. The stream never ends and no fuel is used; Ctrl+Q ends the flight. The mission's
+    result counts the last state of the drones only, the Arcade score every kill. Network wingmen start in the
+    air too, to the right of and behind the pilot (one joining later appears beside the pilot,
+    wherever the pilot is flying).
+  - **Arcade scores:** the player's destroyed targets (soldier 10, truck 40, armoured vehicle 75,
+    tank 150, air defence 75 to 125 more, helicopter 300, aircraft 400, Shahed 150, Banderol 500; our own and
+    neutral units are subtracted twice over) and the mission's result (success 250,
+    outstanding 500). The score is at the top right of the HUD. Invincible does not score.
+  - **Top Ten** (T) shows the ten best Arcade scores (`topten.txt` next to `hind.ini`), with an x for a flight that ended in a crash. Arcade and Invincible are not written to the Pilot's Log, which is for missions only.
+    When the score after a flight is high enough, an empty row for the pilot's name appears in
+    the table (filled in with the pilot from the Pilot's Log); Enter writes it, Esc does not.
 - **Flight**:
-  - **Training** ukáže 20 výcvikových misí (Saratov) se zadáním vpravo. Commit misi
-    potvrdí, tlačítka Infinite weapons (I) a No crashes (N) zapnou nekonečnou munici
-    a let bez havárií, WSO targets allies (A) nechá WSO zaměřovat i naše vlastní síly
-    (jinak je přeskakuje; střílet na ně jde vždycky). Gunner hints (H) zapne nebo vypne
-    ukazatel rány dveřních střelců na HUD (zapamatuje se v hind.ini).
-  - **Single Mission** nabídne válku (Kazachstán, Korea, Afghánistán) a pak její
-    samostatné mise. Na konci řádku je tečka, u mise, jejíž poslední zalogovaný let skončil neúspěchem, křížek (podle pilota).
-  - **Campaign** nabídne válku a ukáže stránku její kampaně (obrázek originálu `C_AFGHAN.LBM`,
-    `C_KAZAK.LBM`, `C_KOREA.LBM`; pro Ukrajinu náš v rámu afghánského: hra si ho při prvním otevření sama vykreslí
-    mimo obrazovku, Hind za soumraku nad stepí, a uloží jako `C_UKRAINE.PPM` vedle `hind.ini`;
-    smazáním se vykreslí znovu). Kampaň běží jako
-    v originálu:
-    - **Úrovně:** deset úrovní (ukrajinská osm), na každé dvě nebo tři mise. Hraje se náhodná
-      mise úrovně, kterou jste ještě nezkusili, a když už všechny, pak některá neúspěšná.
-    - **Úspěch** posune o úroveň výš, **neúspěch** stojí jeden ze tří životů a úroveň se
-      zkouší znovu jinou misí. Poslední ztracený život kampaň ukončí, stejně jako vyhraná
-      poslední úroveň; další kampaň začne od začátku.
-    - **Texty:** na začátku úvod kampaně a situace první úrovně, po úspěchu situace další
-      úrovně, po neúspěchu „stalemate“, nakonec prohra úrovně nebo výhra kampaně (soubory
-      originálu `AFGHNL00.TXT` až `L10`, naše `data/missions/UKRAIL00.TXT` až `L08`). S CD je
-      originál předčítá (viz `[data] cd`). Klik nebo Enter jde dál, Exit zpět na výběr války.
-    - Po misi kampaně se hra vrátí na její stránku s tím, jak to dopadlo.
-- Vpravo dole **GoTo** (G) otevře nabídku originálu a **Exit** vede o krok zpět. V hlavním
-  menu je místo něj **Quit**, který se zeptá na ukončení hry (Y / N).
+  - **Training** shows 20 training missions (Saratov) with the briefing on the right. Commit
+    confirms the mission, the buttons Infinite weapons (I) and No crashes (N) turn on infinite
+    ammunition and flight without crashes, WSO targets allies (A) lets the WSO lock on our own
+    forces too (otherwise he skips them; you can always shoot at them). Gunner hints (H) turns
+    the door gunners' shot indicator on the HUD on or off (remembered in hind.ini).
+  - **Single Mission** offers a war (Kazakhstan, Korea, Afghanistan) and then its single
+    missions. At the end of a row is a dot, or an x for a mission whose last logged flight failed (per pilot).
+  - **Campaign** offers a war and shows its campaign page (the original's picture `C_AFGHAN.LBM`,
+    `C_KAZAK.LBM`, `C_KOREA.LBM`; for Ukraine ours in the Afghan frame: the game renders it
+    itself off screen the first time it is opened, a Hind at dusk over the steppe, and saves it
+    as `C_UKRAINE.PPM` next to `hind.ini`; delete it to have it rendered again). The campaign
+    runs as in the original:
+    - **Levels:** ten levels (the Ukrainian eight), two or three missions each. A random
+      mission of the level you have not tried yet is played, and when you have tried them all,
+      one of the failed ones.
+    - **Success** moves you a level up, **failure** costs one of three lives and the level is
+      tried again with another mission. Losing the last life ends the campaign, as does winning
+      the last level; the next campaign starts from the beginning.
+    - **Texts:** at the start the campaign's introduction and the first level's situation,
+      after a success the next level's situation, after a failure "stalemate", finally the
+      level lost or the campaign won (the original's files `AFGHNL00.TXT` to `L10`, ours
+      `data/missions/UKRAIL00.TXT` to `L08`). With the CD the original reads them aloud (see
+      `[data] cd`). A click or Enter goes on, Exit back to the choice of war.
+    - After a campaign mission the game returns to its page with how it went.
+- At the bottom right **GoTo** (G) opens the original's menu and **Exit** goes a step back. In
+  the main menu there is **Quit** instead, which asks whether to quit the game (Y / N).
 
-Obrazovka 640×480 se zvětší, jak velká se do okna vejde. Pixely původních obrázků zůstanou
-ostré a stejně velké i při neceločíselném zvětšení: obrazovka se při něm (např. 2,25×)
-nakreslí nejdřív v celém násobku (3×) a teprve celá se plynule zmenší do okna, takže písmo
-má všude stejně silné tahy a ke všemu ostatnímu původní poměr. Na širokoúhlém monitoru leží jako deska
-se stínem na broušené oceli z originálu (`TWO_PLYR.LBM`). Původní obrázky se nijak neupravují.
+The 640×480 screen is scaled up as far as it fits the window. The pixels of the original
+pictures stay sharp and equally large even at a non-integer scale: the screen is first drawn
+at a whole multiple (3× for 2.25×) and only then smoothly shrunk into the window, so the
+lettering has strokes of the same weight everywhere and everything keeps its proportions. On a
+widescreen monitor it lies like a plate with a shadow on the original's brushed steel
+(`TWO_PLYR.LBM`). The original pictures are not altered in any way.
 
-Ovládání:
+Controls:
 
-- myší;
-- šipkami a Enterem;
-- počátečním písmenem tlačítka (Q, F, T, S, C, A…);
-- Esc vede zpět.
+- the mouse;
+- the arrows and Enter;
+- the button's initial letter (Q, F, T, S, C, A…);
+- Esc goes back.
 
-**GoTo → Recognition** otevře knihovnu jednotek (`V_RECON.LBM`):
-- **Obsah:** letadla a vrtulníky, vozidla a lodě ze soupisu v manuálu (Vehicle Inventory,
-  str. 88–91) a k tomu drony Shahed-136 a Geran-3, střela Banderol a náš stíhací dron Litavr.
-- **Model:** vlevo se otáčí model jednotky z dat originálu s jejími texturami. Vrtulníky mají
-  naše listy rotoru, protože originál je kreslí sám. Pod modelem je název a kdo jednotku má.
-- **Hlas:** kde ho originál má, střelec název jednotky vysloví.
-- **Ovládání:** listuje se tlačítky ◂◂ ▸▸ nebo šipkami, Aircraft, Vehicles a Ships (A, V, S)
-  přepínají seznam. Exit vrací na stránku, odkud se knihovna otevřela.
+**GoTo → Recognition** opens the library of units (`V_RECON.LBM`):
+- **Contents:** the aircraft and helicopters, vehicles and ships of the manual's inventory
+  (Vehicle Inventory, pp. 88–91), plus the Shahed-136 and Geran-3 drones, the Banderol cruise missile and our Litavr interceptor drone.
+- **Model:** on the left the unit's model from the original's data turns with its textures.
+  Helicopters have our rotor blades, because the original draws them itself. Under the model
+  are its name and who has the unit.
+- **Voice:** where the original has it, the gunner says the unit's name.
+- **Controls:** browse with the ◂◂ ▸▸ buttons or the arrows; Aircraft, Vehicles and Ships
+  (A, V, S) switch the list. Exit returns to the page the library was opened from.
 
-**GoTo → Animations** přehraje jako originál jednu z jeho animací, náhodně vybranou:
-- **Odkud:** animace jsou jen na CD originálu (`ANIMS/*.Q3`, viz `[data] cd`). Bez CD hra
-  řekne, že jsou na CD.
-- **Přehrávání:** 12,5 snímku za sekundu, dvakrát zvětšené, bez zvuku a bez hudby. Na konci,
-  nebo po klávese či kliku, se hra vrátí na stránku, odkud se animace pustila.
-- **Formát:** vlastní formát DI (`src/gamedata/anim.hpp`): první snímek celý, další jako změny
-  v blocích 8×8, jak je dekóduje `HIND95.EXE`.
+**GoTo → Animations** plays one of the original's animations, chosen at random, as the original does:
+- **Where from:** the animations are only on the original's CD (`ANIMS/*.Q3`, see `[data] cd`).
+  Without the CD the game says they are on the CD.
+- **Playback:** 12.5 frames a second, doubled in size, without sound and music. At the end, or
+  after a key or a click, the game returns to the page the animation was started from.
+- **Format:** DI's own format (`src/gamedata/anim.hpp`): the first frame whole, the next ones
+  as changes in 8×8 blocks, as `HIND95.EXE` decodes them.
 
-**Preferences** otevře tlačítko v hlavním menu (P) nebo GoTo → Preferences. Je to obrazovka
-originálu (`PREFSB.LBM`) s našimi nastaveními na ocelových lištách:
-- **Vlevo zvuk a obraz:** zvuk, hlasitost, hlasy, stavby v krajině, dohled, celá obrazovka,
-  hudba v menu.
-- **Vpravo let a boj:** letový model, havárie, nepřátelská palba, zručnost nepřítele, nápověda
-  střelce, míření myší a vyhlazování hran (Antialiasing, platí od dalšího spuštění hry).
-- **Ovládání:** kliknutí přepne na další hodnotu, pravé tlačítko na předchozí. Šipky nahoru a dolů
-  vybírají, doleva a doprava mění.
-- **Skleněný panel** ukazuje, co vybrané nastavení dělá a kdy začne platit.
-- **Uložení:** všechno se hned uloží do `hind.ini`. Zvuk, hlasitost, hudba a celá obrazovka platí
-  okamžitě, vyhlazování hran od dalšího spuštění hry, ostatní od dalšího letu.
-- **Panel vpravo dole** je joystick. Ukazuje živě polohu kniplu, kolektivu, pedálů, kloboučku
-  a os rozhlížení, každou z toho zařízení, ke kterému patří.
-  - Kliknutí na jméno (nebo šipky doleva a doprava, když je panel vybraný) přepíná hlavní
-    zařízení: jeho tlačítka střílejí. Poslední volba je Off.
-  - Kliknutí do panelu (nebo Enter) spustí učení os. Hra postupně řekne, čím pohnout: knipl
-    doprava, knipl dopředu, kolektiv nahoru, pravý pedál, osa rozhlížení doprava a nahoru,
-    klobouček nahoru. Vezme osu, která se pohnula nejvíc, z kteréhokoli zařízení, a podle směru
-    pohybu pozná i obrácenou osu. Mezerník krok přeskočí (ovládání pak zůstane jen na
-    klávesnici), Esc nechá nastavení, jak bylo.
-  - Knipl, kolektiv a pedály tak můžou být tři různá zařízení. Skleněný panel ukazuje zařízení
-    (A, B, …) a každé ovládání s jeho osou a polohou.
+**Preferences** is opened by a button in the main menu (P) or GoTo → Preferences. It is the
+original's screen (`PREFSB.LBM`) with our settings on steel bars:
+- **Sound and picture on the left:** sound, volume, voices, scenery, view distance, full screen,
+  music in the menu.
+- **Flight and combat on the right:** flight model, crashes, enemy fire, enemy skill, gunner
+  hints, mouse aim and antialiasing (applies from the next start of the game).
+- **Controls:** a click switches to the next value, the right button to the previous one. The
+  up and down arrows select, left and right change.
+- **The glass panel** shows what the selected setting does and when it takes effect.
+- **Saving:** everything is saved to `hind.ini` at once. Sound, volume, music and full screen
+  apply immediately, antialiasing from the next start of the game, the rest from the next flight.
+- **The panel at the bottom right** is the joystick. It shows live the position of the stick,
+  the collective, the pedals, the hat and the look axes, each from the device it belongs to.
+  - A click on the name (or the left and right arrows when the panel is selected) switches the
+    main device: its buttons fire. The last choice is Off.
+  - A click in the panel (or Enter) starts learning the axes. The game tells you step by step
+    what to move: the stick right, the stick forward, the collective up, the right pedal, the
+    look axis right and up, the hat up. It takes the axis that moved most, from any device, and
+    from the direction of the movement it also recognises a reversed axis. Space skips a step
+    (that control then stays on the keyboard only), Esc leaves the settings as they were.
+  - The stick, the collective and the pedals can thus be three different devices. The glass
+    panel shows the devices (A, B, …) and each control with its axis and position.
 
-Esc za letu, Quit na
-plánovacích obrazovkách i Esc po vyhodnocení mise vedou zpět do menu.
+Esc in flight, Quit on the planning screens and Esc after the mission's debriefing lead back
+to the menu.
 
-## Mise
+## Missions
 
-Hraje se kampaň originálu. Výchozí je afghánská: 24 misí z `MISSDATA/AFGHNC*.DTA`, start
-z letiště Džalálábád. Před startem se mise plánuje jako v originálu (obrázky z `MENUSCRN`,
-písmo `FONTS/11X15.LBM`, barvy a zavírací čtvereček z `UIDATA`). Celou obrazovku vždy zabírá
-mapa s trasou. Vpravo je cihlový panel „Map Tool Box“ s tlačítky Briefing, Takeoff, Zoom,
-Rotate, Way, Disable, Back, Fit, Key, Met, 3D, Pay, Point, Task, Save, Restore a Exit dole.
-Tlačítko reaguje po puštění myši, jako v originálu. Plánování se nezvětšuje s oknem: tlačítka,
-okna a písmo mají stálou velikost (`[video] ui_scale`, výchozí 2 = dva pixely okna na pixel
-originálu) a větší okno ukáže víc mapy; Map Tool Box zůstává u pravého okraje, Exit v rohu.
-Teprve okno menší než 1120×800 se zmenší celé. Co tlačítko otevře, přijde v okně přes
-mapu, které se zavírá čtverečkem vlevo nahoře (nebo Esc, to zavře přední okno). Okno jde
-přesunout tažením za titulek (horní řádek) a zvětšit či zmenšit tažením za trojúhelníček v
-pravém dolním rohu (originál tam má čtvereček `RESIZE.BM` a okno jím jen posouvá). Brífink se při změně
-velikosti znovu zalomí, náhled 3D se zvětší s oknem. Výzbroj má pevnou velikost obrázku.
-Klávesy:
+The original's campaign is played. The default is the Afghan one: 24 missions from
+`MISSDATA/AFGHNC*.DTA`, starting from Jalalabad airfield. Before takeoff the mission is planned
+as in the original (pictures from `MENUSCRN`, the font `FONTS/11X15.LBM`, colours and the close
+box from `UIDATA`). The map with the route always fills the screen. On the right is the brick
+"Map Tool Box" panel with the buttons Briefing, Takeoff, Zoom, Rotate, Way, Disable, Back, Fit,
+Key, Met, 3D, Pay, Point, Task, Save, Restore and Exit at the bottom. A button responds when
+the mouse button is released, as in the original. Planning does not scale with the window: the
+buttons, windows and lettering have a fixed size (`[video] ui_scale`, default 2 = two window
+pixels per pixel of the original) and a larger window shows more of the map; the Map Tool Box
+stays at the right edge, Exit in the corner. Only a window smaller than 1120×800 is scaled down
+as a whole. What a button opens comes in a window over the map, closed by the small square at
+its top left (or Esc, which closes the front window). A window can be moved by dragging its
+title (the top line) and resized by dragging the small triangle in its bottom right corner (the
+original has the square `RESIZE.BM` there and only moves the window with it). The briefing is
+rewrapped on resizing, the 3D view grows with the window. The payload has a fixed picture size.
+Keys:
 
-- **Briefing** (B): cihlové okno s názvem mise v záhlaví a bílým textem úkolu po stránkách (PgUp/PgDn, šipky,
-  kolečko). Ukazuje jen rozkaz; další odstavce souboru mise patří k vyhodnocení.
-- **Takeoff** (Enter), **Exit** (Esc bez otevřeného okna).
-- **Mapa** jako v originálu, kreslená po pixelech v 640×480 z dat oblasti:
-  - plošky terénu v pískových odstínech palety mapy (`3DPAL.RGB`, barvy 192–207);
-  - voda, silnice, letiště, města, řeky a cesty z `FEATURES.BIN`;
-  - vrstevnice po 250 stopách z výškové mřížky (při oddálení řidší; originál je nechává všechny
-    a mapa je pak nepřehledná);
-  - mřížka po 1 km (při oddálení širší);
-  - kruhy dosahu protivzdušné obrany jako v originálu: kolem stanovišť ze sekcí `:Gameplay AAA`
-    a `SAM` mise, modře na našem území a oranžově na nepřátelském, kanóny 2 námořní míle
-    a rakety 5 (změřeno na mapě originálu), kompas;
-  - se Sides (strany) je každý čtvrtý pixel tečka, na našem území modrá, na nepřátelském
-    oranžová (`:Gameplay Sides`);
-  - trasa bíle (body v kroužku, cíle X, Y, Z v trojúhelníku, vybraný bod modrý, odlet ve
-    čtverečku), pod ní cihlově trasa, jak ji dala mise (po přesunu bodu zůstane jeho stopa).
+- **Briefing** (B): a brick window with the mission's name in the title and the white text of
+  the task by pages (PgUp/PgDn, arrows, wheel). It shows only the orders; the mission file's
+  other paragraphs belong to the debriefing.
+- **Takeoff** (Enter), **Exit** (Esc with no window open).
+- **The map** as in the original, drawn pixel by pixel at 640×480 from the zone's data:
+  - the terrain's facets in the sand shades of the map's palette (`3DPAL.RGB`, colours 192–207);
+  - water, roads, airfields, towns, rivers and tracks from `FEATURES.BIN`;
+  - contour lines every 250 feet from the height grid (sparser when zoomed out; the original keeps
+    them all and the map gets cluttered);
+  - a 1 km grid (wider when zoomed out);
+  - air defence range circles as in the original: round the mission's `:Gameplay AAA` and `SAM`
+    sites, blue on our ground and orange on the enemy's, guns 2 nautical miles and missiles 5
+    (measured on the original's map), a compass;
+  - with Sides every fourth pixel is a dot, blue on our ground and orange on the enemy's
+    (`:Gameplay Sides`);
+  - the route in white (points in a circle, targets X, Y, Z in a triangle, the selected point
+    blue, the departure in a square), under it in brick the route as the mission gave it (a
+    moved point leaves its trace).
 
-  **Zoom**, **Rotate**, **Way** a **Disable** jsou jako v originálu režimy mapy (zapnutý je
-  zamáčknutý) a určují, co dělá klik a tažení myší po mapě:
-  - **Zoom** (+, také o kus přiblíží): tažení kreslí šedý obdélník se středem v místě, kde
-    tažení začalo, rohem u myši a poměrem stran obrazovky. Tažení doprava přiblíží: oblast
-    obdélníku vyplní obrazovku. Tažení doleva oddálí: celá obrazovka se vejde do obdélníku.
-    Klik sám nic nedělá.
-  - **Rotate**: tažením se mapa otáčí kolem středu obrazovky o úhel, o který myš obkrouží
-    střed; z klávesnice čárka a tečka po 15°.
-  - **Way** (W): otevře okno bodů; klik do mapy přesune bod vybraný v okně na to místo a při
-    držení ho táhne (odlet a přistání jsou pevné). Šipky ho posouvají (se Shiftem pětkrát
-    dál), **Ins** (Insert, I) vloží bod za vybraný, **Del** (Delete) ho smaže.
-  - **Disable** (D): myš na mapě nedělá nic, okno bodů se zavře.
+  **Zoom**, **Rotate**, **Way** and **Disable** are, as in the original, modes of the map (the
+  active one pressed in) and decide what a click and a drag on the map do:
+  - **Zoom** (+, also zooms in a bit): dragging draws a grey rectangle centred where the drag
+    started, with a corner at the mouse and the screen's aspect ratio. Dragging to the right
+    zooms in: the rectangle's area fills the screen. Dragging to the left zooms out: the whole
+    screen fits in the rectangle. A click alone does nothing.
+  - **Rotate**: dragging turns the map about the screen's centre by the angle the mouse goes
+    round the centre; from the keyboard comma and period by 15°.
+  - **Way** (W): opens the points window; a click on the map moves the point selected in the
+    window there and drags it while held (departure and landing are fixed). The arrows move it
+    (five times further with Shift), **Ins** (Insert, I) inserts a point after the selected
+    one, **Del** (Delete) deletes it.
+  - **Disable** (D): the mouse does nothing on the map, the points window closes.
 
-  **Back** (−) oddálí, **Fit** (F) vrátí výchozí pohled (celá trasa, sever nahoře). Kolečko
-  přibližuje k myši. Pravé tlačítko posune mapu o půl obrazovky k té straně, na kterou
-  kliknete (vlevo, vpravo, nahoru, dolů), jako v originálu; prostředním tlačítkem jde mapa
-  navíc táhnout v každém režimu, šipky ji mimo režim Way posouvají. Tab / Shift+Tab vybere bod. Kliknutí do mapy bez tažení (mimo Way)
-  ukáže to místo v okně 3D.
-- **Way** (W): okno s tlačítky **Ins**, **Del**, **Info** (Shift+W) a body trasy (A, B, X, C…). Info
-  otevře okno vybraného bodu jako v originálu: poloha (východ, sever v metrech, výška ve
-  stopách) v políčkách po číslicích, typ, rychlost v uzlech, zdržení, čas letu k bodu a
-  délka úseku. Levé tlačítko na číslici ji zvýší, pravé sníží (pevné body nejdou posunout).
-  PgUp/PgDn mění rychlost o 10 uzlů, se Shiftem zdržení o 5 s. U cíle je v nadpisu, co
-  na něm stojí, např. „Waypoint X (Government Building)“: nejbližší budova oblasti nebo
-  jednotka mise do 200 m, pro kterou má WSO jméno (jména podle hlášek WSO, jako je
-  vyslovuje originál).
-- **Key** (K): sloupec přepínačů vrstev mapy: Grid Lines, Waypoints, Compass, Allied AAA,
-  Allied SAM, Enemy AAA, Enemy SAM (kruhy dosahu protivzdušné obrany), Sides (čí je které území).
-- **Met** (M): vítr a počasí. **Task** (T): Task Box se lety úkolu (hráč Immortal, wingmani).
-  Klik na wingmana ukáže jeho trasu oranžově.
-- **Point** (O): okno, které při pohybu myši nad mapou ukazuje výšku terénu, čí je území
-  a co je pod kurzorem.
-- **Save** (S) si trasu zapamatuje, **Restore** (R) ji vrátí (bez uložené vrátí trasu mise).
-- **3D** (3): okno s 3D pohledem na místo, které kliknete na mapě (nebo vyberete Tabem).
-  Režimy dole (PgUp/PgDn): **Sat** snímek kolmo shora, **Point** kamera krouží kolem místa,
-  **Fly** kamera k místu doletí. Šedý nápis „3D“ na mapě ukazuje, kde je kamera.
-- **Pay** (P): okno s obrázkem `PAYLOAD.LBM` s Hindem a zbraněmi vyskládanými na betonu. Kliknutím
-  na závěsník vyberete pár závěsníků. Kliknutí na zbraň na zemi otevře u kurzoru nabídku
-  závěsníků, na které se dá zavěsit (Inner, Outer, Wingtip Pylon), a klik na položku ji tam
-  zavěsí, jako v originálu. Klik na zavěšenou zbraň ji sundá, takže jde vrtulník odzbrojit
-  (kromě kulometu ve věži). Klik na kulomet v okně ho odebere. Dole je cihlový pruh s tím, co je pod myší nebo na vybraném
-  závěsníku. Z klávesnice (když je okno vpředu):
-  - šipky nahoru a dolů nebo 1–3 vyberou závěsník;
-  - šipky doleva a doprava střídají zbraně, které se na něj vejdou;
-  - N závěsník vyprázdní.
+  **Back** (−) zooms out, **Fit** (F) returns to the default view (the whole route, north up).
+  The wheel zooms towards the mouse. The right button moves the map by half a screen towards
+  the side you click (left, right, up, down), as in the original; the middle button also drags
+  the map in every mode, and the arrows move it outside Way mode. Tab / Shift+Tab selects a
+  point. A click on the map without dragging (outside Way) shows the place in the 3D window.
+- **Way** (W): a window with the buttons **Ins**, **Del**, **Info** (Shift+W) and the route's
+  points (A, B, X, C…). Info opens the selected point's window as in the original: position
+  (east, north in metres, height in feet) in boxes digit by digit, type, speed in knots, delay,
+  flight time to the point and the leg's length. The left button on a digit raises it, the
+  right one lowers it (fixed points cannot be moved). PgUp/PgDn change the speed by 10 knots,
+  with Shift the delay by 5 s. For a target, the title says what stands there, e.g. "Waypoint X
+  (Government Building)": the nearest building of the zone or unit of the mission within 200 m
+  that the WSO has a name for (names by the WSO's calls, as the original says them).
+- **Key** (K): a column of switches for the map's layers: Grid Lines, Waypoints, Compass,
+  Allied AAA, Allied SAM, Enemy AAA, Enemy SAM (air defence range circles), Sides (whose ground is where).
+- **Met** (M): wind and weather. **Task** (T): the Task Box with the task's flights (the player
+  Immortal, the wingmen). A click on a wingman shows his route in orange.
+- **Point** (O): a window that shows, as the mouse moves over the map, the terrain's height,
+  whose territory it is and what is under the cursor.
+- **Save** (S) remembers the route, **Restore** (R) brings it back (with nothing saved, the
+  mission's route).
+- **3D** (3): a window with a 3D view of the place you click on the map (or select with Tab).
+  Modes at the bottom (PgUp/PgDn): **Sat** a picture straight from above, **Point** the camera
+  circles the place, **Fly** the camera flies to the place. A grey "3D" on the map shows where
+  the camera is.
+- **Pay** (P): a window with the picture `PAYLOAD.LBM` of the Hind and its weapons laid out on
+  concrete. A click on a pylon selects a pair of pylons. A click on a weapon on the ground
+  opens, at the cursor, a menu of the pylons it can be hung on (Inner, Outer, Wingtip Pylon),
+  and a click on an item hangs it there, as in the original. A click on a hung weapon takes it
+  off, so the helicopter can be disarmed (except for the machine gun in the turret). A click on
+  the machine gun in the window removes it. At the bottom is a brick bar saying what is under
+  the mouse or on the selected pylon. From the keyboard (when the window is in front):
+  - the up and down arrows or 1–3 select a pylon;
+  - the left and right arrows cycle through the weapons that fit it;
+  - N empties the pylon.
 
-  Zbraň, která na vybraný závěsník nepatří, se zavěsí na nejvzdálenější závěsník, kam patří
-  (Šturm tedy na konce křídel).
+  A weapon that does not belong on the selected pylon is hung on the outermost pylon it
+  belongs on (so a Shturm goes on the wing tips).
 
-  V dolních rozích leží navíc čtyřhlavňový kulomet GŠG-7.62 do dveří kabiny se střelcem (obrázek
-  není z originálu, viz `CREDITS.md`). Klik na něj nabídne Left Door, Right Door a Both Doors.
-  Kulomet pak trčí z okénka kabiny. Klik na bok trupu za kokpitem vybere dveře. Z klávesnice
-  jsou dveře 4 a 5 (nebo šipkou dolů za závěsníky), šipky doleva a doprava kulomet přidají nebo
-  odeberou a N ho odebere. Kulomet se střelcem váží asi 150 kg: kulomet 19 kg, 1500 nábojů 7,62 × 54R
-  v článcích po 25 g, lafeta asi 10 kg a střelec s výstrojí 85 kg. Data misí originálu o kulometech
-  ve dveřích nic neříkají: mise na drony (Shahed, Geran-3, Gerbera) je mají ve dveřích oba,
-  ostatní žádný, a tady se to dá změnit.
+  In the bottom corners there is also a four-barrelled GShG-7.62 machine gun for the cabin
+  doors, with a gunner (the picture is not from the original, see `CREDITS.md`). A click on it
+  offers Left Door, Right Door and Both Doors. The gun then sticks out of the cabin's window.
+  A click on the side of the fuselage behind the cockpit selects the doors. From the keyboard
+  the doors are 4 and 5 (or the down arrow after the pylons), the left and right arrows add or
+  remove the gun and N removes it. The gun with its gunner weighs about 150 kg: the gun 19 kg,
+  1500 rounds of 7.62 × 54R in links at 25 g, the mount about 10 kg and the gunner with his kit
+  85 kg. The original's mission data say nothing about door guns: the drone missions (Shahed, Geran-3,
+  Gerbera) have both doors manned, the others none, and it can be changed here.
 
-  Platí pravidla originálu. Například FAB-500, ZAB-500, 57mm kontejner (UB-32), UPK-23 a KMGU
-  jen na vnitřní závěsníky, R-60 jen na vnější, 9M114 na vnější a konce křídel.
-  Na betonu leží vlevo 57mm kontejner (UB-32, 32 raket S-5), vedle něj 80mm (B-8V20, 20 raket
-  S-8), na závěsnících se kreslí obrázky originálu `UB32A_*` a `B-8_*`. Zavěšená výzbroj se kreslí
-  do obrázku výřezy originálu. Mise si výzbroj nakládá sama podle svých dat (`:Weapon`),
-  stejně jako originál. Na obrazovce se dá změnit a uloží se do `[weapons]` v hind.ini (ta
-  platí pro volný let).
+  The original's rules apply. For example FAB-500, ZAB-500, the 57 mm pod (UB-32), UPK-23 and
+  KMGU only on the inner pylons, R-60 only on the outer ones, 9M114 on the outer ones and the
+  wing tips. On the concrete on the left lies the 57 mm pod (UB-32, 32 S-5 rockets), next to
+  it the 80 mm one (B-8V20, 20 S-8 rockets); on the pylons the original's pictures `UB32A_*`
+  and `B-8_*` are drawn. The hung weapons are drawn into the picture from cut-outs of the
+  original. A mission loads its weapons itself by its data (`:Weapon`), just like the original.
+  They can be changed on the screen and are saved to `[weapons]` in hind.ini (which applies to
+  free flight).
 
-Enter vzlétne s naplánovanou trasou a výzbrojí, Esc hru ukončí. Na pohyblivé mapě je vidět trasa a červeně bod,
-ke kterému se letí. Ručička HSI ukazuje na tento bod a počítadlo pod ní vzdálenost k němu.
-Na HUD pod stupnicí kurzu ukazuje kurz k tomuto bodu malá stříška, mimo rozsah stupnice se drží
-u bližšího okraje.
-Po proletění bodu (do 800 m) se navigace přepne na další, klávesa W přepne ručně a po
-posledním bodě vede navigace domů.
+Enter takes off with the planned route and weapons, Esc quits the game. The moving map shows
+the route and in red the point being flown to. The HSI needle points to that point and the
+counter under it shows the distance to it. On the HUD, under the heading scale, a small caret
+shows the heading to that point; outside the scale's range it stays at the nearer edge.
+After passing a point (within 800 m) the navigation switches to the next one, the W key
+switches manually and after the last point the navigation leads home.
 
-Na bojišti jsou síly z mise:
-- naše kolony, hlídky, tábory a parkující letadla;
-- mudžahedíni s kulomety DŠK, minomety a RPG.
+On the battlefield are the mission's forces:
+- our convoys, patrols, camps and parked aircraft;
+- mujahideen with DShK machine guns, mortars and RPGs.
 
-Jednotky jezdí a chodí po trasách z mise, vrtulníky a letadla létají. Mise dávají proudovým
-letounům rychlosti vrtulníku (Su-25 kolem 200 km/h, pod pádovou rychlostí), proto letí ve vzduchu
-aspoň 450 km/h a na přiblížení k přistání 250 km/h. Formace (např.
-„Mujaheddin with DSHK Machine Gun“) se čtou přímo z `HIND.EXE`. Vyhodnocení se řídí čísly
-z mise: kolik zničených cílů je potřeba pro úspěch a kolik pro vynikající výsledek. Pro úspěch
-musí padnout hlavní cíle (nejvýš tolik, kolik jich mise má) a do počtu z mise se počítají
-i ostatní cíle (KOREAC14 chce 20 zničení, hlavních cílů má jen 6). Budovy oblasti do 400 m od
-cílových bodů trasy, které nestojí na našem území, jsou také cíle. Když mise nemá hlavní cíle
-a pro úspěch nechce nic (její cíle jsou právě budovy: radar v KOREAS02, vesnice v AFGHNS01),
-stanou se budovy u cílů hlavními a zničit je potřeba aspoň polovinu. Jak to počítá originál,
-zatím nevíme. Přistáním doma (do 2 km od startu) mise končí a zobrazí se výsledek.
+Units drive and walk along their routes from the mission, helicopters and aircraft fly. The
+missions give jets the speeds of a helicopter (Su-25 around 200 km/h, below its stall speed),
+so in the air they fly at least 450 km/h and 250 km/h on the approach to land. Formations
+(e.g. "Mujaheddin with DSHK Machine Gun") are read straight from `HIND.EXE`. The debriefing
+follows the mission's numbers: how many destroyed targets are needed for success and how many
+for an outstanding result. For success the primary targets must fall (at most as many as the
+mission has) and the other targets count towards the mission's number too (KOREAC14 wants 20
+kills, it has only 6 primary targets). The zone's buildings within 400 m of the route's target
+points that do not stand on our territory are targets too. When a mission has no primary
+targets and wants nothing for success (its targets are just buildings: the radar in KOREAS02,
+the village in AFGHNS01), the buildings at the targets become primary and at least half of them
+have to be destroyed. How the original counts it we do not know yet. Landing at home (within
+2 km of the start) ends the mission and shows the result.
 
-Mise mají na konci sekce `:Gameplay`. `Sides` říká, čí je která buňka oblasti (16384 stop),
-a na body z `AAA` a `SAM` hra sama staví protivzdušnou obranu strany té buňky. U nás stojí
-na našem území ZSU-23-4 a SA-13, u nepřítele v Afghánistánu DŠK a Strely mudžahedínů,
-v Kazachstánu ZSU-23-4 a Strely, v Koreji M163 Vulcan a Stingery. Jaké jednotky tam staví
-originál, zatím nevíme. V Koreji je to přes sto stanovišť po celé oblasti.
+The missions have a `:Gameplay` section at the end. `Sides` says whose each cell of the zone is
+(16384 feet), and on the points of `AAA` and `SAM` the game itself places the air defence of the
+cell's side. On our territory there are ZSU-23-4s and SA-13s, on the enemy's in Afghanistan the
+mujahideen's DShKs and Strelas, in Kazakhstan ZSU-23-4s and Strelas, in Korea M163 Vulcans and
+Stingers. What units the original places there we do not know yet. In Korea that is over a
+hundred sites all over the zone.
 
-Konec mise vypadá jako v originálu. Ctrl+Q za letu hru zastaví a ukáže tabulku „END MISSION?
-Y/N“ z originálu (`COCKPITS/ENDMISS.640`). N nebo Esc letí dál, Y misi ukončí jako přerušenou.
-Po konci mise (přistání doma, sestřelení nebo Y) přijde vyhodnocení jako v originálu: mapa
-s trasou, vpravo nahoře jediné tlačítko Debrief (otevírá a zavírá okno, klávesa D) a vpravo
-dole Exit (také Enter a Esc), které vede zpět do menu. Okno má v titulku misi a výsledek
-(„Shipping Attack - ABORTED“, SUCCESS, OUTSTANDING, FAILURE). Pod ním je text mise pro ten
-výsledek (`:Outstanding`, `:Success`, `:Failure`, přerušená mise dostane text neúspěchu). Pak
-větami originálu (z `HIND.EXE`), jak se letělo a co se splnilo: „Good flying.“, nebo „Mission
-Failed - Hind destroyed.“ a jak („Hind was shot down by ZSU-23-4.“, „Hind collided with …“,
-„Your crash was a result of your vertical speed at the time of landing.“), výsadek, miny,
-průzkum, „Enough targets for success.“ / „Insufficient targets destroyed.“ a cíle u bodů trasy
-(„However, not all waypoint targets were destroyed.“). Pod tím naše počty (kolik primárních
-cílů je potřeba) a nakonec jako v originálu seznam, co kdo zničil: „Targets destroyed by you:“,
-„by your wingman:“ (nebo jméno hráče po síti), „by other allied forces:“ a „by enemy forces:“,
-pod každým skupiny „Enemy Targets“, „Allied Targets“, „Friendly Fire Casualties Caused“,
-„Civilian Casualties“ a řádky „23 x MUJAHEDDIN“. Názvy jednotek jsou zatím naše (originál má
-vlastní, delší). Delší text se posouvá jako v originálu: posuvník vlevo pod zavíracím čtverečkem
-(jezdec se dá táhnout, klik nad něj či pod něj posune o stránku), kolečko myši, šipky, PgUp/PgDn,
-Home/End. Pak se hra zeptá, jestli misi zapsat do Pilot's Logu (viz níže).
+The end of a mission looks as in the original. Ctrl+Q in flight stops the game and shows the
+original's "END MISSION? Y/N" table (`COCKPITS/ENDMISS.640`). N or Esc flies on, Y ends the
+mission as aborted. After the end of a mission (landing at home, being shot down or Y) comes
+the debriefing as in the original: the map with the route, at the top right a single Debrief
+button (opens and closes the window, key D) and at the bottom right Exit (also Enter and Esc),
+which leads back to the menu. The window has the mission and the result in its title
+("Shipping Attack - ABORTED", SUCCESS, OUTSTANDING, FAILURE). Under it is the mission's text for
+that result (`:Outstanding`, `:Success`, `:Failure`; an aborted mission gets the failure text).
+Then, in the original's sentences (from `HIND.EXE`), how it was flown and what was done: "Good
+flying.", or "Mission Failed - Hind destroyed." and how ("Hind was shot down by ZSU-23-4.",
+"Hind collided with ...", "Your crash was a result of your vertical speed at the time of
+landing."), the troops, the mines, the reconnaissance, "Enough targets for success." /
+"Insufficient targets destroyed." and the waypoint targets ("However, not all waypoint targets
+were destroyed."). Under that our counts (how many primary targets are needed), and last, as in
+the original, what was destroyed by whom: "Targets destroyed by you:", "by your wingman:" (or
+the network player's name), "by other allied forces:" and "by enemy forces:", each with the
+groups "Enemy Targets", "Allied Targets", "Friendly Fire Casualties Caused", "Civilian
+Casualties" and lines like "23 x MUJAHEDDIN". The unit names are ours for now (the original has
+its own, longer ones). A longer text scrolls as in the original: a scroll bar on the left under
+the close box (its thumb can be dragged, a click above or below it moves a page), the mouse
+wheel, the arrows, PgUp/PgDn, Home/End. Then the game asks whether to write the mission into
+the Pilot's Log (see below).
 
-Konkrétní misi zvolíte volbou `--mission AFGHNS03` nebo v `[world] mission`, seznam všech
-vypíše `--missions`. `--mission none` je volný let nad cvičištěm u Bagrámu.
+Choose a specific mission with `--mission AFGHNS03` or in `[world] mission`; `--missions` lists
+them all. `--mission none` is free flight over the training range near Bagram.
 
-### Ukrajina
+### Ukraine
 
-Vlastní kampaň remaku: lov dronů Shahed-136 nad ukrajinskými městy. V menu je na stránce válek
-čtvrté tlačítko UKRAINE (složené za běhu z písmen tlačítek originálu, klávesa U). Válka se vede
-na saratovské oblasti originálu, její step a řeka zastupují Ukrajinu. Mise jsou v
-`data/missions/UKRAIC01` až `08` ve formátu originálu s jedním rozšířením: `:Drone Name`
-(jednotka jménem, např. `Shahed_136`, `Mi_17_Hip_H`). Píše je skript
-`tools/ukraine_missions.py` z popisu v metrech a sekundách.
+The remake's own campaign: hunting Shahed-136 drones over Ukrainian cities. On the menu's page
+of wars there is a fourth button UKRAINE (put together at runtime from the letters of the
+original's buttons, key U). The war is fought on the original's Saratov zone, whose steppe and
+river stand in for Ukraine. The missions are in `data/missions/UKRAIC01` to `08` in the
+original's format with one extension: `:Drone Name` (a unit by name, e.g. `Shahed_136`,
+`Mi_17_Hip_H`). They are written by the script `tools/ukraine_missions.py` from a description
+in metres and seconds.
 
-Hind v ukrajinských misích, v tréninku se Shahedy (každá mise se Shahedy, Gerberami nebo Gerany-3) i ve volném letu nad `zone = ukraine` má (stejně jako všechny naše Hindy v té misi, AI wingman i parkující) barvy vyřazených
-českých Mi-24V, které teď létají na Ukrajině (podle jejich fotek):
-- **Maskování:** české tříbarevné, olivová, světle šedá a tmavá šedozelená, místo zelené
-  s pískovou originálu.
-- **Modrožlutý pruh** podél nosu pod kabinami a na boku kabiny za dveřmi.
-- **Koncové desky křídel:** modrá nad žlutou.
-- **Ocasní nosník:** dva bílé pruhy kolem dokola.
+The Hind in the Ukrainian missions, in training with Shaheds (every mission with Shaheds,
+Gerberas or Geran-3s) and in free flight over `zone = ukraine` wears (as do all our Hinds in that mission,
+the AI wingman and the parked ones) the colours of the retired Czech Mi-24Vs that now fly in
+Ukraine (after their photographs):
+- **Camouflage:** the Czech three-tone, olive, light grey and dark grey green, instead of the
+  original's green and sand.
+- **A blue and yellow stripe** along the nose under the cockpits and on the cabin's side behind
+  the door.
+- **Wing tip plates:** blue over yellow.
+- **Tail boom:** two white bands all round.
 
-Maskování je vlastní dlaždice v atlasu textur (`render/livery.cpp`), značení maluje scénový
-shader podle místa na trupu (`uLivery`).
+The camouflage is a tile of its own in the texture atlas (`render/livery.cpp`), the markings are
+painted by the scene shader by the place on the airframe (`uLivery`).
 
-- Shahed-136 letí asi 180 km/h nízko nad krajinou po trase se zalomeními a na jejím konci se
-  vrhne na cíl (letiště, město, železniční most, elektrárnu, sklady). Když doletí, počítá se
-  jako ztráta, ne jako sestřelený, a hlásí se „DRONE HIT ITS TARGET“. Kolik jich smí proletět,
-  říká `:Failure Count` mise.
-- Žádné dva Shahedy neletí stejně. Každý má trochu jinou rychlost (±8 %), mírně kličkuje kolem
-  kurzu (asi o 15 m) a jeho výška se pomalu vlní o 20–45 m, nejníž 25 m nad zemí. Na konci
-  přejde do střemhlavého letu na cíl pod úhlem 35° a o pětinu zrychlí. Vlastnosti se odvozují
-  od místa startu, takže jsou při každém letu stejné.
-- Sestřelený dron letí setrvačností dál a padá po balistické dráze. Čumák má ve směru pádu,
-  točí se ve vývrtce jednou za sekundu kolem podélné osy a táhne za sebou kouř. Na zemi
-  dohoří.
-- Od mise Two Directions létají mezi Shahedy návnady Gerbera (`:Drone Name Gerbera`). Vypadají
-  i létají stejně a Mi-17 je hlásí jako Shahedy. Nemají hlavici, takže na konci trasy jen
-  spadnou a nic nezničí. Sestřelené se nepočítají, debriefing je uvádí zvlášť.
-- V misích The Swarm a The Long Night přilétají i proudové Shahedy Geran-3 (Shahed-238,
-  `:Drone Name Geran_3`): stejná černá delta s proudovým motorem, tryskou v ocasu a sáním na
-  hřbetě (`render::buildGeran3`). Letí asi 330 km/h, výš a z větší dálky, a ve střemhlavém
-  letu na cíl zrychlí asi na 550 km/h. Mi-24 je zezadu nedohoní a dveřní střelci na ně nemají
-  ránu, takže se potkávají čelně: kanonem nebo R-60, které v těch misích nese na vnějších
-  závěsnících (na vnitřních kontejnery UPK-23). Kulomet ve věži na dron stačí jen zblízka: Shahed potřebuje asi 20 zásahů a s rostoucí vzdáleností střel rychle přibývá. Mi-17 je hlásí jako „JET SHAHED“. Slyšet je proudový motor (šum spalin a
-  kvílení kompresoru), hlasitější než Shahed. Za dne se to dá vyzkoušet ve výcviku
-  „Operational Training - Jet Drones“ (`SARATT23`): čtyři Geran-3 na letiště v 11:30.
-- Střela S8000 Banderol (`:Drone Name Banderol`, zatím jen v Quickstartu nad Ukrajinou): ruská
-  proudová střela odpalovaná z dronu Orion, 5 m dlouhá, se šípovými křídly pod trupem
-  (`render::buildBanderol`). Letí asi 500 km/h bez kličkování, nízko (asi 100 m, terén sleduje
-  čtyřikrát strměji než Shahed) a ve střemhlavém letu na cíl zrychlí na 650 km/h. Mi-24 jí může
-  jen vletět do cesty: R-60 ji vidí ze 7 km z kterékoli strany, stíhací dron je pomalejší a na
-  ni se nevypouští. Mi-17 ji hlásí jako „BANDEROL“.
-- AI Mi-24 našeho roje nad Ukrajinou (mise UKRAI*, i Quickstart) nesou to, co hráč ne
-  (`sim::WingArms`). Má-li hráč na vnějších závěsnících R-60, mají všichni rám stíhacích dronů,
-  jinak má wingman (první z nich) R-60 a ostatní stíhací drony. Wingman s R-60 vystřelí na
-  rychlý dron (Banderol, Geran-3) do 6 km a do 90° od svého směru, na který ještě žádná naše
-  R-60 neletí, vždy jen jednu a počká na výsledek. Stíhací drony pouští posádka jako u hráče,
-  ale na každý dron kromě Banderolu, i na Shahed (dveřní kulomet na něj AI Hind nemá). Jejich
-  střely létají, zasahují a kreslí se jako hráčovy, výzbroj jim visí pod křídly (i se
-  zbývajícími drony na rámu) a v síťové hře vidí obojí i ostatní hráči. Sestřely se počítají
-  wingmanovi. V Quickstartu se jim R-60 dobíjejí jako hráči a roj
-  od začátku letí s hráčem (rozkaz 2 Follow me), ne po trase mise; rozkaz 4 Resume flightplan ho
-  na ni pošle zpět.
-- Stíhací drony (kód výzbroje 30, náš): na vnitřních závěsnících rám se šesti drony Litavr (dvě
-  patra po třech, prostřední dron vpřed), jak je ukrajinské posádky věší pod Mi-8 a Mi-17. Na
-  Mi-24 visí pod křídlem mezi závěsníky a vzadu u odtokové hrany, spodní patro ještě za kolem,
-  aby ho GŠG ve dveřích měl zakrytý křídlem a nepřekážel mu. Zabere tím i vnější závěsníky,
-  na ty se pak nedá nic pověsit (mise s výzbrojí tam ji ztratí); na obrazovce Pay se proto
-  nabízí jako „Both Pylons“.
-  Litavr je metrový trup jako raketa, v nose kamera se dvěma objektivy, vzadu kříž malých
-  ploutví, a místo raketového motoru čtyři ramena do X s gondolami a tlačnými vrtulemi. Každý je
-  nasunutý na dvou hrotech, které po odpalu zůstanou trčet; na rámu ubývají odspodu. Jsou
-  posádky, ne pilota: dveřní střelec (počítač, dokud u dveří nesedí hráč) sám vypustí dron jen
-  na proudový Geran-3 do 5 km, na který ještě žádný neletí; pomalejší Shahedy nechává svému
-  GŠG. Pilot mu ale může G (mimo pohled od dveří) poručit vypustit dron na svůj cíl (WSO,
-  přepíná se B, nebo ten, který hlásí Hip), když je to nepřátelský dron do 5 km, i Shahed; bez
-  takového cíle na nejbližší dron. Dokud střelec dron navádí (než se dostane na 1 km od cíle a dál
-  letí sám), nemá volné ruce: další nevypustí a z GŠG nestřílí; druhý střelec ano. Na rámu
-  visí špičkou vpřed (je to letadlo s tlačnými vrtulemi, ne kvadrokoptéra), takže z něj odletí dopředu a první vteřinu sám lehce zahýbá od vrtulníku; teprve
-  pak se navádí nebo ho řídí hráč. Stíhací dron letí asi 400 km/h (skutečný Litavr 350, my mu
-  přidali, ať dožene Geran-3), sám se navede (proporcionální navigace) a narazí do cíle
-  (kinetický zásah, hlavice 0,5 kg, vybuchne do 4 m); když jeho cíl zmizí, vezme si nejbližší jiný, baterie
-  vydrží dvě a půl minuty. D ve vzduchu je drží stejně jako dveřní kulomety. Pilotovi hlásí
-  „INTERCEPTOR AWAY - 11 LEFT“. Nesou je všechny mise ukrajinské kampaně kromě The Swarm a výcvik „Operational Training -
-  Interceptor Drones“ (`SARATT24`); na obrazovce Pay leží rám na betonu vedle GŠG (obrázek
-  není z originálu, kreslí ho hra). Hráč u dveří (F4, nebo člen posádky po síti) je ale vypouští a řídí sám a automat
-  pak žádné nevypouští: G vypustí stíhací dron a pohled se přepne do jeho
-  kamery (v noci jako termovize, žhavé motory svítí). Obraz jde analogovým rádiem: je trochu
-  měkký a zrnitý, s řádky, a čím dál je dron od vrtulníku, tím víc šumí (do 300 m čistý, ve
-  4 km plný šumu s vytrženými řádky). Myš je při tom
-  jako knipl: kam ji odsuneš, tam zůstane a dron zatáčí, dokud ji nevrátíš ke středu (kroužek
-  kolem kříže je plná výchylka, kosočtverec poloha kniplu). Alt + šipky a klobouček zatáčejí,
-  dokud je držíš, po síti i šipky. Joystick (gamepad levou páčkou) ho řídí jako letadlo, dopředu
-  dolů; vrtulníku mezitím cyklika zůstane, kde byla, a po návratu ke dveřím se během vteřiny
-  vrátí k páce. Tlačítko 1 (gamepad B) vybere další cíl, tlačítko 2 (X) dron pustí. Je to letadlo: do zatáčky se zlomek
-  vteřiny naklání (kolem středu kniplu zatáčí jemně, na okraji naplno) a v plné rychlosti zatočí nejostřeji asi 6 g, tedy kruh o poloměru zhruba
-  200 m; pomalejší má křídla méně vztlaku, takže ani po startu nezatočí ostřeji. Nahoře je
-  rychlost, baterie a kolik jich zbývá. Kamera označí nepřátelská letadla, vrtulníky a drony
-  do 3 km před ním malými rohy. Vybraný (zprvu ten nejblíž středu obrazu, B další) má hranaté
-  závorky, jméno a dálku. Jakmile je do 1 km, závorky se zavřou do rámečku a „FIRE TO LOCK“:
-  spoušť dron na cíl zamkne („Last Mile / Pixel Lock“ skutečného Litavru), ten pak už letí
-  sám a hráč má volné ruce. Kamera zamčený dron sleduje až do zásahu, rámeček má v rozích
-  čárky a „LOCKED“, a G vypustí rovnou další dron. Spoušť v kameře dronu nic jiného
-  nestřílí. Bez zamčení vybuchne sám do 6 m od
-  nepřátelského dronu, letadla či vrtulníku. Narazí-li do čehokoli, vybuchne taky: vlastní Mi-17
-  to sestřelí, jiný Mi-24 jen do ocasu (zezadu), jinde zásah vydrží. Ve vlastním Mi-24 vyřadí motor na té straně (s jedním se dá tak tak přistát;
-  druhý zásah z druhé strany vezme i ten), vzadu ocasní rotor; narazí-li do disku nosného
-  rotoru, nebo v pětině případů, kdy střepiny letí nahoru do listů, je to konec.
-  Znovu G, F4 nebo přepnutí na jiný pohled ho pustí, ať si cíl najde sám (hráč v síťové hře ho pustí jen klávesou G),
-  a pohled se vrátí ke dveřím; když vybuchne nebo dojde baterie, vrátí se po chvíli sám.
-- Zaměřovač R-60 vidí horkou trysku Geranu-3 (stejně jako letadla a vrtulníky) na 7 km. Slabý
-  a vzduchem chlazený pístový motor Shahedu a Gerbery jen zezadu (do 60° od ocasu) na 1,5 km,
-  odjinud na 600 m. Na Shahedy je proto hlavní zbraní kanon. Ukazatel `FAR` za jménem cíle na
-  HUD s tím počítá.
-- R-60 jako v originále (návod str. 68): hlavice zaměří jen cíl, který drží WSO (sám, nebo
-  klávesami T a B), a to až je do 20° od nosu a v jejím dosahu. Zaměření potvrdí kříž přes
-  zaměřovací kroužek na cíli. Bez zaměření vyletí neřízená, letí rovně a vybuchne, kam
-  narazí. S vybranou R-60 hledá WSO vzdušné cíle až do 7 km a dává přednost těm, které
-  hlavice může zaměřit; když drží cíl, který zaměřit nejde (třeba vzdalující se Shahed), sám
-  přejde na takový, který jde.
-- R-60 má model podle fotek (`render::buildR60`, 2,09 m, `--sheet-model r60`): skleněná kopule
-  hlavice v oranžovém prstenci, za ní malé destabilizátory a kachní plošky, bílé tělo, vzadu
-  čtyři seříznutá delta křídla s kolečky rolleronů a tryska. Visí tak na kolejnici APU-60 a do
-  1,5 km se tak kreslí i v letu (plamen motoru jen 3 s, co hoří); dál zůstává čárkou.
-- 9M114 Šturm má v letu taky model podle fotky (`render::buildShturm`, 1,83 m,
-  `--sheet-model 9m114`): olivová, ogivální nos se stříbrným pruhem, spoje a úchyt na hřbetě,
-  ocelový pruh a užší ocas se čtyřmi vyklopenými zahnutými ploutvemi (s výřezem v odtokové
-  hraně), které ji roztáčejí. Točí se 11 otáček za sekundu (skutečná 8–15); při 60 snímcích
-  za sekundu by ploutve blikaly nebo se zdánlivě točily pozpátku, proto jsou rozmazané přes
-  pootočení za jeden snímek. Na závěsníku zůstává v odpalovacích trubkách.
-- Horké motory v noci: tryska Geranu-3 slabě oranžově žhne i pouhým okem (do 3 km). V nočním
-  vidění (V, zesilovač obrazu citlivý na blízkou infračervenou) svítí jako jasný bod se září
-  až do 8 km. Pístový Shahed je v nočním vidění jen slabá tečka u motoru do 2,5 km. Stejně
-  žhnou trysky proudových letadel; výfuky turbohřídelových motorů vrtulníků (i našich Mi-24)
-  svítí v nočním vidění a v kameře stíhacího dronu jako dva jasné body se září.
-- Let je trojice jako u skutečných posádek: hráčův Mi-24, wingman Mi-24 a Mi-17, který drony
-  hledá a hlásí ten nejbližší hráči: „HIP: SHAHED 2 O'CLOCK 4.3 KM LOW“, na HUD ho ukáže kosočtverec
-  (ve všech pohledech, v noci jediná šance ho najít). Hlášení zůstává na horním řádku displeje
-  zpráv, dokud dron letí, a hodiny, kilometry i výška se průběžně přepočítávají, takže podle něj
-  jde k dronu doletět; ostatní zprávy se střídají na spodním řádku. Po sestřelu Hip hned nahlásí
-  další, a když už žádný nevidí, ohlásí „HIP: NO MORE CONTACTS“. Když si v plánování posuneš body trasy,
-  wingman i Mi-17 poletí po nové trase (klíč `:Follow Player` v misi). Shahedy ale letí dál po svých kurzech. WSO si ho vezme za cíl,
-  jakmile je v jeho dosahu, a věž s kanonem JakB na něj zamíří s předsazením (otočí se ale jen
-  60° na stranu, takže je potřeba letět za ním, ne vedle). Dron od Hipa si WSO bere mlčky, co
-  a kde to je, už stojí na displeji.
-- Střelec ve dveřích (GŠG-7.62 z obrazovky Pay) střílí sám na nepřítele, kterého vidí ze svého
-  okénka do 900 m, drony přednostně: krátké dávky se stopovkami, mířené s předsazením. Na cíl
-  ve vzduchu ale střílí jen za dobrých podmínek, jako skutečné posádky: zblízka (nejlépe do
-  120 m, nad 450 m vůbec), při podobné rychlosti (rozdíl 20 m/s je ještě dobrý, 50 m/s už
-  špatný; vrtulník nemá brzdy) a shora (dron aspoň 5 m níž, nejlépe 25 m). Ze součinu těchto tří podmínek vychází,
-  jak dobrá je rána. Pod 0,3 nestřílí a jen drží dron na mušce. Dokud se rána zlepšuje, protože
-  se k dronu přibližujete, čeká a šetří náboje. Jakmile se přestane zlepšovat nebo se začne
-  zhoršovat, pálí, a když už pálí, nepřestane. Čím je rána horší,
-  tím víc mine. Při souběžném letu nad Shahedem ho sestřelí během vteřiny, při křížení, letu
-  proti němu nebo z visu nevystřelí. Na HUD vpravo nahoře je, jak dobrou ránu mají, když je
-  nepřátelský dron do 1 km: `DOOR L FIRE`/`WAIT`/`HOLD` (dveře, ze kterých na něj dosáhnou, nebo
-  `NOT IN FIELD`) s pruhem kvality a čárkou na 0,3, pod tím každá podmínka zvlášť s pruhem
-  a číslem, podle kterého se dá letět: `RNG` vzdálenost v m, `SPD` o kolik km/h je dron
-  rychlejší (+ přidat, − ubrat; `V` jeho stoupání proti nám v m/s), `LOW` o kolik m je pod
-  vrtulníkem. Ukazatel vypne přepínač „Gunner hints“ v seznamu misí (klávesa H) nebo
-  `[hud] gunner_hints = 0` v hind.ini; hra si volbu pamatuje. Přes plán Pay jde nabrat levého, pravého nebo
-  oba. Jejich kulomety jsou vidět i zvenku, natočené tam, kam míří. Na modelu originálu jsou
-  pak dveře otevřené, v otvoru je vidět šedozelená kabina se sedačkami a střelec sedící za
-  kulometem na sloupku u podlahy. Stejně je vidí i spoluhráči v síťové hře u ostatních Hindů.
-- Shahedy je slyšet: vysokootáčkový dvoutakt (asi 230 výfukových pulzů za sekundu, nepravidelný, chraplavý, občas vynechá) s řezavou tlačnou vrtulí. V originálu tenhle zvuk není, takže ho hra
-  skládá sama. Hraje se z místa dronu podle vzdálenosti, venku asi do 3 km, v kokpitu pod rotorem
-  méně. Výška tónu se mění podle Dopplerova jevu, takže přilétající dron zní výš a odlétající níž.
-  Slyšet jsou nejvýš tři nejbližší.
-- Mise jsou v noci (měsíc, hvězdy), jedna v mlze nad řekou, jedna bez Mi-17. Za dne se lov dá vyzkoušet v tréninku: poslední tréninková mise „Operational Training - Drone Interception“ (`data/missions/SARATT21`, v 11:00 s Mi-17, tři Shahedy na letiště) s briefingem, jak na to. Pro hru ve více lidech je za ní „Operational Training - Drone Swarm“ (`SARATT22`): v poledne 24 Shahedů ve čtyřech vlnách po šesti a 4 Gerbery na letiště a město. Hlídková čára je jen 8 km od letiště, první vlna k ní dorazí asi dvě a půl minuty po startu a další přicházejí každé dvě a půl minuty.
+- The Shahed-136 flies at about 180 km/h low over the landscape along a route with doglegs and
+  at its end dives at its target (an airfield, a town, a railway bridge, a power station,
+  depots). When it gets through it counts as a loss, not as shot down, and "DRONE HIT ITS
+  TARGET" is announced. How many may get through is given by the mission's `:Failure Count`.
+- No two Shaheds fly alike. Each has a slightly different speed (±8 %), weaves a little about
+  its heading (about 15 m) and its height slowly undulates by 20–45 m, at the lowest 25 m above
+  the ground. At the end it goes into a 35° dive at its target and speeds up by a fifth. The
+  properties are derived from the place of launch, so they are the same on every flight.
+- A drone shot down flies on by its momentum and falls on a ballistic path, its nose along its
+  fall, spinning once a second about its length and trailing smoke. On the ground it burns
+  out.
+- From the mission Two Directions on, Gerbera decoys fly among the Shaheds (`:Drone Name
+  Gerbera`). They look and fly the same and the Mi-17 reports them as Shaheds. They have no
+  warhead, so at the end of their route they just fall and destroy nothing. Shot down they do
+  not count; the debriefing lists them separately.
+- In the missions The Swarm and The Long Night jet Shaheds come too, Geran-3s (Shahed-238,
+  `:Drone Name Geran_3`): the same black delta with a turbojet, its nozzle in the tail and the
+  intake on the back (`render::buildGeran3`). They fly at about 330 km/h, higher and from
+  further out, and speed up to about 550 km/h in the dive onto the target. The Mi-24 cannot
+  catch them from behind and the door gunners get no shot at them, so they are met head on: with
+  the gun or the R-60s the helicopter carries on its outer pylons in those missions (UPK-23
+  gun pods on the inner ones). The turret machine gun is enough for a drone only up close: a Shahed takes about 20 hits and the rounds needed climb fast with distance. The Mi-17
+  calls them "JET SHAHED". They are heard as a jet engine (the exhaust's roar and the
+  compressor's whine), louder than a Shahed. By day it can be tried in the training mission
+  "Operational Training - Jet Drones" (`SARATT23`): four Geran-3s at the airfield at 11:30.
+- The S8000 Banderol cruise missile (`:Drone Name Banderol`, so far only in Quickstart over
+  Ukraine): a Russian jet missile launched from an Orion drone, 5 m long, its swept wings under
+  the body (`render::buildBanderol`). It flies at about 500 km/h without weaving, low (about
+  100 m, following the ground four times as steeply as a Shahed) and speeds up to 650 km/h in
+  the dive onto its target. The Mi-24 can only get in its way: the R-60 sees it from 7 km from
+  any side, an interceptor drone is slower and is not launched at it. The Mi-17 calls it
+  "BANDEROL".
+- The AI Mi-24s of our flight over Ukraine (missions UKRAI*, Quickstart too) carry what the
+  player does not (`sim::WingArms`). With R-60s on the player's outer pylons they all have the
+  interceptor drones' rack, else the wingman (the first of them) has R-60s and the others the
+  interceptors. The R-60 wingman fires at a fast drone (a Banderol, a Geran-3) within 6 km and
+  90° of his heading that none of our R-60s is after yet, one at a time, waiting for the result.
+  The interceptors are launched by the crew as on the player's Hind, but at any drone other than
+  the Banderol, a Shahed too (an AI Hind has no door gun for it). Their rounds fly, hit and are
+  drawn as the player's, their stores hang under their wings (the drones left on the rack too)
+  and in a network game the other players see both. The kills count as the wingman's. In Quickstart their R-60s are reloaded as the player's are and the flight keeps
+  with the player from the start (order 2 Follow me), not along the mission's route; order 4
+  Resume flightplan sends it back onto it.
+- Interceptor drones (store code 30, ours): on the inner pylons a frame of six Litavr drones
+  (two tiers of three, the middle drone further forward), as the Ukrainian crews hang them
+  under a Mi-8 or Mi-17. On the Mi-24 it hangs under the wing between the pylons and back by the
+  trailing edge, the lower tier behind the wheel, so that the wing hides it from the GShG in the
+  door and it is not in its way. It takes the outer pylons too: nothing goes on them then (a
+  mission's stores there are left off); so the Pay screen offers it as "Both Pylons". A Litavr is a 1 m body like a rocket's, a camera with two lenses in the nose,
+  a cross of small fins at the tail, and instead of a rocket motor four arms in an X with
+  nacelles and pusher propellers. Each is slid onto two prongs that stay sticking out once it
+  is gone; the frame empties from the bottom. They are the crew's, not the pilot's: the door
+  gunner (the computer, while no player sits at a door) lets one go by himself only at a jet
+  Geran-3 within 5 km that none is after yet, leaving the slower Shaheds to his GShG. The pilot
+  can order him with G (outside the door view) to send one at his target (the WSO's, switched
+  with B, or the one the Hip calls) when it is an enemy drone within 5 km, a Shahed too; without
+  such a target at the nearest drone. While the gunner guides it (till it is 1 km from its target and goes on by
+  itself) his hands are full: he sends no other one and his GShG is silent; the other gunner's
+  is not. It hangs nose forward on the rack (a plane
+  with pusher props, not a quadcopter), so it goes off ahead and for the first second turns
+  gently away from the helicopter by itself; only then does it steer itself or the player fly
+  it. The interceptor flies at about 400 km/h (the real Litavr 350; we gave it more so it can
+  catch a Geran-3), steers itself (proportional navigation) and flies into its target (a
+  kinetic hit, a 0.5 kg warhead, going off within 4 m); when its target
+  is gone it takes the nearest other, its battery lasts two and a half minutes. D in the air
+  holds them as it holds the door guns. The pilot hears "INTERCEPTOR AWAY - 11 LEFT". All the
+  Ukrainian campaign's missions but The Swarm carry them, and so does the training mission "Operational Training - Interceptor Drones"
+  (`SARATT24`); on the Pay screen the frame lies on the concrete beside the GShG (the picture is
+  not the original's, the game draws it). A player at a door (F4, or a crew member over the network) launches and flies them himself,
+  though, and the computer then launches none: G sends an interceptor out and
+  the view goes to its camera (at night as an infra-red one, the hot engines glowing). The
+  picture comes over an analogue radio link: a little soft and grainy, with lines, and the
+  further the drone is from the helicopter the noisier (clean within 300 m, at 4 km full of
+  noise with torn rows). The mouse
+  is a stick then: where you push it, it stays, and the drone turns until you bring it back to
+  the centre (the ring round the cross is full deflection, the diamond the stick). Alt + arrows
+  and the hat turn it while held, over the network the arrows too. The joystick (a gamepad's
+  left stick) flies it as a plane, forward is down; the helicopter's cyclic meanwhile stays
+  where it was and back at the door goes back to the stick over a second. Button 1 (gamepad
+  B) picks the next target, button 2 (X) lets the drone go. It is a
+  plane: it takes a moment to bank into a turn (gently round the stick's centre, fully at its edge) and at full
+  speed turns no harder than about 6 g, a circle of some 200 m radius; slower its wings lift less,
+  so not even fresh off the rack does it turn tighter. At the top its speed, battery and how
+  many are left. The camera marks the enemy aircraft, helicopters and drones within 3 km ahead
+  with small corners. The one picked (at first the one nearest the middle of the picture, B the
+  next) is bracketed with its name and range. Once it is within 1 km the brackets close into a
+  box and "FIRE TO LOCK": the trigger locks the drone on it (the real Litavr's "Last Mile /
+  Pixel Lock"), and from then on it flies itself and the player's hands are free. The camera
+  watches the locked drone until it hits, the box with ticks at its corners and "LOCKED", and G
+  sends the next drone out straight away. In the drone's camera the trigger fires nothing
+  else. Not locked, it goes off by itself within 6 m of an enemy drone,
+  aircraft or helicopter. Flown into anything it goes off too: our own Mi-17 goes down,
+  another Mi-24 only when hit in the tail (from behind), elsewhere it takes the hit. In
+  our own Mi-24 it takes out the engine on that side (one engine gets you down, just about; a
+  second hit from the other side takes that one too), at the back the tail rotor; into the main
+  rotor's disc, or one time in five when its fragments fly up into the blades, it is the end. G again, F4 or any other view lets it go to find its target itself (a network player lets it go with G only) and the view goes
+  back to the door; when it goes off or its battery runs out, the view goes back by itself after
+  a moment.
+- The R-60's seeker sees the Geran-3's hot nozzle (like aircraft and helicopters) out to 7 km.
+  The faint, air-cooled piston engine of a Shahed or a Gerbera only from behind (within 60° of
+  its tail) out to 1.5 km, from elsewhere 600 m. Against Shaheds the gun is therefore the main
+  weapon. The `FAR` after the target's name on the HUD takes it into account.
+- The R-60 as in the original (manual p. 68): its seeker locks only on the target the WSO
+  holds (by himself, or with the keys T and B), once that is within 20° of the nose and in its
+  reach. The lock is confirmed by cross-hairs over the aiming reticle on the target. Without a
+  lock it leaves unguided, flies straight on and goes off where it hits. With the R-60
+  selected the WSO looks for fliers out to 7 km and prefers those the seeker can lock on;
+  holding one it cannot (say a Shahed going away), he moves to one it can by himself.
+- The R-60 has a model after photographs (`render::buildR60`, 2.09 m, `--sheet-model r60`): the
+  seeker's glass dome in an orange ring, small destabilisers and canards behind it, the white
+  body, at the tail four clipped delta wings with the rollerons' wheels, and the nozzle. So it
+  hangs on its APU-60 rail and so it is drawn in flight within 1.5 km (the motor's flame only for
+  the 3 s it burns); further off it stays a streak.
+- The 9M114 Shturm has a model in flight too, after a photograph (`render::buildShturm`, 1.83 m,
+  `--sheet-model 9m114`): olive green, an ogive nose with a silver band, the joints and a
+  fitting on its back, a steel band and the narrower tail with the four wrap-around fins sprung
+  out (a notch in each trailing edge), which spin it. It turns 11 times a second (the real one
+  8 to 15); at 60 frames a second the fins would strobe or seem to turn backwards, so they are
+  drawn smeared over one frame's roll. On the pylon it stays in its launch tubes.
+- Hot engines at night: the Geran-3's nozzle glows a dull orange even to the naked eye (out to
+  3 km). Through night vision (V, an image intensifier keen on the near infrared) it shines as a
+  bright spot with a bloom out to 8 km. A piston Shahed shows in night vision only as a faint
+  dot at its engine, out to 2.5 km. Jet aircraft nozzles glow the same; helicopters' turboshaft
+  exhausts (our Mi-24s' too) shine in night vision and the interceptor's camera as two bright
+  spots with a bloom.
+- The flight is a trio as with real crews: the player's Mi-24, a wingman Mi-24 and a Mi-17 that
+  searches for drones and reports the one nearest to the player: "HIP: SHAHED 2 O'CLOCK 4.3 KM
+  LOW"; a diamond shows it on the HUD (in all views; at night the only chance of finding it).
+  The call stays on the upper line of the message display while the drone flies, its clock,
+  distance and height worked out afresh as you fly, so you can fly to the drone by it; the
+  other messages take turns on the lower line. After a kill the Hip calls the next one at
+  once, and when it sees none it says "HIP: NO MORE CONTACTS".
+  When you move the route's points in planning, the wingman and the Mi-17 follow the new route
+  (the key `:Follow Player` in the mission). The Shaheds keep to their courses, though. The WSO
+  takes it as his target as soon as it is in his range, and the turret with its YakB gun aims
+  at it with lead (it turns only 60° to the side, though, so you have to fly behind it, not
+  beside it). The WSO takes the Hip's drone without a word: what and where is on the display
+  already.
+- The door gunner (GShG-7.62 from the Pay screen) fires on his own at an enemy he sees from his
+  window within 900 m, drones first: short bursts with tracers, aimed with lead. At a target in
+  the air, though, he fires only in good conditions, as real crews do: close (best within
+  120 m, not at all beyond 450 m), with a similar speed (a difference of 20 m/s is still good,
+  50 m/s already bad; a helicopter has no brakes) and from above (the drone at least 5 m lower,
+  best 25 m). The product of these three conditions gives how good the shot is. Below 0.3 he
+  does not fire and only keeps the drone in his sights. While the shot is getting better
+  because you are closing on the drone, he waits and saves ammunition. As soon as it stops
+  getting better or starts getting worse he fires, and once firing he does not stop. The worse
+  the shot, the more he misses. Flying alongside above a Shahed he brings it down within a
+  second; crossing, head on or from a hover he does not fire. At the top right of the HUD is
+  how good a shot they have when an enemy drone is within 1 km: `DOOR L FIRE`/`WAIT`/`HOLD`
+  (the doors from which they reach it, or `NOT IN FIELD`) with a quality bar and a mark at 0.3,
+  under it each condition separately with a bar and a number to fly by: `RNG` the distance in
+  m, `SPD` how many km/h faster the drone is (+ add power, − reduce; `V` its climb relative to
+  us in m/s), `LOW` how many m it is below the helicopter. The indicator is turned off by the
+  "Gunner hints" switch in the list of missions (key H) or `[hud] gunner_hints = 0` in
+  hind.ini; the game remembers the choice. The Pay plan takes on the left, the right or both
+  gunners. Their guns are visible from outside too, turned where they aim. On the original's
+  model the doors are then open, showing the grey-green cabin with its seats and the gunner
+  sitting behind his gun on its post by the floor. The other players of a network game see the
+  other Hinds so too.
+- The Shaheds can be heard: a high-revving two-stroke (about 230 exhaust pulses a second,
+  irregular, rasping, now and then missing) with a cutting pusher propeller. The original does
+  not have this sound, so the game synthesises it. It is played from the drone's place by
+  distance, outside up to about 3 km, in the cockpit under the rotor less. Its pitch changes by
+  the Doppler effect, so an approaching drone sounds higher and a receding one lower. At most
+  the three nearest are heard.
+- The missions are at night (moon, stars), one in fog over the river, one without the Mi-17.
+  By day the hunt can be tried in training: the last training mission "Operational Training -
+  Drone Interception" (`data/missions/SARATT21`, at 11:00 with a Mi-17, three Shaheds at the
+  airfield) with a briefing on how to do it. For playing with more people there is "Operational
+  Training - Drone Swarm" (`SARATT22`) after it: at noon 24 Shaheds in four waves of six and 4
+  Gerberas at the airfield and the town. The patrol line is only 8 km from the airfield, the
+  first wave reaches it about two and a half minutes after takeoff and the next ones come every
+  two and a half minutes.
 
-### Rozkazy wingmanovi
+### Orders to the wingman
 
-Jako v originálu (manuál str. 28) dostává AI wingman, tedy druhý Hind mise, rozkazy klávesami
-Ctrl+1 až Ctrl+4. Celá formace je dostává klávesami Shift+1 až Shift+4: všechny naše vrtulníky ve
-vzduchu, i Mi-17 v misích se Shahedy. Odpoví rádiem hlasem z originálu („Hind leader, I'm following
-you“, ve formaci „we're…“) a na displeji pod HUD.
+As in the original (manual p. 28), the AI wingman, the mission's second Hind, takes orders with
+Ctrl+1 to Ctrl+4. The whole formation takes them with Shift+1 to Shift+4: all our helicopters in
+the air, the Mi-17 too in the Shahed missions. He answers by radio with the original's voice
+("Hind leader, I'm following you", in formation "we're…") and on the display under the HUD.
 
-| Rozkaz | Co udělá |
+| Order | What he does |
 |---|---|
-| 1 Go home | letí na místo, odkud vzlétl, a přistane tam |
-| 2 Follow me | drží se 60 m vpravo a 40 m za tebou, další ve formaci vždy o kus dál; když zaostává, přidá |
-| 3 Attack my target | letí na cíl tvého WSO, případně ten, který hlásí Mi-17. Na dron, letadlo nebo vrtulník zaútočí kanónem z 400 m, na pozemní cíl raketami z 1,5 km. Když cíl padne, zase tě následuje |
-| 4 Resume flightplan | vrátí se na svou trasu z mise |
+| 1 Go home | flies to where he took off from and lands there |
+| 2 Follow me | keeps 60 m to your right and 40 m behind you, each next one in the formation a bit further; when he falls behind he speeds up |
+| 3 Attack my target | flies at your WSO's target, or the one the Mi-17 reports. A drone, an aircraft or a helicopter he attacks with the gun from 400 m, a ground target with rockets from 1.5 km. When the target falls he follows you again |
+| 4 Resume flightplan | returns to his route from the mission |
 
-V síťové hře jsou Ctrl+číslo zprávy mezi hráči, rozkazy tam proto jdou jen přes Shift (celé
-formaci).
+In a network game Ctrl+number sends messages between players, so orders there go only with
+Shift (to the whole formation).
 
-Naše ostatní Hindy do 5 km, tedy AI wingman i Hindy ostatních hráčů po síti, má HUD označené
-malým kroužkem s čárkou nahoru, aby se ve vzduchu daly najít.
+Our other Hinds within 5 km, the AI wingman and other players' Hinds over the network, are
+marked on the HUD with a small circle with a tick upwards, so they can be found in the air.
 
-### Průzkum a laserové označování
+### Reconnaissance and laser designation
 
-- **Průzkum** (body typu 6 v datech mise, v plánu X, Y): nad bodem stiskněte R a pár sekund
-  zůstaňte v dosahu (1,5 km). Řízení letu odpoví „good / bad reconnaissance data“. U průzkumných
-  misí je podmínkou úspěchu nahlásit všechny body.
-- **Laserové označování** (bombardér MiG-27 s laserem naváděnými pumami, úkol typu 18): asi 40 s
-  před shozem se ozve „Hind leader, laser designate“. Laser musí ozařovat cíl u jeho bodu (X).
-  Buď cíl zaměřený WSO (T nebo silikonový WSO), nebo bez cíle místo, kam se díváte zaměřovačem,
-  pokud je v zorném poli laseru (±14° od nosu, 20° nahoru, 60° dolů). Pak přijde „target
-  illuminated“, v bodě shozu „bombs away“ a asi 30 s nato pumy dopadnou tam, kam laser právě
-  míří. Pokud laser cíl ztratil, pumy minou. Úspěch ohlásí „Comrade, mission accomplished“.
-  Pak se letí domů.
+- **Reconnaissance** (points of type 6 in the mission's data, X, Y in the plan): over the point
+  press R and stay in range (1.5 km) for a few seconds. Flight control answers "good / bad
+  reconnaissance data". In reconnaissance missions reporting all the points is a condition of
+  success.
+- **Laser designation** (a MiG-27 bomber with laser-guided bombs, task type 18): about 40 s
+  before the drop "Hind leader, laser designate" is heard. The laser has to illuminate the
+  target at its point (X). Either the target locked by the WSO (T or the silicon WSO), or
+  without a target the place you look at through the sight, if it is in the laser's field
+  (±14° from the nose, 20° up, 60° down). Then comes "target illuminated", at the drop point
+  "bombs away", and about 30 s later the bombs fall where the laser is aiming at that moment.
+  If the laser has lost the target, the bombs miss. Success is announced by "Comrade, mission
+  accomplished". Then you fly home.
 
-### Výsadek a evakuace
+### Troop drop and evacuation
 
-Kdo kde sedí a kdo na koho čeká, berou mise přímo z dat originálu: vrtulník má číslo nákladu
-(`:Drone cargo`, hráč 1), skupiny vojáků číslo vrtulníku (`:Drone onboard`). Skupina s trasou
-od bodu 15 sedí v kabině a vystoupí tam, skupina končící bodem 14 tam čeká na vyzvednutí. Míst
-může být víc (piloti na třech místech v KOREAS06). Přistaňte do 300 m od místa a otevřete dveře
-klávesou D. Dveře se otevřou rovnou, bez animace, jako v originálu: horní křídla nahoru, dolní
-dolů jako schůdek.
+Who sits where and who waits for whom the missions take straight from the original's data: a
+helicopter has a cargo number (`:Drone cargo`, the player 1), groups of soldiers a helicopter's
+number (`:Drone onboard`). A group with a route from point 15 sits in the cabin and gets out
+there, a group ending at point 14 waits there to be picked up. There can be more places (pilots
+in three places in KOREAS06). Land within 300 m of the place and open the doors with the D key.
+The doors open at once, without animation, as in the original: the upper leaves up, the lower
+down as a step.
 
-- **Výsadek:** vojáci vyskakují jeden po druhém z kabiny (podlaha je výš než zem, tak
-  poskočí), poodejdou od vrtulníku a pak jdou dál po své trase z mise. Palubní technik
-  hlásí „Troop deployed“.
-- **Evakuace:** čekající přicházejí, každá nosítka nesou dva vojáci, a vyskočí do kabiny.
-  Hlášení „Casualties aboard“ nebo „Troops aboard“. Doma se po otevření dveří ranění vynesou
-  („Casualties removed“).
-- Dveře otevřené jinde: „Wrong deployment area“ nebo „Wrong boarding area“.
-- Wingmani a Hipy vysadí a naberou svoje vojáky sami, když u jejich místa dosednou.
-- Podmínkou úspěchu je počet vysazených a naložených mužů z mise (`:Humans deployed count`,
-  `:Humans loaded count`). Mise končí přistáním doma.
+- **Drop:** the soldiers jump out of the cabin one after another (the floor is above the
+  ground, so they hop), walk away from the helicopter and then go on along their route from
+  the mission. The flight engineer reports "Troop deployed".
+- **Evacuation:** those waiting come up, each stretcher carried by two soldiers, and jump into
+  the cabin. The call is "Casualties aboard" or "Troops aboard". At home, after the doors open,
+  the wounded are carried out ("Casualties removed").
+- Doors opened elsewhere: "Wrong deployment area" or "Wrong boarding area".
+- Wingmen and Hips drop and pick up their soldiers themselves when they touch down at their place.
+- The condition of success is the mission's number of men deployed and loaded
+  (`:Humans deployed count`, `:Humans loaded count`). The mission ends by landing at home.
 
-Postavy jsou kloubové figury originálu (`Russian_Soldier_AK_47`, `Test_Human_Figure`,
-`Casualty_on_Stretcher`). Při chůzi se jim kývají nohy i paže.
+The figures are the original's jointed figures (`Russian_Soldier_AK_47`, `Test_Human_Figure`,
+`Casualty_on_Stretcher`). Their legs and arms swing as they walk.
 
-### Nepřítel střílí
+### The enemy fires
 
-Ozbrojené jednotky nepřítele zahájí palbu, když vrtulník vidí přes terén a mají ho na dostřel.
-Nejdřív si ho pár sekund prohlížejí, pak střílí. Na vrtulník stojící na zemi nestřílí, na
-cvičišti (`--mission none`) nestřílí vůbec.
-- **AK-47** do 550 m: krátké dávky, proti pancéřované kabině a motorům skoro neškodné.
-- **Kulomet DŠK** do 1,5 km: dávky se zelenými stopovkami. Mířidla dávají předsazení. Na
-  visící vrtulník se kulometčík rychle zastřílí, při rychlém přeletu napříč hodně míjí.
-- **RPG-7** do 700 m na nízko letící vrtulník: granát se po 920 m sám odpálí a střepiny
-  zasáhnou do 12 m.
-- **Strela-2** (SA-7), zezadu ze 3 km, z boku ze 2 km, zepředu z 1 km. Na výfucích jsou tlumiče
-  EVU, střelu má připravenou jen část mužů. Posádka hlásí „MISSILE LAUNCH 5 O'CLOCK“.
-- **Radarové kanóny** do 4 km a **Rapier** do 6,5 km (ten jde po povelu a klamné cíle na něj
-  neplatí).
-- **Stíhačky** (MiG, F-16, Su-25) ze 7 km a **bitevní vrtulníky** (AH-64, AH-1, nepřátelské Mi-24)
-  ze 4 km: když vrtulník uvidí, opustí trasu mise a zaútočí. Stíhačka nalétává zezadu, střílí
-  kanónem na přídi z 1,2 km, proletí, odletí pár sekund dál a otočí se k dalšímu náletu.
-  Bitevní vrtulník se přiblíží na dostřel kanónu ve věži (do 1,5 km, věž otočná o 110° na obě
-  strany) a drží se tam. Oba mají dvě rakety s infračerveným naváděním (Sidewinder, R-60,
-  Stinger): odpalují je zepředu na 1–5 km a z různých směrů je zachytí jako Strelu (klamné
-  cíle a rušič fungují). Když nemají koho napadnout, vrátí se na svou trasu, kde ji opustili.
+The enemy's armed units open fire when they see the helicopter over the terrain and have it in
+range. First they look at it for a few seconds, then they fire. They do not fire at a
+helicopter standing on the ground, and on the training range (`--mission none`) not at all.
+- **AK-47** within 550 m: short bursts, almost harmless against the armoured cockpit and the
+  engines.
+- **DShK machine gun** within 1.5 km: bursts with green tracers. The sights give lead. A
+  hovering helicopter the gunner quickly finds the range of; a fast crossing pass he misses
+  a lot.
+- **RPG-7** within 700 m at a low-flying helicopter: the grenade self-destructs after 920 m and
+  its fragments hit within 12 m.
+- **Strela-2** (SA-7), from behind from 3 km, from the side from 2 km, from the front from 1 km.
+  The exhausts have EVU suppressors, and only some of the men have a missile ready. The crew
+  calls "MISSILE LAUNCH 5 O'CLOCK".
+- **Radar guns** within 4 km and **Rapier** within 6.5 km (it is command guided and flares do
+  not work against it).
+- **Fighters** (MiG, F-16, Su-25) from 7 km and **attack helicopters** (AH-64, AH-1, enemy
+  Mi-24s) from 4 km: when they see the helicopter they leave the mission's route and attack. A
+  fighter comes in from behind, fires its nose cannon from 1.2 km, passes, flies a few seconds
+  on and turns for another pass. An attack helicopter closes to the range of its turret gun
+  (within 1.5 km, the turret turning 110° each way) and stays there. Both have two infrared
+  guided missiles (Sidewinder, R-60, Stinger): they fire them from the front at 1–5 km, and
+  from various directions they acquire like a Strela (flares and the jammer work). When they
+  have no one to attack, they return to their route where they left it.
 
-Poškození: zásahy ubírají drak, motory a vyrovnávací rotor.
-- Poškozený motor kouří a hoří, při požáru se rozsvítí FIRE, při vysazení ENG1 / ENG2.
-- S jedním motorem zbývá asi 60 % výkonu (78 % na ukazateli).
-- Bez vyrovnávacího rotoru jsou pedály mrtvé a vrtulník se roztáčí. Pomůže jen dopředná
-  rychlost (kýl) a ubrat výkon.
-- Proděravělá nádrž ztrácí palivo.
-- Když drak klesne na 0 %, je vrtulník sestřelen a padá; nepřistane, při dopadu na zem vybuchne
-  a rozletí se na kusy (i ostatní Hindy síťové hry).
-- Srážka ve vzduchu s vrtulníkem, letadlem nebo dronem skončí jako v originálu havárií obou
-  („MID-AIR COLLISION“). U vrtulníku se počítá i dosah listů rotoru, u našeho Mi-24 nos, ocas,
-  konce křídel a konce listů.
-- Zásah, který projde pláštěm, může vyřadit systém. V kokpitu se rozsvítí jeho kontrolka podle
-  manuálu (str. 33, Failure warning lights) a na displeji se ukáže hláška „... FAILURE“. Co se
-  pokazí, záleží na místě zásahu: v nose senzory a kanón, za kabinami avionika, vzadu nahoře
-  rušič, dole podvozek.
+Damage: hits take away from the airframe, the engines and the tail rotor.
+- A damaged engine smokes and burns; in a fire FIRE lights up, at a flameout ENG1 / ENG2.
+- With one engine about 60 % of the power is left (78 % on the gauge).
+- Without the tail rotor the pedals are dead and the helicopter spins. Only forward speed
+  (the fin) and less power help.
+- A holed tank loses fuel.
+- When the airframe falls to 0 %, the helicopter is shot down and falls; it does not land, on
+  reaching the ground it blows up and breaks apart (also the other Hinds of a network game).
+- A mid-air collision with a helicopter, an aircraft or a drone ends, as in the original, in a
+  crash of both ("MID-AIR COLLISION"). For a helicopter the reach of the rotor blades counts
+  too, for our Mi-24 the nose, the tail, the wing tips and the blade tips.
+- A hit that goes through the skin can knock out a system. In the cockpit its warning light
+  comes on as in the manual (p. 33, Failure warning lights) and the display shows "...
+  FAILURE". What breaks depends on where the hit is: in the nose the sensors and the gun,
+  behind the cockpits the avionics, at the top rear the jammer, at the bottom the gear.
 
-  | Kontrolka | Co přestane fungovat |
+  | Light | What stops working |
   |---|---|
-  | NAV | navigační počítač: HUD a HSI neukazují bod trasy, posádka ho nehlásí |
-  | COM | rádio: neozve se řízení letu ani Mi-17 (žádná hlášení dronů) |
-  | JAM | infračervený rušič: Strely už nesvádí |
-  | TWI | výstraha před ozářením: RWR nesvítí a Natasha mlčí |
-  | HUD | HUD pilota zhasne |
-  | LLTV | noční vidění (V) |
-  | FLIR | zvětšení zaměřovače střelce |
-  | GUN | kulomet Jak-B nestřílí |
-  | HMTD | věž nesleduje pohled střelce a nefunguje T |
-  | LAS | laser: nedálkoměří a neoznačuje cíl pro bombardéry |
-  | U/C | podvozek zůstane, kde byl |
+  | NAV | the navigation computer: the HUD and HSI do not show the route's point, the crew does not call it |
+  | COM | the radio: neither flight control nor the Mi-17 is heard (no drone reports) |
+  | JAM | the infrared jammer: it no longer decoys Strelas |
+  | TWI | the threat warning: the RWR does not light up and Natasha is silent |
+  | HUD | the pilot's HUD goes dark |
+  | LLTV | night vision (V) |
+  | FLIR | the gunner's sight magnification |
+  | GUN | the Yak-B machine gun does not fire |
+  | HMTD | the turret does not follow the gunner's look and T does not work |
+  | LAS | the laser: no ranging and no designating targets for the bombers |
+  | U/C | the gear stays where it was |
 
-  Dál svítí TORQ (přetížení), RPM (nízké otáčky rotoru) a FUEL (málo paliva nebo
-  proděravělá nádrž). Které kontrolky v originálu odpovídají LLTV a FLIR, není jisté, přiřazení
-  je náš odhad.
+  Also lit are TORQ (overtorque), RPM (low rotor speed) and FUEL (low fuel or a holed tank).
+  Which lights in the original stand for LLTV and FLIR is not certain; the assignment is our
+  guess.
 
-Při havárii Hind vybuchne a rozpadne se na díly, ze kterých ho skládá originál: střed trupu
-s podvozkem a věží, obě poloviny přídě, zadní trup, ocasní nosník, ocas, křídla a rotory. Díly
-odletí výbuchem a rychlostí nárazu, převracejí se, odskakují od země a zůstanou ležet u
-hořícího vraku. Jako v originálu
-se pohled přepne ven a kamera pomalu krouží kolem místa havárie; po novém startu se vrátí
-do sedadla, ve kterém byla.
+In a crash the Hind explodes and breaks into the parts the original builds it from: the middle
+of the fuselage with the gear and the turret, both halves of the nose, the rear fuselage, the
+tail boom, the tail, the wings and the rotors. The parts fly off with the blast and the speed
+of the impact, tumble, bounce off the ground and come to rest by the burning wreck. As in the original, the
+view switches outside and the camera slowly circles the crash site; after a restart it returns
+to the seat it was in.
 
-Ve vnějším pohledu je vlevo dole poškození (`DMG`) a klamné cíle.
+In the external view the damage (`DMG`) and the flares are at the bottom left.
 
-Obrana:
-- **F**: salva čtyř klamných cílů (ASO-2V, 128 nábojů). Odpálené hned po hlášení odpalu
-  odlákají většinu Strel.
-- **K**: infračervený rušič L-166 (kontrolka JAM, po startu zapnutý), zmate asi třetinu Strel.
+Defence:
+- **F**: a salvo of four flares (ASO-2V, 128 cartridges). Fired right after a launch call they
+  decoy most Strelas.
+- **K**: the L-166 infrared jammer (JAM light, on after takeoff) confuses about a third of
+  the Strelas.
 
-Ve vyhodnocení je, čím byl vrtulník sestřelen. Pro představu na misi C01, celá trasa nad
-nepřítelem bez boje: nízko (30 m) a pomalu (150 km/h) skoro jistá smrt, 220 km/h v 50 m nebo
-150 km/h ve 150 m se většinou dá přežít s polovičním poškozením.
+The debriefing says what shot the helicopter down. For an idea, on mission C01, the whole
+route over the enemy without fighting: low (30 m) and slow (150 km/h) is almost certain death,
+220 km/h at 50 m or 150 km/h at 150 m is mostly survivable with half damage.
 
-Taktika: držet se mimo dosah (Šturm z 3–4 km), nevisět nad nepřítelem, nízko za terénem,
-klamné cíle při každém hlášení odpalu.
+Tactics: stay out of range (Shturm from 3–4 km), do not hover over the enemy, low behind the
+terrain, flares at every launch call.
 
-Nepřítel bojuje i s našimi jednotkami a ty mu palbu opětují: ozbrojená jednotka každé strany si
-vybere nejbližší jednotku druhé strany, kterou vidí a má v dosahu (kolony, Hipy, vojáky, lodě),
-a dávku po dávce, raketu po raketě ji ničí. Tanky střílí kanónem na 2 km (jen po zemi), obrněnci
-kulometem, vojáci puškami, protiletadlová obrana i na letadla, bitevní vrtulníky a stíhačky
-kanónem. Naši zasahují s 60 % úspěšnosti nepřítele (bitvu má vyhrát hráč). Jednotlivé
-střely se nepočítají, každá dávka zasáhne s pravděpodobností klesající se vzdáleností (a proti
-rychle letícímu letadlu), škoda je podle pancéřování, vojáci v krytu vydrží víc. Boj se rozhoří
-jen do 5 km od hráče, takže bitva, kam je poslán, ještě probíhá, když tam doletí. Naše proudová
-letadla odlétají své nálety bez ztrát. Bez zásahu hráče padnou obklíčení vojáci v Barikot Breakout
-asi za minutu a půl, kolona v Relief of Barikot za sedm minut. Doprovod a obranu tak jde prohrát.
-Jak rychle to nechá umírat originál, zatím nevíme.
+The enemy also fights our units, and they return fire: an armed unit of each side picks the
+nearest unit of the other side that it sees and has in range (convoys, Hips, soldiers, ships)
+and destroys it burst by burst, rocket by rocket. Tanks fire their guns out to 2 km (only along
+the ground), armoured vehicles their machine guns, soldiers their rifles, air defence at
+aircraft too, attack helicopters and fighters their guns. Ours hit the enemy with 60 % success
+(the battle is for the player to win). Single rounds are not counted; each burst hits with a
+probability falling with distance (and against a fast aircraft), the damage goes by armour, and
+soldiers in cover last longer. Fighting flares up only within 5 km of the player, so the battle
+he is sent to is still going on when he gets there. Our jets fly their strikes without losses.
+Without the player stepping in, the surrounded soldiers in Barikot Breakout fall in about a
+minute and a half, the convoy in Relief of Barikot in seven minutes. Escort and defence can
+thus be lost. How fast the original lets them die we do not know yet.
 
-Denní doba a počasí jsou podle mise (čas startu a `:Weather Condition`: 0 jasno, 1 zataženo,
-2 slabá mlha, 3 hustá mlha), ve volném letu podle `[world] hour` a `weather`. Slunce vychází
-v šest na východě a zapadá ve 20:30 na západě, v poledne je asi 58° vysoko. V noci je tma s hvězdami a krajinu slabě modře nasvítí měsíc. Kokpit je
-za svítání a soumraku plně osvětlený, ztlumí se až za tmy (přístroje svítí dál). Při zatažené
-obloze a v mlze je obloha šedofialová podle palety originálu `3DDATA/OVERCAST.RGB` a celý svět
-(obloha i zem) ztmavne rovnoměrně bez červeného nádechu, za svítání v šest asi na polovinu
-(podle snímků SARATT04 z originálu). Mlha zkrátí dohled (slabá asi na 3,5 km, hustá na 1,2 km).
-Čas během mise běží, takže večerní mise se stmívá. Ve 20:30 je jako v originálu ještě šero:
-obloha modrošedá, zem rovnoměrně asi na 40 % denního jasu, bez hvězd a bez červeného nádechu.
+The time of day and weather are by the mission (the start time and `:Weather Condition`: 0
+clear, 1 overcast, 2 light fog, 3 thick fog), in free flight by `[world] hour` and `weather`.
+The sun rises at six in the east and sets at 20:30 in the west, at noon it is about 58° high.
+At night it is dark with stars and the moon lights the landscape faintly blue. The cockpit is
+fully lit at dawn and dusk and dims only in the dark (the instruments keep glowing). In
+overcast and fog the sky is grey-violet by the original's palette `3DDATA/OVERCAST.RGB`, and the
+whole world (sky and ground) darkens evenly without a red tinge, at dawn at six to about half
+(after screenshots of SARATT04 from the original). Fog shortens the view (light to about
+3.5 km, thick to 1.2 km). Time runs during the mission, so an evening mission gets dark. At
+20:30 it is still twilight, as in the original: the sky blue-grey, the ground evenly at about
+40 % of the daylight brightness, without stars and without a red tinge.
 
-Vrtulníky a letadla vrhají za slunečného dne stín jako v originálu: jejich silueta se položí
-po směru slunce na zem pod nimi. Trup ztmaví zem rovnoměrně, točící se rotor dělá tečkovaný
-disk (každý druhý pixel), stojící rotor stín listů. Kde se stíny překrývají, ztmaví se zem
-jen jednou. Za letu leží stín kus vedle podle výšky slunce. V noci, za šera a pod mraky
-stíny nejsou, kreslí se do 4 km od oka.
+On a sunny day helicopters and aircraft cast shadows as in the original: their silhouette is
+laid along the sun's direction on the ground under them. The fuselage darkens the ground
+evenly, a turning rotor makes a dotted disc (every other pixel), a stopped rotor the shadow of
+its blades. Where shadows overlap, the ground is darkened only once. In flight the shadow lies
+off to the side by the sun's height. At night, in twilight and under clouds there are no
+shadows; they are drawn up to 4 km from the eye.
 
-V hluboké noci (23:00, podle snímků SCUD Hunting z originálu) je obloha skoro černá a zem jen
-tmavě šedá. Pohyblivá mapa v kokpitu je za tmy také tmavá, jako v originálu: země zčerná,
-voda zůstane modrá a čáry svítí dál. Od soumraku svítí na drahách světla: bílá po okrajích
-každých 30 m a zelená řada přes každý konec. Hvězdy a měsíc jako světlý srpek na obloze
-originál nemá, remake je přidává. Hvězdy jsou skutečné: asi 2900 hvězd do 5,5 magnitudy
-z Yale Bright Star Catalogue (`src/render/stars.inc`, generuje ho `tools/stars.py`). Stojí tam,
-kde nad oblastí opravdu jsou: v Afghánistánu na 34,5° s. š., v Kazachstánu na 47°, v Koreji
-na 38°, v Saratově na 51,5° a na Ukrajině na 49,5°, vždy za letní noci 1. července. Polárka
-je nad severem ve výšce zeměpisné šířky a obloha se během noci otáčí. Jas a velikost hvězd
-odpovídají magnitudě, barva barevnému indexu (Antares je oranžový, Rigel modrobílý).
+In deep night (23:00, after screenshots of SCUD Hunting from the original) the sky is almost
+black and the ground only dark grey. The moving map in the cockpit is dark at night too, as in
+the original: the land turns black, water stays blue and the lines keep glowing. From dusk the
+runways have lights: white along the edges every 30 m and a green row across each end. The
+original has no stars, and no moon as a light crescent in the sky; the remake adds them. The
+stars are real: about 2900 stars down to magnitude 5.5 from the Yale Bright Star Catalogue
+(`src/render/stars.inc`, generated by `tools/stars.py`). They stand where they really are over
+the zone: in Afghanistan at 34.5° N, in Kazakhstan at 47°, in Korea at 38°, in Saratov at 51.5°
+and in Ukraine at 49.5°, always on a summer night of 1 July. Polaris is over the north at the
+height of the latitude, and the sky turns during the night. The stars' brightness and size go
+by magnitude, their colour by colour index (Antares is orange, Rigel blue-white).
 
-Barva země oblastí: paleta originálu (`3DPAL.RGB`, pro všechny oblasti stejná) má v obou
-škálách země béžovou Afghánistánu; jiný je jen `FOG.RGB` oblasti, jehož položky 4 a 8 dávají
-barvu země v dálce. Škály se proto přebarví posunem odstínu, sytosti a jasu od výchozího
-`3DDATA/FOG.RGB` k barvě oblasti (Saratov, Kazachstán a Korea olivově zelené, jako na snímcích
-originálu), body bez vlastní barvy (255, jen textura) dostanou barvu země oblasti.
+The zones' ground colour: the original's palette (`3DPAL.RGB`, the same for all zones) has the
+beige of Afghanistan in both of its ground ramps; only the zone's `FOG.RGB` differs, whose
+entries 4 and 8 give the colour of the ground in the distance. The ramps are therefore
+recoloured by shifting hue, saturation and brightness from the default `3DDATA/FOG.RGB` to the
+zone's colour (Saratov, Kazakhstan and Korea olive green, as in the original's screenshots);
+points without a colour of their own (255, texture only) get the zone's ground colour.
 
-Noční vidění (V) zbarví celou obrazovku, výhled, kokpit i HUD, do jedné tyrkysové škály podle
-jasu: pixel jasu L (0–255) má barvu (0, 40 + L, 40 + L), změřeno na snímcích originálu se
-zapnutým a vypnutým viděním. Jako v originálu nic nezesvětlí, jen přebarví.
-Zatím chybí: minomety. Mudžahedíni je v misích mají, ale nestřílí z nich.
+Night vision (V) tints the whole screen, the view, the cockpit and the HUD, into one turquoise
+ramp by brightness: a pixel of brightness L (0–255) has the colour (0, 40 + L, 40 + L), measured
+on screenshots of the original with vision on and off. As in the original it brightens
+nothing, it only recolours.
+Still missing: mortars. The mujahideen have them in the missions, but they do not fire them.
 
-Mapa oblasti je mřížka 257 × 257 bodů po 4096 stopách (asi 1,25 km), takže celá oblast
-měří zhruba 320 × 320 km. Výšky jsou ve stopách a dna údolí a řek mají v originále výšku 0,
-proto se celá krajina zvedá o 300 m, aby se nic nepočítalo jako moře. Barvy terénu jsou
-z palety oblasti. Mezi body se terén interpoluje a přidává se drobný procedurální reliéf.
-Formát je popsaný v `src/gamedata/zone.hpp`.
+The zone's map is a grid of 257 × 257 points 4096 feet apart (about 1.25 km), so the whole zone
+measures roughly 320 × 320 km. Heights are in feet and the bottoms of valleys and rivers have
+height 0 in the original, so the whole landscape is raised by 300 m to keep anything from
+counting as sea. The terrain's colours are from the zone's palette. Between the points the
+terrain is interpolated and a little procedural relief is added. The format is described in
+`src/gamedata/zone.hpp`.
 
 ## Pilot's Log
 
-Deník pilotů jako v originálu (manuál str. 13–14), s obrázky originálu (`MENUSCRN/LOG.LBM`,
-`PRM_*.LBM`, `MED_*.LBM`). Otevře se tlačítkem Pilot's Log v hlavním menu (L) nebo GoTo → Logs.
-Je v něm až 10 pilotů. První je Comrade Immortal, kterému se nic nestane. Další pilot se
-založí tlačítkem Create (jméno se napíše a potvrdí Enterem), Rename ho přejmenuje, Delete
-smaže. Kliknutím nebo šipkami se vybere pilot, který bude létat.
+The pilots' log as in the original (manual pp. 13–14), with the original's pictures
+(`MENUSCRN/LOG.LBM`, `PRM_*.LBM`, `MED_*.LBM`). It opens with the Pilot's Log button in the main
+menu (L) or GoTo → Logs. It holds up to 10 pilots. The first is Comrade Immortal, to whom
+nothing happens. Another pilot is created with the Create button (type the name and confirm
+with Enter), Rename renames him, Delete deletes him. A click or the arrows select the pilot who
+will fly.
 
-Deník u pilota vede nálet, bojový nálet (bez výcvikových misí), počty misí (všech, bojových,
-outstanding, úspěšných, neúspěšných) a stav kampaní (Inactive, Active, Won). Hodnost roste
-s počtem odlétaných misí: Sergeant 0, Lieutenant 5, Captain 15, Major 30, Colonel 50.
-Medaile:
-- Řád rudé hvězdy za dvě vyhrané kampaně, nebo za jednu a 10 vyhraných samostatných misí.
-- Leninův řád za tři kampaně, nebo za dvě a 20 misí.
-- Zlatá hvězda Hrdiny SSSR za tři kampaně a 30 misí.
+For each pilot the log keeps flying hours, combat hours (without training missions), mission
+counts (all, combat, outstanding, successful, failed) and the state of the campaigns (Inactive,
+Active, Won). The rank grows with the number of missions flown: Sergeant 0, Lieutenant 5,
+Captain 15, Major 30, Colonel 50. Medals:
+- Order of the Red Star for two won campaigns, or for one and 10 won single missions.
+- Order of Lenin for three campaigns, or for two and 20 missions.
+- Gold Star of the Hero of the USSR for three campaigns and 30 missions.
 
-Povýšení a novou medaili hra po zápisu ukáže na obrázku z originálu, kliknutím nebo klávesou
-se pokračuje. Uloženo je v `pilotlog.txt` vedle `hind.ini`.
+A promotion and a new medal the game shows after writing them, on the original's picture; a
+click or a key goes on. It is saved in `pilotlog.txt` next to `hind.ini`.
 
-Po debriefingu samostatné nebo výcvikové mise se hra zeptá „Do you wish to log this
-mission?“:
-- **Yes (Y, Enter):** misi zapíše.
-- **Retry (R):** hned ji poletí znovu bez zápisu.
-- **No (N, Esc):** misi zahodí.
+After the debriefing of a single or training mission the game asks "Do you wish to log this
+mission?":
+- **Yes (Y, Enter):** writes the mission.
+- **Retry (R):** flies it again at once without writing it.
+- **No (N, Esc):** discards the mission.
 
-Mise kampaně se zapíší vždy. Přerušená mise (Ctrl+Q), volný let a hra po síti se nezapisují.
+Campaign missions are always written. An aborted mission (Ctrl+Q), free flight and network
+games are not.
 
-Havárie má následky jako v originálu, jen pro Comrade Immortal ne. Tvrdý dopad nebo sestřel
-pilota zabije: Killed In Action, ve výcviku Killed In Training. Pak už se mu nic nezapíše. Kdo
-havárii přežije, je 24 skutečných hodin zraněný, nebo 48 hodin nezvěstný, pokud je do 5 km
-nepřítel. Po tu dobu se mu mise nezapisují.
+A crash has consequences as in the original, only not for Comrade Immortal. A hard impact or
+being shot down kills the pilot: Killed In Action, in training Killed In Training. After that
+nothing more is written for him. Whoever survives a crash is wounded for 24 real hours, or
+missing for 48 hours if the enemy is within 5 km. During that time his missions are not written.
 
-Rozdíly proti originálu, které ještě porovnáme: originál má uživatele s deseti piloty každý
-(tady jeden seznam) a zajetí (POW) po opuštění mise na nepřátelském území. Nevíme taky
-přesně, které mise se počítají do hodnosti.
+Differences from the original that we will still compare: the original has users with ten
+pilots each (here one list) and capture (POW) after leaving a mission over enemy territory. We
+also do not know exactly which missions count towards the rank.
 
-## Hra po síti (pilot a střelec)
+## Network play (pilot and gunner)
 
-### Z menu: Flight → Network
+### From the menu: Flight → Network
 
-Tlačítko Network (i Two Player) v menu Flight otevře obrazovku síťové hry, tedy originální
-`NETWORK.LBM`:
-- **Vlevo** jsou hry, které se ozývají v místní síti. U každé je jméno hry, její pilot, jeho
-  wingmani a kdo sedí u zaměřovače a u levých a pravých dveří.
-- **Vpravo** jsou ocelové lišty:
-  - **Your name** a **Game** jsou tvoje jméno a jméno hry. Píšou se rovnou do lišty, Enter je
-    potvrdí a hra si je pamatuje v `hind.ini`. Výchozí jméno je jméno pilota z deníku.
-  - **Host this game** hru založí. Pak se vybírá mise jako obvykle a dole v menu je vidět, kdo
-    se připojil. Znovu stisknuté (Stop hosting) hru zavře.
-  - **Seat** vybírá místo: Pilot (vlastní Hind jako wingman), Gunner (zaměřovač), Left door gun,
-    Right door gun. Člen posádky na svém místě zůstane: vnější pohledy může přepínat, na pilotovo ani střelcovo
-    sedadlo ne. Střelec u dveří může klávesou F4 přejít k druhým dveřím, když tam kulomet je a nikdo u něj nesedí. O místech rozhoduje hra pilota: kdo přijde k obsazeným dveřím později, přejde bez ptání k druhým, a když jsou obsazené oboje nebo místo střelce, vrátí se do menu se zprávou.
-  - **Join** připojí k hře vybrané vlevo (také dvojklik nebo Enter). **By address** připojí
-    k zadané adrese (`ip` nebo `ip:port`), když se hra v seznamu neukáže.
+The Network button (and Two Player) in the Flight menu opens the network game screen, the
+original's `NETWORK.LBM`:
+- **On the left** are the games announcing themselves on the local network. Each shows the
+  game's name, its pilot, his wingmen and who sits at the sight and at the left and right doors.
+- **On the right** are steel bars:
+  - **Your name** and **Game** are your name and the game's name. They are typed straight into
+    the bar, Enter confirms them and the game remembers them in `hind.ini`. The default name is
+    the pilot's name from the log.
+  - **Host this game** sets up a game. Then a mission is chosen as usual, and the bottom of the
+    menu shows who has joined. Pressed again (Stop hosting) it closes the game.
+  - **Seat** chooses the place: Pilot (your own Hind as a wingman), Gunner (the sight), Left door
+    gun, Right door gun. A crewman stays in his seat: he can switch to the external views,
+    but not to the pilot's or gunner's seat. A door gunner can move to the other door with F4, when it has a gun and nobody is at it. The pilot's game decides on the seats: whoever comes to a door already taken moves to the other one without asking, and with both taken, or the gunner's seat taken, goes back to the menu with a message.
+  - **Join** joins the game selected on the left (also a double click or Enter). **By address**
+    joins the given address (`ip` or `ip:port`) when the game does not appear in the list.
 
-Hra se ohlašuje každou sekundu na port 7024: multicastem do skupiny 239.255.70.24 (slyší ho
-každá hra v místní síti i na stejném počítači), pro jistotu také broadcastem a přes loopback. Když se k pilotovi připojíš z menu, Esc při čekání nebo v letu tě vrátí do menu.
+A game announces itself every second on port 7024: by multicast to the group 239.255.70.24
+(heard by every game on the local network and on the same computer), and to be sure also by
+broadcast and over loopback. When you join a pilot from the menu, Esc while waiting or in
+flight returns you to the menu.
 
-**Firewall:** hry si musí moci posílat UDP 7024 (ohlášení) a TCP 7024 až 7033 (spojení).
-Když hra jednoho hráče druhou nevidí, nebo se připojení zasekne na „WAITING FOR THE PILOT'S
-GAME“ (po chvíli se objeví „NO ANSWER: A FIREWALL…“), blokuje je firewall na počítači, který
-nic nedostává. Ve Windows je potřeba hře povolit aspoň soukromé sítě (viz [Pro Windows](#pro-windows)).
-Na Linuxu s ufw (Ubuntu, Mint) se porty otevřou pro místní síť takto (adresu sítě uprav podle své):
+**Firewall:** the games must be able to send each other UDP 7024 (the announcements) and TCP
+7024 to 7033 (the connection). When one player's game does not see the other's, or joining
+stays at "WAITING FOR THE PILOT'S GAME" (after a while "NO ANSWER: A FIREWALL…" appears), a
+firewall blocks them on the computer that receives nothing. On Windows, allow the game at least
+private networks (see [For Windows](#for-windows)). On Linux with ufw (Ubuntu, Mint), open the
+ports to the local network like this (adjust the network's address to yours):
 
 ```sh
 sudo ufw allow from 192.168.1.0/24 to any port 7024 proto udp
 sudo ufw allow from 192.168.1.0/24 to any port 7024:7033 proto tcp
 ```
 
-S firewalld (Fedora) `sudo firewall-cmd --permanent --add-port=7024/udp --add-port=7024-7033/tcp`
-a `sudo firewall-cmd --reload`.
+With firewalld (Fedora): `sudo firewall-cmd --permanent --add-port=7024/udp --add-port=7024-7033/tcp`
+and `sudo firewall-cmd --reload`.
 
-Ve hře může být až devět dalších hráčů:
-- **Wingmani:** až tři, každý ve vlastním Hindu. Střely, rakety, pumy i stíhací drony zasáhnou i ostatní Hindy hry a počítá je hra pilota. Dveřní střelec, který střílí sám, drží palbu, když má jiný Hind v palebné čáře. Hindy stojí v řadě 30 m od sebe vpravo od
-  pilotova.
-- **Posádka:** u každého pilota až tři lidé, u zaměřovače, u levých a u pravých dveří. Platí to
-  pro hostitele i pro každého wingmana.
+A game can have up to nine more players:
+- **Wingmen:** up to three, each in his own Hind. Rounds, rockets, bombs and interceptor drones also hit the game's other Hinds, and the pilot's game counts them. A door gunner firing by himself holds his fire with another Hind in the line of fire. The Hinds stand in a row 30 m apart to the
+  right of the pilot's.
+- **Crew:** up to three people with each pilot, at the sight, at the left and at the right
+  doors. This holds for the host and for every wingman.
 
-Wingmana bere hra hostitele. Posádku bere hra jejího pilota, takže wingmanova hra také naslouchá
-(na dalším volném portu) a ohlašuje se v síti jako řádek pod svou hrou. Každý vidí všechny Hindy
-ve hře. Nepřítel střílí po nejbližším z nich a zásahy do všech počítá hra hostitele.
+Wingmen are taken by the host's game. A crew is taken by its pilot's game, so a wingman's game
+listens too (on the next free port) and announces itself on the network as a row under its game.
+Everyone sees all the Hinds in the game. The enemy fires at the nearest of them, and the hits on
+all of them are counted by the host's game.
 
-### Zprávy
+### Messages
 
-Jako v originálu si hráči posílají hotové zprávy klávesami Ctrl+1 až Ctrl+0. Zpráva se objeví na
-displeji pod HUD se jménem odesílatele (vlastní jako „YOU: …“) a příjemci ji zahraje hlas z
-originálu (TPLR). Komu jde, záleží na místě:
+As in the original, players send each other ready-made messages with Ctrl+1 to Ctrl+0. A
+message appears on the display under the HUD with the sender's name (your own as "YOU: …") and
+the recipients hear it in the original's voice (TPLR). Whom it goes to depends on the seat:
 
-| Klávesa | Střelec / u dveří → svému pilotovi | Pilot → své posádce | Pilot → ostatním pilotům |
+| Key | Gunner / at the doors → his pilot | Pilot → his crew | Pilot → the other pilots |
 |---|---|---|---|
 | 1 | Break left | Target left | Break left |
 | 2 | Break right | Target right | Break right |
@@ -874,780 +959,815 @@ originálu (TPLR). Komu jde, záleží na místě:
 | 9 | Go around again | Going round again | Going round again |
 | 0 | Let's go home | Let's go home | I'm going home |
 
-Pilot s posádkou posílá Ctrl+číslem posádce a Ctrl+Shift+číslem ostatním pilotům. Pilot bez
-posádky posílá ostatním pilotům obojím. Zprávu posádky slyší celá posádka, zprávu pilota všichni
-piloti hry. Hostitel je předává dál.
+A pilot with a crew sends to the crew with Ctrl+number and to the other pilots with
+Ctrl+Shift+number. A pilot without a crew sends to the other pilots with both. A crew's message
+is heard by the whole crew, a pilot's by all the game's pilots. The host passes them on.
 
-### Z příkazové řádky
+### From the command line
 
-Dva hráči v jednom vrtulníku po místní síti. Pilot spustí hru s `--host`. Střelec se k ní
-připojí s `--join ADRESA`, kde adresa je IP nebo jméno pilotova počítače, případně `adresa:port`.
-Port je 7024, dá se změnit volbou `[net] port`. Na obou počítačích musí být originální hra
-se stejnými daty.
+Two players in one helicopter over the local network. The pilot starts the game with `--host`.
+The gunner joins it with `--join ADDRESS`, where the address is the IP or name of the pilot's
+computer, or `address:port`. The port is 7024 and can be changed with `[net] port`. Both
+computers need the original game with the same data.
 
 ```sh
-./build/hind --host                    # pilot: hraje normálně, střelec se může kdykoli připojit
-./build/hind --join 192.168.1.20       # střelec: čeká, až pilot vzlétne, a pak letí s ním
+./build/hind --host                    # pilot: plays normally, the gunner can join at any time
+./build/hind --join 192.168.1.20       # gunner: waits for the pilot to take off and then flies with him
 ```
 
-Celou hru počítá pilotův počítač: let, zbraně, nepřítele, drony i vyhodnocení mise. Střelcova
-hra dostává až 60× za sekundu stav letu a mezi dvěma stavy nechává věci letět dál. Výbuchy,
-kouř a zvuky si kreslí a přehrává sama podle toho, co se u pilota stalo. Když pilot plánuje
-let nebo je v menu, střelec to vidí na obrazovce a počká. S pilotovým vzletem, restartem
-nebo další misí kampaně začne znovu i střelcova hra.
+The pilot's computer computes the whole game: the flight, the weapons, the enemy, the drones and
+the mission's debriefing. The gunner's game receives the flight's state up to 60 times a
+second and lets things fly on between two states. Explosions, smoke and sounds it draws and
+plays itself by what happened at the pilot's. When the pilot is planning a flight or is in the
+menu, the gunner sees it on the screen and waits. With the pilot's takeoff, restart or the next
+campaign mission the gunner's game starts again too.
 
-Střelec si sám přepíná pohledy (F2, F3, F6, rozhlížení, zoom) a noční vidění. Patří mu
-kulomet Jak-B ve věži a Šturmy (9M114). U pilota se kulomet a Šturmy při výběru zbraně (Enter)
-přeskakují. Zbraně na závěsnících (rakety, UPK-23, pumy, miny a R-60) si může vybrat a odpálit
-pilot i střelec. Každý má svou spoušť a oba můžou střílet zároveň. Rakety a UPK-23 míří po ose
-vrtulníku, takže kam letí, určuje pilot. Na pilotově displeji se objeví „GUNNER AT THE SIGHT“.
+The gunner switches views himself (F2, F3, F6, looking around, zoom) and night vision. His are
+the Yak-B machine gun in the turret and the Shturms (9M114); at the pilot's, the machine gun and
+the Shturms are skipped when selecting a weapon (Enter). The stores on the pylons (rockets,
+UPK-23, bombs, mines and R-60) either of them can select and fire. Each has his own trigger and
+both can fire at once. Rockets and the UPK-23 aim along the helicopter's axis, so where they go
+is the pilot's doing. The pilot's display shows "GUNNER AT THE SIGHT".
 
-Má-li Hind na vnitřních závěsnících stíhací drony, vypustí střelec v kokpitu střelce (F3)
-klávesou G vlastní dron a řídí ho z jeho kamery stejně jako u dveří (viz [Ukrajina](#ukrajina)).
-Znovu G ho pustí, ať si cíl najde sám, a pohled se vrátí k zaměřovači. Dokud dron řídí, z věže nestřílí.
-Když hráč v síťové hře odejde z kamery dronu jiným pohledem, automat dron nepřevezme: letí dál rovně, dokud mu nedojde baterie, a stejné místo se k němu vrátí klávesou G.
+With interceptor drones on the inner pylons, the gunner in the gunner's cockpit (F3) sends his
+own out with G and flies it from its camera as at a door (see [Ukraine](#ukraine)).
+G again lets it go to find its target itself and the view goes back to the sight. While he flies it, the turret is
+silent. When a network player leaves the drone's camera by another view, the automat does not take it over: it flies straight on until its battery runs out, and the same seat comes back to it with G.
 
-| Střelec | |
+| Gunner | |
 |---|---|
-| joystick nebo šipky | v kokpitu střelce (F3) otáčí zaměřovačem a věží, dopředu míří dolů. Kloboučkem a Alt + šipkami se rozhlíží jako jinde |
-| myš | v kokpitu střelce i u dveří míří jako joystick (kurzor se schová, ve hře zůstane) |
-| tlačítko 0 / mezerník / levé tlačítko myši | výstřel jeho zbraní (Šturm jeden na stisk, navádí se zaměřovačem) |
-| tlačítko 1 / Enter | Jak-B, Šturmy, pak zbraně na závěsnících (kromě stíhacích dronů), zajištěno a znovu |
-| G | v kokpitu střelce a u dveří: vypustit stíhací dron a řídit ho |
-| . / , / kolečko myši | zvětšení zaměřovače 1×, 3,3×, 10× |
-| Ctrl+Enter | zajistit |
-| D | dveřní střelci střílí sami / drží palbu, totéž jako u pilota ve vzduchu |
-| S, B, T | Silicon WSO zap/vyp, jiný cíl, cíl ve směru zaměřovače. Když střelec pohne zaměřovačem, WSO se vypne, stejně jako ve hře jednoho hráče |
+| joystick or arrows | in the gunner's cockpit (F3) turns the sight and the turret, forward aims down. With the hat and Alt + arrows he looks around as elsewhere |
+| mouse | in the gunner's cockpit and at the doors aims like the joystick (the cursor hides and stays in the game) |
+| button 0 / space / left mouse button | fires his weapons (one Shturm per press, guided by the sight) |
+| button 1 / Enter | Yak-B, Shturms, then the stores on the pylons (not the interceptor drones), safe and again |
+| G | in the gunner's cockpit and at a door: send out an interceptor drone and fly it |
+| . / , / mouse wheel | sight magnification 1×, 3.3×, 10× |
+| Ctrl+Enter | safe |
+| D | the door gunners fire on their own / hold fire, the same as for the pilot in the air |
+| S, B, T | Silicon WSO on/off, another target, the target in the sight's direction. When the gunner moves the sight, the WSO turns off, as in the single player game |
 
-Z kokpitu pilota a z vnějšího pohledu míří věž po ose.
+From the pilot's cockpit and from the external view the turret aims along the axis.
 
-Když je v kabině GŠG, přejde střelec klávesou F4 ke dveřnímu kulometu. Další F4 ho přepne
-k druhým dveřím. Kulomet je těžký: joystick, šipky nebo myš říkají, kam ho střelec chce mít,
-a kulomet se tam s pohledem stočí se setrvačností. Otočení a ustálení trvá asi půl sekundy,
-rychlost je nejvýš 2,5 rad/s. Joystickem nebo šipkami míří kulometem z okna v rozsahu ±70° dopředu
-a dozadu, 70° dolů a 30° nahoru, a spouští jím. Kulomet u dveří, u kterých střelec zrovna
-není, střílí sám jako ve hře jednoho hráče. Věž mezitím ovládá Silicon WSO, pokud je zapnutý,
-ale nikdo z ní nestřílí.
+When there is a GShG in the cabin, the gunner moves to the door gun with F4. Another F4 switches
+him to the other doors. The gun is heavy: the joystick, the arrows or the mouse say where the
+gunner wants it, and the gun swings there with the view, with inertia. Turning and settling
+takes about half a second, the speed is at most 2.5 rad/s. With the joystick or the arrows he
+aims the gun out of the window within ±70° forward and back, 70° down and 30° up, and fires it
+with its trigger. The gun at the doors where the gunner is not at the moment fires on its own
+as in the single player game. Meanwhile the turret is run by the Silicon WSO if he is on, but
+nobody fires from it.
 
-Hra umí i vlastnoručně postavenou lafetu: skutečný model kulometu se dvěma osami a spouští, který
-se ohlásí jako joystick s názvem obsahujícím „GSG Door Gun“. Po zapojení se nemusí nic nastavovat.
-Řídí kulomet u dveří, ve hře jednoho hráče i po síti, jakmile s ní pohneš (do té doby zůstávají
-myš a klávesy), a to přesně: stupeň na lafetě je stupeň ve hře, bez dobíhání, protože váhu už
-máš v rukou. Pilotovi nikdy nesáhne na cykliku, ani když je zapojená sama. Její spoušť a tlačítka
-platí jen u dveří a v kameře dronu. Jiná zařízení se nastaví v `[joystick]` (`door_…`).
+The game also takes a home-built mount: a real model of the gun with two axes and a trigger,
+which reports itself as a joystick with "GSG Door Gun" in its name. Nothing needs setting up
+after plugging it in. It aims the door gun, in single player and over the network, once you
+move it (until then the mouse and the keys keep their way), and exactly: a degree on the mount
+is a degree in the game, with no lag, since you have the weight in your hands already. It never
+touches the pilot's cyclic, not even plugged in alone. Its trigger and buttons count only at a
+door and in the drone's camera. Other devices are set in `[joystick]` (`door_…`).
 
-Místo si střelec vybere už na čekací obrazovce: 1 kokpit střelce (výchozí), 2 levé dveře,
-3 pravé dveře, nebo předem volbou `--view gunner|door-left|door-right`. Klávesou 4 (nebo
-`--view wingman`) si místo toho vezme vlastní Hind a letí jako wingman (viz níže). Když vrtulník na
-zvolené straně kulomet nemá, posadí ho hra k druhým dveřím, případně do kokpitu. Pilotovi
-hra ohlásí, kde střelec sedí („GUNNER AT THE LEFT DOOR“) a každé přesednutí.
+The gunner chooses his place already on the waiting screen: 1 the gunner's cockpit (default),
+2 the left doors, 3 the right doors, or in advance with `--view gunner|door-left|door-right`.
+With the key 4 (or `--view wingman`) he takes his own Hind instead and flies as a wingman (see
+below). When the helicopter has no gun on the chosen side, the game seats him at the other
+doors, or in the cockpit. The pilot is told where the gunner sits ("GUNNER AT THE LEFT DOOR")
+and of every change of seat.
 
-Když se spojení přeruší, letí se dál. Pilot uvidí „GUNNER LEFT - SILICON WSO AT THE SIGHT“,
-zaměřovač převezme Silicon WSO (zapne se, pokud byl vypnutý) a dveřní kulomety zase střílí
-dveřní střelci sami. Střelcova hra ukáže, že se spojení ztratilo, a znovu čeká. Pilotova hra
-ho kdykoli přijme zpátky, i uprostřed letu. Ztrátu spojení obě hry poznají, i když ji síť
-neohlásí (vytažený kabel, uspaný počítač): za letu chodí zprávy 60× za sekundu, a když 10 s
-nepřijde nic, je druhá strana pryč. Střelcova hra má po startu nové mise 20 s na nahrání
-světa.
+When the connection breaks, the flight goes on. The pilot sees "GUNNER LEFT - SILICON WSO AT THE
+SIGHT", the Silicon WSO takes over the sight (turning on if he was off) and the door guns are
+fired by the door gunners on their own again. The gunner's game shows that the connection was
+lost and waits again. The pilot's game takes him back at any time, even in the middle of a
+flight. Both games notice a lost connection even when the network does not report it (a pulled
+cable, a sleeping computer): in flight messages come 60 times a second, and when nothing comes
+for 10 s the other side is gone. After the start of a new mission the gunner's game has 20 s to
+load the world.
 
-### Druhý pilot (wingman)
+### Second pilot (wingman)
 
-Druhý hráč může místo střelce pilotovat vlastní Mi-24. Jeho hra počítá jeho let, zbraně
-a jeho Silicon WSO sama, takže řízení reaguje hned. Bojiště (cíle, nepřítel, drony, mise) ale
-dál počítá pilotova hra a wingmanova ho vidí z jejích snímků. Wingman stojí na startu 30 m
-vpravo od pilota a má stejnou výzbroj. Co jeho střely zasáhnou, pošle jeho hra pilotově, ta
-zásah uplatní a výbuch vrátí oběma. Sestřely se tak počítají do společné mise. Oba vidí
-vrtulník toho druhého, jeho stín i jeho střely. Hlášení Mi-17 o dronech dostanou oba. Pokud
-mise má vlastního AI wingmana Mi-24, uhne hráči: dokud hráč letí, zmizí z bojiště.
+The second player can fly his own Mi-24 instead of being the gunner. His game computes his
+flight, weapons and his Silicon WSO itself, so the controls respond at once. The battlefield
+(targets, enemy, drones, mission), though, is still computed by the pilot's game, and the
+wingman's game sees it from its frames. The wingman stands at the start 30 m to the right of
+the pilot and has the same weapons. What his missiles hit his game sends to the pilot's, which
+applies the hit and returns the explosion to both. Kills thus count towards the common mission.
+Both see the other's helicopter, its shadow and its missiles. Both get the Mi-17's reports of
+drones. If the mission has its own AI wingman Mi-24, he makes way for the player: while the
+player flies, he vanishes from the battlefield.
 
-Nepřítel střílí na oba. Každá posádka míří na bližší z vrtulníků, zásahy dopadnou na kterýkoli
-a raketa Strela nebo Rapier se navádí na ten, na koho byla vypuštěna. Poškození wingmana
-počítá pilotova hra a posílá mu ho ve snímcích i s hlášeními („MISSILE LAUNCH 4 O'CLOCK“,
-poruchy systémů).
+The enemy fires at both. Each crew aims at the nearer of the helicopters, hits land on either,
+and a Strela or Rapier missile homes on the one it was fired at. The wingman's damage is
+computed by the pilot's game and sent to him in the frames along with the calls ("MISSILE
+LAUNCH 4 O'CLOCK", system failures).
 
-Wingman má vlastní vymetače (F světlice, C dipóly) a rušičku (K) se svými 96 + 96 náboji.
-Zapíná je ve své hře, náboje počítá pilotova. Světlice odlákají jen rakety vypuštěné na něj.
-Když wingman havaruje, pilot uvidí „WINGMAN DOWN“ a výbuch a debriefing to zmíní („The
-wingman's Hind was lost“, případně kým). R ve hře po síti nefunguje, let začíná znovu jen
-pilot (pro oba).
+The wingman has his own dispensers (F flares, C chaff) and jammer (K) with his 96 + 96
+cartridges. He turns them on in his game; the pilot's counts the cartridges. Flares decoy only
+missiles fired at him. When the wingman crashes, the pilot sees "WINGMAN DOWN" and the
+explosion, and the debriefing mentions it ("The wingman's Hind was lost", and by whom). R does
+not work in a network game; only the pilot restarts the flight (for both).
 
-Když havaruje pilot (hostitel) a nějaký wingman ještě letí, mise pokračuje. Skončí, až všichni
-wingmani havarují nebo přistanou doma, případně když pilot dá Ctrl+Q. Pilotův Hind je ale ztracený,
-takže mise končí neúspěchem. Sestřely wingmanů se do vyhodnocení počítají. Kamera po pádu chvíli
-obíhá vrak a pak přejde na Hind, který ještě letí. F5 / Shift+F5 přepíná mezi zbývajícími Hindy
-a nápověda dole na obrazovce to připomíná i s Ctrl+Q. Stejně se může dívat havarovaný wingman
-nebo střelec (u nich Ctrl+Q hru opustí).
+When the pilot (the host) crashes while a wingman is still flying, the mission goes on. It ends
+when every wingman has crashed or landed at home, or when the pilot presses Ctrl+Q. The pilot's
+Hind is lost, though, so the mission ends as a failure. The wingmen's kills count in the
+debriefing. After the crash the camera circles the wreck for a moment, then moves to a Hind that
+is still flying. F5 / Shift+F5 switches between the remaining Hinds, and a hint at the bottom of
+the screen says so, together with Ctrl+Q. A crashed wingman or a gunner can watch the same way
+(for them Ctrl+Q leaves the game).
 
-## Sestavení
+## Building
 
-Po instalaci balíčků stačí spustit `./build.sh`. Skript hru přeloží a spustí testy. Ručně se to dělá takto:
+After installing the packages just run `./build.sh`. The script builds the game and runs the
+tests. By hand it goes like this:
 
 ```sh
 sudo apt install cmake libsdl2-dev libglm-dev
 cmake -B build
 cmake --build build -j
-./build/hind              # okno 1600x900
-./build/hind --fullscreen # nativní rozlišení
-./build/hind --display left  # okno na monitoru nejvíc vlevo (left / right / číslo SDL displeje)
-ctest --test-dir build    # testy letového modelu
+./build/hind              # a 1600x900 window
+./build/hind --fullscreen # native resolution
+./build/hind --display left  # the window on the leftmost monitor (left / right / SDL display number)
+ctest --test-dir build    # flight model tests
 ```
 
-### Pro Windows
+### For Windows
 
-Hra se dá přeložit pro 64bitová Windows přímo na Linuxu (křížový překlad MinGW-w64):
+The game can be built for 64-bit Windows right on Linux (MinGW-w64 cross compilation):
 
 ```sh
-sudo apt install mingw-w64 zip    # jednou
+sudo apt install mingw-w64 zip    # once
 ./build-win.sh                    # -> dist/hind-win.zip
 ```
 
-Skript si SDL2 pro Windows (oficiální balík pro MinGW) stáhne sám do `third_party/`, které je
-mimo git, a GLM zkopíruje ze systému. Výsledek je `dist/hind-win.zip` s `hind.exe`, `SDL2.dll`
-a `data/missions` (a `data/speech`, je-li). Jiné knihovny nepotřebuje, běhové knihovny C++ jsou přilinkované staticky.
-Testy se pro Windows nespouští.
+The script downloads SDL2 for Windows (the official MinGW package) itself into `third_party/`,
+which is outside git, and copies GLM from the system. The result is `dist/hind-win.zip` with
+`hind.exe`, `SDL2.dll` and `data/missions` (and `data/speech` if there is one). It needs no other libraries; the C++ runtime is
+linked statically. The tests are not run for Windows.
 
-Ve Windows stačí balíček rozbalit a spustit `hind.exe`. Originální hru hledá ve složce `HIND`
-vedle hry, v `C:\DI\HIND`, `C:\HIND`, `C:\DOSBox\c\DI\HIND` nebo v uživatelské složce
-(`dosbox\c\DI\HIND`). Když ji nenajde, zeptá se na ni při prvním spuštění (CD v mechanice,
-obraz `.iso` nebo složka hry, viz První spuštění). Konfigurace je v `%APPDATA%\hind\hind.ini`
-(případně `hind.ini` ve složce, odkud se hra spouští).
+On Windows just unpack the package and run `hind.exe`. It looks for the original game in a
+`HIND` folder next to the game, in `C:\DI\HIND`, `C:\HIND`, `C:\DOSBox\c\DI\HIND` or in the
+user's folder (`dosbox\c\DI\HIND`). When it does not find it, it asks for it at the first start
+(a CD in a drive, an `.iso` image or the game's folder, see The first start). The configuration
+is in `%APPDATA%\hind\hind.ini` (or `hind.ini` in the folder the game is started from).
 
-Hra po síti jde z menu (Flight → Network) stejně jako na Linuxu, nebo z příkazové řádky
-(`hind.exe --join IP_PILOTA`). Windows se při prvním spuštění zeptají, jestli hře povolit síť.
-Povolit je potřeba aspoň soukromé sítě, jinak se hry navzájem neuvidí ani nespojí. Hra používá
-UDP 7024 na ohlášení her a TCP 7024 až 7033 na spojení.
+Network play works from the menu (Flight → Network) as on Linux, or from the command line
+(`hind.exe --join PILOT_IP`). On the first start Windows asks whether to allow the game network
+access. At least private networks have to be allowed, otherwise the games neither see nor
+connect to each other. The game uses UDP 7024 to announce games and TCP 7024 to 7033 for
+connections.
 
-## Jak létat
+## How to fly
 
-Tohle platí pro letové modely Stable a Realistic. V režimu Novice řídí kolektiv stoupání (50 % = visení) a cyklika rychlost, takže stačí kapitola [Letové modely](#letové-modely).
+This is for the Stable and Realistic flight models. In Novice the collective sets the climb (50 % = hover) and the cyclic the speed, so [Flight models](#flight-models) is enough.
 
-**Vzlet.** Klávesou 9 nastav 90 %. Vrtulník se odlepí kolem 72–78 % a stoupá. Ve výšce asi 20 m dej 8, což je přibližně visení, doladí se Q/A. U země je potřeba méně, protože rotor pomáhá přízemní efekt: nad výškou asi 15 m zmizí a vrtulník bez přidání začne klesat. Podvozek zatáhneš klávesou U.
+**Takeoff.** Press 9 for 90 %. The helicopter lifts off around 72–78 % and climbs. At about 20 m press 8, roughly the hover, and fine-tune with Q/A. Near the ground less is needed because of the ground effect: above about 15 m it is gone and without more power the helicopter starts to sink. U retracts the gear.
 
-**Do letu.** Šipkou vpřed skloň nos a pusť. Ve Stable vrtulník drží sklon, který jsi mu dal, a rychlost se k němu sama ustálí, takže **rychlost určuje hlavně sklon nosu**: asi −1° je 100 km/h, −4° je 220 km/h, −8° je 310 km/h. Kolektiv pak drží výšku. Zpomalení je opačně: šipkou vzad zvedni nos.
+**Into forward flight.** Press the up arrow to lower the nose and let go. In Stable the helicopter holds the attitude you gave it and the speed settles by itself, so **the speed is set mainly by the nose attitude**: about −1° is 100 km/h, −4° is 220 km/h, −8° is 310 km/h. The collective then holds the height. To slow down, the opposite: raise the nose with the down arrow.
 
-**Kolektiv a rychlost.** Vodorovný let nepotřebuje s rychlostí pořád víc výkonu. Nejméně ho potřebuješ kolem 150 km/h (translační vztlak), pomaleji i rychleji ho přibývá. Proto při zpomalování z 150 km/h na visení musíš kolektiv **přidávat**, jinak vrtulník začne klesat. Hodnoty jsou v tahu níže.
+**Collective and speed.** Level flight does not need more power the faster you go. It needs the least around 150 km/h (translational lift), and more both slower and faster. So when slowing from 150 km/h to the hover you must **add** collective or the helicopter starts to sink. The values are in the cheat sheet below.
 
-**Zatáčení.** Šipkami do stran vrtulník nakloníš a po puštění se ve Stable sám vyrovná. V náklonu klesá část vztlaku do strany, takže v ostré zatáčce přidej kolektiv. Pedály Z / X otáčejí nos, hlavně v malé rychlosti. Při rychlém letu zatáčej náklonem. Pedály točí vrtulník kolem osy rotoru, ne kolem svislice: s nosem vysoko nahoře jím pedál přetočí přes bok dolů, takže jde udělat souvrat.
+**Turning.** The side arrows bank the helicopter and in Stable it levels itself when you let go. In a bank part of the lift goes sideways, so add collective in a hard turn. The Z / X pedals turn the nose, mostly at low speed. In fast flight turn by banking. The pedals turn the helicopter about the rotor mast, not the vertical: with the nose high up a pedal swings it over sideways and down, so a stall turn works.
 
-**Přistání.** Vysuň podvozek (U), přileť pomalu a nos zvedni jen tolik, aby rychlost klesala. Před dosednutím nech vertikální rychlost pod 2 m/s; u země ti přízemní efekt trochu pomůže. Brzdy jsou na B.
+**Landing.** Lower the gear (U), come in slowly and raise the nose just enough for the speed to fall. Keep the vertical speed under 2 m/s before touchdown; near the ground the ground effect helps a little. The brakes are on B.
 
-**Autorotace.** Viz [Autorotace](#autorotace) níže.
+**Autorotation.** See [Autorotation](#autorotation) below.
 
-**Přetížení.** Nad 100 % kolektivu svítí TORQ a na displeji je ENGINE OVRTORQ. Nad 105 % začnou klesat otáčky rotoru.
+**Overtorque.** Above 100 % collective the TORQ lamp lights and the display says ENGINE OVRTORQ. Above 105 % the rotor speed starts to drop.
 
-**Realistic** má navíc reakční moment (při přidání výkonu je potřeba pravý pedál), posun neutrálu cykliky s rychlostí a turbulence ve visení. Kolektiv i sklon nosu z tahu sedí i tady, jen nos sám nedrží: viz [Srovnání rychlosti se Shahedem](#srovnání-rychlosti-se-shahedem).
+**Realistic** adds the torque reaction (adding power takes right pedal), the neutral cyclic moving with speed and turbulence in the hover. The collective and nose attitude from the cheat sheet hold here too, only the nose does not stay put by itself: see [Matching speed with a Shahed](#matching-speed-with-a-shahed).
 
-### Tahák: kolektiv pro vodorovný let
+### Cheat sheet: collective for level flight
 
-Hodí se hlavně při srovnávání rychlosti s dronem: nastav kolektiv z tabulky a sklonem nosu doladíš rychlost. Shahed letí kolem 180 km/h, Geran-3 kolem 330 km/h. Hmotnost určuje výzbroj (palivo se nepočítá): drony a GŠG 9,85 t, čtyři raketové gondoly 11 t, nejtěžší výzbroj 11,7 t. Výše je řidší vzduch a kolektivu je potřeba víc.
+It helps most when matching speed with a drone: set the collective from the table and fine-tune the speed with the nose attitude. A Shahed flies at about 180 km/h, a Geran-3 at about 330 km/h. The mass comes from the stores (fuel does not count): drones and GShG 9.85 t, four rocket pods 11 t, the heaviest loadout 11.7 t. Higher up the air is thinner and more collective is needed.
 
-![Graf kolektivu pro vodorovný let podle rychlosti](docs/collective.cs.svg)
+![Chart of the collective for level flight by speed](docs/collective.en.svg)
 
 <!-- collective:begin -->
 
-| km/h | 9,85 t | 11 t | 11,7 t | 11 t, 1500 m | sklon nosu (11 t) |
+| km/h | 9.85 t | 11 t | 11.7 t | 11 t, 1500 m | nose attitude (11 t) |
 |---:|---:|---:|---:|---:|---:|
-| 0 | 74 % | 82 % | 88 % | 93 % | 0,0° |
-| 50 | 67 % | 74 % | 79 % | 84 % | -0,4° |
-| 75 | 61 % | 69 % | 73 % | 78 % | -0,5° |
-| 100 | 57 % | 64 % | 68 % | 72 % | -0,9° |
-| 125 | 53 % | 60 % | 64 % | 68 % | -1,3° |
-| 150 | 53 % | 59 % | 63 % | 68 % | -1,9° |
-| 175 | 55 % | 62 % | 66 % | 71 % | -2,6° |
-| 200 | 59 % | 66 % | 70 % | 75 % | -3,3° |
-| 225 | 64 % | 71 % | 76 % | 81 % | -4,2° |
-| 250 | 69 % | 77 % | 82 % | 88 % | -5,2° |
-| 275 | 75 % | 84 % | 89 % | 96 % | -6,2° |
-| 300 | 83 % | 92 % | 98 % | 104 % | -7,4° |
-| 325 | 92 % | 101 % | 107 % | 114 % | -8,6° |
-| 350 | 105 % | 115 % | – | – | -9,9° |
+| 0 | 74 % | 82 % | 88 % | 93 % | 0.0° |
+| 50 | 67 % | 74 % | 79 % | 84 % | -0.4° |
+| 75 | 61 % | 69 % | 73 % | 78 % | -0.5° |
+| 100 | 57 % | 64 % | 68 % | 72 % | -0.9° |
+| 125 | 53 % | 60 % | 64 % | 68 % | -1.3° |
+| 150 | 53 % | 59 % | 63 % | 68 % | -1.9° |
+| 175 | 55 % | 62 % | 66 % | 71 % | -2.6° |
+| 200 | 59 % | 66 % | 70 % | 75 % | -3.3° |
+| 225 | 64 % | 71 % | 76 % | 81 % | -4.2° |
+| 250 | 69 % | 77 % | 82 % | 88 % | -5.2° |
+| 275 | 75 % | 84 % | 89 % | 96 % | -6.2° |
+| 300 | 83 % | 92 % | 98 % | 104 % | -7.4° |
+| 325 | 92 % | 101 % | 107 % | 114 % | -8.6° |
+| 350 | 105 % | 115 % | – | – | -9.9° |
 
 <!-- collective:end -->
 
-Hodnoty jsou změřené na letovém modelu v ustáleném vodorovném letu bez náklonu. Mezi visením a 50 km/h je průběh jen proložený, ustálený let se tam měřit nedá.
+The values are measured on the flight model in steady level flight without bank. Between the hover and 50 km/h the curve is only interpolated, as no steady flight can be measured there.
 
-### Srovnání rychlosti se Shahedem
+### Matching speed with a Shahed
 
-Cíl: dron 25 m pod tebou, 30–100 m stranou a rozdíl rychlosti pod 70 km/h. Pak střelci ve dveřích pálí s plnou kvalitou rány. Přímo pod sebou dron nevidí. Čísla platí pro 9,85 t a 450 m. Jsi-li těžší nebo výš, použij kolektiv z tahu, brzdění se tím skoro nemění.
+The aim: the drone 25 m below you, 30–100 m to the side and less than 70 km/h of speed difference. The door gunners then fire at full shot quality. They cannot see a drone straight below. The figures are for 9.85 t at 450 m. If you are heavier or higher, take the collective from the cheat sheet; the braking hardly changes.
 
-**Tři pravidla:**
+**Three rules:**
 
-1. **Nos je plyn a brzda.** Každý stupeň proti rovnovážnému sklonu mění rychlost o 0,6 km/h za sekundu, takže pomalu. Když ze 250 km/h jen nastavíš sklon pro 180 km/h (−3°), je ani po minutě a půl ještě nemáš a přeletíš dron o 700 m. Nos je proto potřeba zvednout výrazně nad rovnovážný sklon a pak ho vrátit.
-2. **Kolektiv je výška.** Délku brzdění skoro nemění (z 300 km/h s nosem +10°: 45 % trvá 12,7 s, 70 % trvá 11,3 s), ale rozhoduje o tom, kde skončíš: 10 % navíc je asi 8 m/s stoupání.
-3. **Rychlost se dá vyměnit za výšku.** Přileť rychle a níž než dron, zvedni nos a nech se vynést nad něj. Brzdíš krátce a nahoru tě to dostane samo.
+1. **The nose is throttle and brake.** Each degree away from the steady attitude changes the speed by 0.6 km/h per second, which is slow. If from 250 km/h you merely set the attitude for 180 km/h (−3°), you still are not there after a minute and a half and you overshoot the drone by 700 m. So raise the nose well past the steady attitude, then bring it back.
+2. **The collective is height.** It hardly changes the length of the braking (from 300 km/h with the nose at +10°: 45 % takes 12.7 s, 70 % takes 11.3 s), but it decides where you end up: 10 % more is about 8 m/s of climb.
+3. **Speed can be traded for height.** Arrive fast and lower than the drone, raise the nose and let it carry you above. The braking is short and the climb comes by itself.
 
-**Postup:**
+**The procedure:**
 
-1. Leť za dronem rychleji a pod ním, 30–100 m stranou na straně střelce.
-2. Když k němu zbývá brzdná dráha z tabulky a asi 60 m rezervy, nastav kolektiv a zvedni nos.
-3. Při 185 km/h vrať nos na −3° a kolektiv na 55 % (klávesa 5, doladit Q/A). Rychlost se pak drží na 182–185 km/h. Při nosu +20° začni vracet už kolem 190 km/h, jinak podjedeš pod 180.
-4. Střelci začnou pálit do 2–3 s po vyrovnání.
+1. Fly behind the drone, faster and below it, 30–100 m to the side of your gunner.
+2. When the braking distance from the table plus about 60 m of margin is left, set the collective and raise the nose.
+3. At 185 km/h bring the nose back to −3° and the collective to 55 % (key 5, fine-tune with Q/A). The speed then stays at 182–185 km/h. With the nose at +20° start back at about 190 km/h, or you drop below 180.
+4. The gunners open fire within 2–3 s of levelling out.
 
-| Přilet | Nos | Kolektiv | Brzdění | Brzdná dráha | Začni pod dronem | Skončíš nad dronem |
+| Arrival | Nose | Collective | Braking | Braking distance | Start below the drone | End above the drone |
 |---:|---:|---:|---:|---:|---:|---:|
 | 250 km/h | +10° | 60 % | 7 s | 80 m | 10 m | 25 m |
 | 250 km/h | +10° | 70 % | 7 s | 75 m | 45 m | 25 m |
 | 300 km/h | +10° | 60 % | 12 s | 210 m | 30 m | 25 m |
 | 300 km/h | +10° | 70 % | 11 s | 195 m | 90 m | 25 m |
-| 300 km/h | +20° | 70 % | 6,5 s | 110 m | 40 m | 35 m |
+| 300 km/h | +20° | 70 % | 6.5 s | 110 m | 40 m | 35 m |
 
-Brzdná dráha je o kolik metrů se k dronu přiblížíš, než se rychlosti srovnají. Shahedy létají většinou 150 m nad zemí, takže hlubší podlet se vejde jen nad rovinou. Nižší kolektiv (55 %) tě skoro nevynese, na dobrou ránu pak chybí výška.
+The braking distance is how many metres you close on the drone before the speeds match. Shaheds mostly fly 150 m above the ground, so the deeper approaches fit only over flat land. A lower collective (55 %) hardly lifts you, and a good shot then lacks height.
 
-**Doladění.** `SPD` vpravo nahoře říká, o kolik km/h je dron rychlejší (+ přidat, − ubrat). Každý Shahed letí trochu jinak, 166–194 km/h, tedy −2,5° až −3,5° při kolektivu 54–58 %. Rovnovážný sklon se mění o 1° na 30 km/h. Rychlejší oprava: nos o 3° dál asi na 5 s je 10 km/h, potom ho vrať na nový sklon. Na klávesnici je ťuknutí šipkou 0,1 s asi 0,4° a 0,2 s asi 1,6°. Kolektiv 1 % je asi 0,8 m/s.
+**Fine-tuning.** `SPD` at the top right says how many km/h faster the drone is (+ add, − take off). Each Shahed flies a little differently, 166–194 km/h, which is −2.5° to −3.5° at a collective of 54–58 %. The steady attitude changes by 1° per 30 km/h. A quicker correction: the nose 3° further for about 5 s is 10 km/h, then bring it to the new attitude. On the keyboard a 0.1 s tap of an arrow is about 0.4° and 0.2 s about 1.6°. 1 % of collective is about 0.8 m/s.
 
-**Když jsi pomalejší než dron.** Z 150 km/h nos na −6° na zhruba 15 s a pak zpět na −3°. Dron ti mezitím uletí asi o 100 m, proto je lepší přiletět rychleji a brzdit.
+**When you are slower than the drone.** From 150 km/h put the nose at −6° for roughly 15 s, then back to −3°. Meanwhile the drone gets about 100 m further away, so it is better to arrive faster and brake.
 
-**V Realistic** je výsledek stejný, sklon se do 300 km/h liší jen o 0,2° a kolektiv o 2 %. Rozdíl je v tom, že nos se sám zvedá a knipl ho musí držet:
+**In Realistic** the result is the same: the attitude differs by only 0.2° up to 300 km/h and the collective by 2 %. The difference is that the nose rises by itself and the stick has to hold it:
 
-| km/h | Knipl vpřed | Puštěný nos stoupá |
+| km/h | Stick forward | Released nose rises |
 |---:|---:|---:|
-| 100 | 5 % | 1,4°/s |
-| 180 | 12 % | 2,7°/s |
-| 250 | 22 % | 4,3°/s |
-| 300 | 35 % | 5,7°/s |
+| 100 | 5 % | 1.4°/s |
+| 180 | 12 % | 2.7°/s |
+| 250 | 22 % | 4.3°/s |
+| 300 | 35 % | 5.7°/s |
 
-- Brzdění tím začíná samo: pusť knipl a nos se zvedne, z 300 km/h je +10° asi za 3 s. Přidrž ho tam a v 185 km/h zatlač dopředu přes neutrál, jinak nos stoupá dál. Z vodorovného letu na 180 km/h je po puštění za 5 s nos na +8° a rychlost 160 km/h, za 20 s vrtulník stojí.
-- Kolem 180 km/h je pak potřeba držet knipl 12 % vpřed. Klávesnice se vrací do středu, takže to znamená ťukat dvakrát až třikrát za sekundu (0,2 s je asi 1,1°). Tady se hodí joystick.
-- Pedál se při 180 km/h a 55 % skoro nepotřebuje, reakční moment je tam vyvážený. Při 300 km/h je potřeba asi 6 %.
-- Náklon se sám nevyrovná: drž ho. Nad 300 km/h se puštěný vrtulník postupně rozjede do zatáčky.
+- So the braking starts by itself: let go of the stick and the nose comes up, from 300 km/h to +10° in about 3 s. Hold it there and at 185 km/h push forward past neutral, or the nose keeps rising. From level flight at 180 km/h, 5 s after letting go the nose is at +8° and the speed 160 km/h; after 20 s the helicopter has stopped.
+- Around 180 km/h you then have to hold the stick 12 % forward. The keyboard returns to the centre, which means tapping two to three times a second (0.2 s is about 1.1°). A joystick helps here.
+- The pedal is hardly needed at 180 km/h and 55 %, as the torque reaction is balanced there. At 300 km/h it takes about 6 %.
+- The bank does not level by itself: hold it. Above 300 km/h a released helicopter gradually winds into a turn.
 
-**Geran-3** se takhle dohnat nedá. Jeho 330 km/h je skoro tvé maximum (−10° a 94 %, Realistic 90 %), brzdit není z čeho a část z nich je ještě rychlejší. Leť mu naproti a zatoč před ním na jeho kurz.
+**A Geran-3** cannot be caught this way. Its 330 km/h is almost your top speed (−10° and 94 %, Realistic 90 %), there is nothing to brake from and some of them are faster still. Fly towards it and turn onto its course ahead of it.
 
-### Autorotace
+### Autorotation
 
-Klávesa O odpojí motory od rotoru: klesnou na volnoběh a rotor se točí jen tím, co má a co mu dodá vzduch proudící zespoda. Stejně se chová při výpadku obou motorů nebo bez paliva, jen tam se motory připojit nedají. Sestřelený vrtulník rotor nemá a padá. V režimu Novice klávesa nefunguje. Znovu stisknuté O motory připojí, plný výkon mají asi za 4 s.
+The O key disengages the engines from the rotor: they drop to idle and the rotor turns only on what it has and on what the air coming up through it gives. It behaves the same when both engines fail or the fuel runs out, except that the engines cannot be engaged then. A shot down helicopter has lost its rotor and falls. The key does nothing in Novice. O again engages the engines, with full power in about 4 s.
 
-Na HUD je místo krouticího momentu `RPM`, otáčky v procentech. Pod 90 % a nad 112 % svítí jinou barvou. Vztlak klesá se čtvercem otáček a pod 65 % rychle mizí, rotor přitom neběží přes 125 %.
+The HUD shows `RPM`, the revolutions in percent, in place of the torque, in another colour below 90 % and above 112 %. The lift goes with the square of the revolutions and fades quickly below 65 %; the rotor does not run past 125 %.
 
-Vyzkoušet se to dá v tréninkové misi „Autorotation Training“ (`SARATT25`): začíná se v 900 m nad letištěm rychlostí 200 km/h. Čísla jsou pro 9,85 t:
+To try it there is the training mission "Autorotation Training" (`SARATT25`), which starts 900 m over the airfield at 200 km/h. The figures are for 9.85 t:
 
-1. **Odpojení.** Hned po O sraz kolektiv na 35 %. Se 60 % spadnou otáčky za 5 s na 70 %.
-2. **Klouzání.** Asi 150 km/h a kolektiv 35–45 %, podle toho drž otáčky na 90–110 %: více kolektivu je bere, méně je přidává. Klesáš 15–20 m/s. Z 900 m je to asi minuta a 3 km. Včas se otoč k letišti a vysuň podvozek (U).
-3. **Vyrovnání.** Ve 50 m zvedni nos asi na +20°. Klesání i rychlost se zmenší a otáčky vzrostou.
-4. **Dosednutí.** Ve 12 m vrať nos k vodorovné poloze a přidávej kolektiv podle klesání, ať dosedneš pod 4 m/s. Tím se otáčky rychle spotřebují a druhý pokus není. Na zemi kolektiv dolů a brzdy (B).
+1. **Disengaging.** Right after O drop the collective to 35 %. At 60 % the revolutions fall to 70 % within 5 s.
+2. **The glide.** About 150 km/h and 35–45 % of collective, whichever keeps the revolutions at 90–110 %: more collective spends them, less builds them. You sink 15–20 m/s. From 900 m that is about a minute and 3 km. Turn towards the airfield early and lower the gear (U).
+3. **The flare.** At 50 m raise the nose to about +20°. The sink and the speed fall and the revolutions rise.
+4. **The touchdown.** At 12 m bring the nose back to level and add collective according to the sink, to touch down below 4 m/s. That spends the revolutions quickly and there is no second try. On the ground collective down and brakes (B).
 
-Vyrovnání je potřeba trefit jen zhruba: modelový pilot přistál ve více než polovině zkoušených kombinací s vyrovnáním mezi 30 a 90 m, ale bez vyrovnání se rozbije vždycky. Příliš brzy to ale nejde: s nosem +20° ze 70 m se rychlost většinou vytratí dřív, než jsi dole. Přistání s rychlostí kolem 90 km/h je v pořádku, dojede to po zemi. Realistic vychází stejně, jen v klouzání chybí reakční moment, takže pedál se skoro nepotřebuje.
+The flare only has to be roughly right: a test pilot landed in more than half of the combinations tried with a flare between 30 and 90 m, but without a flare it always breaks up. Too early does not work, though: with the nose at +20° from 70 m the speed is mostly gone before you are down. Touching down at about 90 km/h is fine, it rolls out. Realistic comes out the same, only there is no torque reaction in the glide, so the pedal is hardly needed.
 
-Mise je splněná, když dosedneš vcelku a motory byly odpojené aspoň od 100 m nad zemí. Do 500 m od místa startu je to OUTSTANDING. Přistání s připojenými motory je FAILURE.
+The mission is done when you touch down in one piece with the engines disengaged since at least 100 m up. Within 500 m of the start it is OUTSTANDING. A landing with the engines engaged is a FAILURE.
 
-## Ovládání (klávesnice)
+## Controls (keyboard)
 
-| Klávesa | Funkce |
+| Key | Function |
 |---|---|
-| šipky | cyklika (po puštění se plynule vrací do středu) |
-| Q / A (nebo = / -) | collective jemně nahoru / dolů |
+| arrows | cyclic (returns smoothly to the centre when released) |
+| Q / A (or = / -) | collective finely up / down |
 | 1 … 9, 0 | collective 10 … 90 %, 100 % |
-| Z / X | pedály (vyrovnávací rotor) vlevo / vpravo |
-| U | podvozek |
-| O | motory na volnoběh a rotor volně (autorotace), znovu připojit; ne v Novice |
-| Enter (nebo E) | cyklus jako v originálu (manuál píše E, ve hře je to Enter): navigační režim, YAK-B, zbraně závěsníků od vnitřních po vnější a zase navigační režim. S odjištěnou zbraní je HUD ve zbraňovém režimu. |
-| Ctrl+Enter (Ctrl+E) | zajistit zbraně (navigační režim) |
-| mezerník (joystick tlačítko 0) | výstřel |
-| joystick tlačítko 1 / 2 (gamepad B / X) | totéž jako Enter (další zbraň) / T (sledovat cíl); v kameře stíhacího dronu B (další cíl) / G (pustit ho) |
-| B | na zemi brzdy, ve vzduchu WSO hledá jiný cíl (Rescan); v kameře stíhacího dronu další označený cíl |
-| S | Silicon WSO (počítačový střelec) zap/vyp |
-| T | sledovat cíl ve směru pohledu (Track target) |
-| F | automatické vystřelování světlic zapnout / vypnout (pár zhruba každou sekundu, dokud nedojdou; 96) |
-| C | automatické vystřelování chaffu zapnout / vypnout (96); kazí míření radarům (ZSU-23-4) a vede Rapier |
-| K | infračervený rušič zap/vyp |
-| Ctrl+1 … Ctrl+4 | rozkaz AI wingmanovi (mimo síťovou hru): 1 Go home, 2 Follow me, 3 Attack my target, 4 Resume flightplan |
-| Shift+1 … Shift+4 | totéž celé formaci (všem našim vrtulníkům ve vzduchu, i Mi-17) |
-| Ctrl+1 … Ctrl+0 | v síťové hře zpráva ostatním (viz Hra po síti, Zprávy) |
-| Ctrl+Shift+1 … 0 | v síťové hře zpráva ostatním pilotům |
-| I | HUD černý / zelený (ve dne začíná černý, v noci zelený) |
-| L | podsvícení přístrojů (v noci) |
-| V | noční vidění zap/vyp |
-| F2 | kokpit pilota |
-| F3 | kokpit střelce |
-| myš | v kokpitu střelce (F3) a u dveří (F4) míří: pohyb otáčí pohledem (a věží), levé tlačítko střílí. Myš se v těch pohledech chytí v okně, v ostatních ji zase pustí |
-| F4 | u dveřního kulometu (jen když je v kabině GŠG): výhled z okna kabiny s kulometem, zaměřovací kroužek ukazuje, kam kulomet míří. Další F4 přepne na druhé dveře, pokud je v nich kulomet. Ve hře jednoho hráče převezme hráč u dveří jejich kulomet: míří pohledem (myš, Alt + šipky, klobouček), spoušť střílí jen z něj. Po návratu na sedadlo střílí dveřní střelec zase sám |
-| G | u dveří a v kokpitu střelce (F3) se stíhacími drony na závěsnících: vypustit dron a řídit ho z jeho kamery; znovu G (nebo F4, F3; hráč v síťové hře jen G) ho pustí a pohled se vrátí ke dveřím, resp. k zaměřovači; dron zamčený na cíl (spoušť do 1 km) letí sám a G vypustí další |
-| F6 | vnější pohled |
-| F7 | pohled ze zbraně (v originálu 7): kamera obíhá raketu, Šturm nebo pumu vypuštěnou naposled a drží ji až k dopadu, místo výbuchu ukazuje 2 s, pak přejde na další ve vzduchu. Otáčí se Alt + šipkami a přibližuje , / . |
-| F8 | pohled od cíle (8): zpoza cíle (WSO, jinak kam zbraň letí) na přilétající zbraň, bez zbraně ve vzduchu na vrtulník |
-| F9 | pohled na zamčený cíl (9): zvenku za vrtulníkem směrem k cíli WSO; letíš-li přímo na něj, vidíš se zezadu |
-| F10 | vzdálený pohled (0): kamera zůstane, kde vrtulník byl, a otáčí se za ním |
-| F12 | divácký pohled (−): kamera zůstane, kde právě je, a dívá se na vrtulník |
-| F5 / Shift+F5 | pozorovat další / předchozí jednotku (=): kamera obíhá vozidla, letadla a drony, své i nepřítele, ukáže jméno; po havárii v síťové hře další / předchozí Hind, který ještě letí |
-| Alt + šipky | rozhlížení v kokpitu (každé sedadlo zvlášť) / otáčení vnějšího pohledu. Pilot se rozhlíží jako v originálu doleva a doprava po širokém obrázku kokpitu (asi ±97°) a navíc až 60° nahoru: obrázek se posouvá dolů, ukáže domalovaný horní rám kabiny (`data/cockpit`) a nad ním volné nebe s kotoučem rotoru. Střelec se dívá i nahoru a dolů, protože tím míří. Při pohledu nahoru se jeho obrázek posouvá dolů (nahoře s domalovaným rámem), až zmizí pod okrajem. Při pohledu dolů obrázek nemizí skokem: od 2° pod výchozím pohledem průhlední a kolem 8° zmizí, stejně jako u konce obrázku do strany. Mimo obrázek vidí střelec jen přes přilbový zaměřovač. Modelovaný kokpit se ukazuje jen bez dat originálu; totéž dělá kloboučkový přepínač (hat) na joysticku a D-pad gamepadu. Modifikátor jde změnit volbou `look_modifier` (Ctrl, Shift, Super) |
-| J | vycentrovat pohled |
-| , / . | oddálit / přiblížit vnější pohled (i F7 a F5); v kokpitu střelce zvětšení zaměřovače 1×, 3,3× a 10× (také kolečko myši). Při zvětšení je vidět jen obraz zaměřovače a zaměřovač se otáčí úměrně pomaleji |
-| M | přepnout letový model (Novice / Stable / Realistic) |
-| P | pauza: hra se hned zastaví a obraz během vteřiny ztmavne na polovinu jako v originálu; znovu P ho nejdřív rozjasní, pak hra běží dál. V pauze hra reaguje jen na P, Esc a Ctrl+Q (a snímek obrazovky) |
-| R | odeslat průzkumná data (jako v originálu): asi 4 s viset v dosahu průzkumného bodu (1,5 km); řízení letu odpoví „good / bad reconnaissance data“. U průzkumných misí jsou všechny průzkumné body podmínkou úspěchu. |
-| Backspace, Ctrl+R | návrat na začátek (letiště) |
-| D | dveře nákladového prostoru otevřít / zavřít (výsadek a evakuace). S dveřními kulomety ve vzduchu místo toho dveřní střelci střílí sami (free fire, výchozí), nebo drží palbu (hold fire): jejich kulomety pak střílí jen z ruky, ve F4 nebo střelec po síti. U dveří je stav vidět vedle nábojů („HOLD FIRE“) |
-| F11 | celá obrazovka |
-| F1 | snímek obrazovky: uloží se jako BMP do složky obrázků, do `Hind` (na Linuxu `~/Obrázky/Hind` nebo `~/Pictures/Hind`, ve Windows `Obrázky\Hind` v profilu uživatele; jinam ho pošle volba `screenshots` v `[data]`). Hra krátce napíše SCREENSHOT SAVED |
-| Ctrl+J | joystick zap/vyp |
-| Alt+J | rekalibrace středu joysticku |
-| Ctrl+Q | „END MISSION? Y/N“: Y ukončí misi (vyhodnocení), N letí dál |
-| Esc | konec (zpět do menu) |
+| Z / X | pedals (tail rotor) left / right |
+| U | landing gear |
+| O | engines to idle with the rotor free (autorotation), engage again; not in Novice |
+| Enter (or E) | cycles as in the original (the manual says E, in the game it is Enter): navigation mode, YAK-B, the pylons' weapons from the inner to the outer and back to navigation mode. With a weapon armed the HUD is in weapon mode. |
+| Ctrl+Enter (Ctrl+E) | weapons safe (navigation mode) |
+| space (joystick button 0) | fire |
+| joystick button 1 / 2 (gamepad B / X) | the same as Enter (next weapon) / T (track target); in an interceptor drone's camera B (next target) / G (let it go) |
+| B | on the ground brakes, in the air the WSO looks for another target (Rescan); in an interceptor's camera the next target it marks |
+| S | Silicon WSO (computer gunner) on/off |
+| T | track the target in the direction of view (Track target) |
+| F | automatic flare dispensing on / off (a pair about every second until they run out; 96) |
+| C | automatic chaff dispensing on / off (96); spoils the aim of radars (ZSU-23-4) and leads Rapier astray |
+| K | infrared jammer on/off |
+| Ctrl+1 … Ctrl+4 | an order to the AI wingman (outside network play): 1 Go home, 2 Follow me, 3 Attack my target, 4 Resume flightplan |
+| Shift+1 … Shift+4 | the same to the whole formation (all our helicopters in the air, the Mi-17 too) |
+| Ctrl+1 … Ctrl+0 | in network play a message to the others (see Network play, Messages) |
+| Ctrl+Shift+1 … 0 | in network play a message to the other pilots |
+| I | HUD black / green (by day it starts black, at night green) |
+| L | instrument lighting (at night) |
+| V | night vision on/off |
+| F2 | pilot's cockpit |
+| F3 | gunner's cockpit |
+| mouse | aims in the gunner's cockpit (F3) and at the doors (F4): movement turns the view (and the turret), the left button fires. The mouse is captured in the window in those views and released in the others |
+| F4 | at the door gun (only with a GShG in the cabin): the view from the cabin's window with the gun, the aiming ring shows where the gun aims. Another F4 switches to the other doors if there is a gun in them. In the single player game the player at the doors takes over their gun: he aims by looking (mouse, Alt + arrows, hat), the trigger fires only that gun. Back in the seat the door gunner fires on his own again |
+| G | at a door and in the gunner's cockpit (F3), with interceptor drones on the pylons: send one out and fly it from its camera; G again (or F4, F3; a network player: only G) lets it go and the view goes back to the door or the sight; one locked on its target (the trigger, within 1 km) flies itself and G sends the next out |
+| F6 | external view |
+| F7 | weapon view (7 in the original): the camera circles the rocket, Shturm or bomb fired last and holds it until impact, shows the explosion's place for 2 s, then moves to the next one in the air. Turn with Alt + arrows, zoom with , / . |
+| F8 | view from the target (8): from behind the target (the WSO's, otherwise where the weapon flies) at the incoming weapon; with no weapon in the air at the helicopter |
+| F9 | view at the locked target (9): from outside behind the helicopter towards the WSO's target; flying straight at it you see yourself from behind |
+| F10 | remote view (0): the camera stays where the helicopter was and turns after it |
+| F12 | spectator view (−): the camera stays where it is and looks at the helicopter |
+| F5 / Shift+F5 | watch the next / previous unit (=): the camera circles vehicles, aircraft and drones, ours and the enemy's, and shows the name; after a crash in a network game the next / previous Hind still flying |
+| Alt + arrows | looking around in the cockpit (each seat separately) / turning the external view. The pilot looks around, as in the original, left and right over the wide cockpit picture (about ±97°), and also up to 60° up: the picture slides down, showing the cabin's upper frame painted over it (`data/cockpit`) and above it the open sky with the rotor disc. The gunner looks up and down too, because he aims with it. Looking up, his picture slides down (topped with its painted frame) until it is gone under the edge. Looking down, it does not vanish at once: from 2° below the default view it turns transparent and is gone by about 8°, as near the picture's end aside. Outside the picture the gunner sees only through the helmet sight. The modelled cockpit is shown only without the original's data; the joystick's hat switch and the gamepad's D-pad do the same. The modifier can be changed with `look_modifier` (Ctrl, Shift, Super) |
+| J | centre the view |
+| , / . | zoom the external view out / in (F7 and F5 too); in the gunner's cockpit the sight's magnification 1×, 3.3× and 10× (also the mouse wheel). Magnified, only the sight's picture is seen and the sight turns proportionally slower |
+| M | switch the flight model (Novice / Stable / Realistic) |
+| P | pause: the game stops at once and the picture darkens to half over a second, as in the original; P again brightens it first, then the game runs on. While paused the game answers only to P, Esc and Ctrl+Q (and the screenshot) |
+| R | send reconnaissance data (as in the original): hover about 4 s in range of the reconnaissance point (1.5 km); flight control answers "good / bad reconnaissance data". In reconnaissance missions all the reconnaissance points are a condition of success. |
+| Backspace, Ctrl+R | back to the start (the airfield) |
+| D | cargo doors open / close (troop drop and evacuation). With door guns in the air instead: the door gunners fire on their own (free fire, the default) or hold fire: their guns then fire only by hand, in F4 or by the gunner over the network. At the doors the state is shown next to the ammunition ("HOLD FIRE") |
+| F11 | full screen |
+| F1 | screenshot: saved as a BMP into `Hind` in the Pictures folder (on Linux `~/Pictures/Hind` or its localised name, on Windows `Pictures\Hind` in the user's profile; the `screenshots` option in `[data]` sends it elsewhere). The game briefly says SCREENSHOT SAVED |
+| Ctrl+J | joystick on/off |
+| Alt+J | recalibrate the joystick's centre |
+| Ctrl+Q | "END MISSION? Y/N": Y ends the mission (debriefing), N flies on |
+| Esc | quit (back to the menu) |
 
-Výkon nad 100 % (max. 130 %) jde jen klávesou Q. Textový displej pak hlásí ENGINE OVRTORQ a svítí kontrolka TORQ, jako v originálu.
+Power above 100 % (max. 130 %) only with the Q key. The text display then says ENGINE OVRTORQ and the TORQ lamp lights, as in the original.
 
-Zbraně: kulomet Jak-B ve věži pod nosem (1470 nábojů) míří z kokpitu střelce tam, kam se střelec
-dívá (Alt + šipky), v rozsahu ±60° do stran, 20° nahoru a 60° dolů; kosočtverec ukazuje, kam
-věž právě míří. Z kokpitu pilota střílí po ose. Výzbroj závěsníků se volí na obrazovce výzbroje
-před misí, nebo v `[weapons]` v hind.ini. Jako v originálu: když po výstřelech z kulometu nebo dveřních GŠG
-kdekoli přistanete a minutu stojíte, dostanou znovu plný náboj („Comrade, weapons
-reloaded“, v ukrajinských misích bez „Comrade“), jednou za let. Ve vzduchu se GŠG nedobíjí (kromě Arcade). Čekání na stojánce před startem se nepočítá.
-- **Rakety** S-8 (B-8V20, 20 na gondolu) a S-5 (UB-32, 32 na gondolu) letí v párech, držením
-  spouště se odpalují v sérii.
-- **Gondoly UPK-23** střílí po ose.
-- **Pumy** FAB-250, OFAB-250 (tříštivá, dál proti nekrytým cílům), FAB-500 a ZAB-500
-  (zápalná, nechá požár) padají po jedné na každé stisknutí, střídavě zleva a zprava. Na HUD
-  ukazuje kroužek s tečkou, kam by puma právě dopadla. Puma se pouští, když cíl dojede pod
-  kroužek, a z nízké výšky bývá kroužek pod spodním okrajem HUDu, takže je potřeba
-  stoupat nebo klesat střemhlav.
-- Shozené pumy z modelu zmizí a vrtulník je o jejich hmotnost lehčí.
-- **9M114 Šturm** (2 na každém konci křídla, nebo na vnějších závěsnících): protitanková
-  řízená střela s dosahem 5 km, letí asi 400 m/s. Odpaluje se jedna na stisk a rádiové povely
-  ji drží na záměrné přímce zaměřovače střelce:
-  - když WSO drží cíl (rámeček), vede ji na něj;
-  - bez WSO ji vede pohled střelce, z místa pilota osa vrtulníku;
-  - zaměřovač se otočí nejvýš 60° od nosu, když se vrtulník stočí dál, střela letí dál rovně
-    a mine.
+Weapons: the Yak-B machine gun in the turret under the nose (1470 rounds) aims from the
+gunner's cockpit where the gunner looks (Alt + arrows), within ±60° to the sides, 20° up and
+60° down; a diamond shows where the turret is aiming. From the pilot's cockpit it fires along
+the axis. The pylons' weapons are chosen on the payload screen before a mission, or in
+`[weapons]` in hind.ini. As in the original: when, after firing the machine gun or the door GShGs, you land
+anywhere and stand for a minute, they get a full load again ("Comrade, weapons reloaded", without the "Comrade" in the Ukrainian missions; in the air the GShG does not reload, except in Arcade),
+once a flight. Waiting on the stand before takeoff does not count.
+- **Rockets** S-8 (B-8V20, 20 a pod) and S-5 (UB-32, 32 a pod) fly in pairs; holding the
+  trigger fires them in a series.
+- **UPK-23 pods** fire along the axis.
+- **Bombs** FAB-250, OFAB-250 (fragmentation, further against unprotected targets), FAB-500
+  and ZAB-500 (incendiary, leaves a fire) drop one for each press, alternately left and right.
+  On the HUD a circle with a dot shows where the bomb would fall now. The bomb is released when
+  the target comes under the circle, and from a low height the circle is often below the HUD's
+  bottom edge, so you need to climb or dive.
+- Dropped bombs disappear from the model and the helicopter is lighter by their weight.
+- **9M114 Shturm** (2 on each wing tip, or on the outer pylons): an anti-tank guided missile
+  with a range of 5 km, flying about 400 m/s. One is fired per press, and radio commands keep
+  it on the line of sight of the gunner's sight:
+  - when the WSO holds a target (box), it guides it there;
+  - without the WSO it is guided by the gunner's look, from the pilot's seat by the
+    helicopter's axis;
+  - the sight turns at most 60° from the nose; when the helicopter turns further, the missile
+    flies on straight and misses.
 
-  Za jménem cíle na HUDu se ukazuje čas do zásahu (`T5`). Tandemová kumulativní hlavice
-  zničí i tank, hodí se na palebná postavení, kamiony a minomety mimo dostřel DŠK.
+  After the target's name on the HUD the time to impact is shown (`T5`). The tandem shaped
+  charge warhead destroys even a tank and suits firing positions, trucks and mortars outside
+  the DShK's range.
 
-Na zemi zbraně nestřílí.
+On the ground the weapons do not fire.
 
-Silicon WSO: jako v originále sedí v přední kabině počítačový střelec (po startu zapnutý, S ho
-vypne). Sám vybírá živé cíle před vrtulníkem do 4 km, které nejsou schované za terénem,
-a míří na ně kulometem s předsazením na dobu letu a pokles střely. Pilot jen volí zbraň a
-střílí mezerníkem. Klávesa B ve vzduchu přepne na další cíl, T zamkne cíl, na který se právě
-díváte (funguje i s vypnutým WSO). Na HUD je cíl v rámečku. Když je cíl blízko osy (v poli
-laserového dálkoměru), objeví se v rámečku kříž a u názvu cíle dálka. Když je cíl pro zvolenou
-zbraň příliš daleko, je za dálkou `FAR` (kulomet nad 1,5 km, UPK nad 2 km, S-5 nad 3 km, S-8
-nad 4 km, Šturm nad 5 km): střelba by byla plýtvání. Rakety a UPK-23 míří
-pořád po ose, takže na cíl v rámečku je potřeba natočit vrtulník. Ruční rozhlížení z kabiny
-střelce (Alt + šipky) WSO vypne.
+Silicon WSO: as in the original a computer gunner sits in the front cockpit (on after takeoff,
+S turns him off). He picks live targets in front of the helicopter within 4 km that are not
+hidden behind the terrain, and aims the machine gun at them with lead for the time of flight
+and the drop of the round. The pilot only chooses the weapon and fires with space. The B key in
+the air switches to the next target, T locks the target you are looking at (it works with the
+WSO off too). On the HUD the target is in a box. When the target is close to the axis (in the
+laser rangefinder's field), a cross appears in the box and the range next to the target's name.
+When the target is too far for the chosen weapon, `FAR` follows the range (machine gun over
+1.5 km, UPK over 2 km, S-5 over 3 km, S-8 over 4 km, Shturm over 5 km): firing would be a
+waste. Rockets and UPK-23 always aim along the axis, so you have to turn the helicopter to the
+target in the box. Looking around by hand from the gunner's cockpit (Alt + arrows) turns the
+WSO off.
 
-Kokpit: obrázky kokpitů se načítají z originální hry. Při rozhlížení doleva a doprava se
-posouvají jako v originále. Pohled nahoru, dolů a dozadu a hra bez originálních dat
-používají modelovaný kokpit.
+Cockpit: the cockpit pictures are loaded from the original game. Looking left and right they
+slide as in the original. Looking up, down and back, and the game without the original's data,
+use the modelled cockpit.
 
-Pilotní přístroje navíc:
-- Otáčkoměr vlevo dole: levý a pravý motor a rotor, 0–120 %.
-- Palivoměr: počítadlo v kg vlevo od ukazatele sklonu. Plné nádrže mají 2130 kg a spotřeba je
-  asi 200 kg/h na volnoběh až 900 kg/h při plném výkonu. Bez paliva motory stojí.
-- Počítadla pod kurzovým ukazatelem: kurz a vzdálenost na letiště v km.
-- Pohyblivá mapa jako v originále: sever nahoře, mapa se neotáčí ani neposouvá. Pozice je
-  v průsečíku dvojitých lišt s křížkem (`HMAPBAR`, `VMAPBAR`, `CMAPBAR.640`). Když lišty
-  dojedou ke kraji, mapa se přecentruje. Letiště je v kroužku, mapa má šířku asi 6,7 km.
-- Kontrolky TORQ (přetížení), RPM (otáčky rotoru pod 95 %), FUEL (pod 300 kg) a
-  nebezpečné výšky u radiovýškoměru (pod 15 m).
-- RWR nahoře vpravo: kontrolka směru (10, 30, 50, 90° doleva či doprava, nebo dozadu), oblouk
-  blízkosti a třída hrozby. Radar má ZSU-23-4 (Gun Dish, třída 3, 8 km) a SA-13 (třída 4,
-  10 km). Svítí, jen když radar vrtulník vidí přes terén. SA-9 a ostatní vozidla radar nemají.
+Extra pilot instruments:
+- The tachometer at the bottom left: the left and right engine and the rotor, 0–120 %.
+- The fuel gauge: a counter in kg to the left of the attitude indicator. Full tanks hold
+  2130 kg and the consumption is about 200 kg/h at idle up to 900 kg/h at full power. Without
+  fuel the engines stop.
+- The counters under the heading indicator: heading and distance to the airfield in km.
+- The moving map as in the original: north up, the map neither turns nor scrolls. The position
+  is at the crossing of the double bars with a cross (`HMAPBAR`, `VMAPBAR`, `CMAPBAR.640`). When
+  the bars reach the edge, the map is re-centred. The airfield is in a circle, the map is about
+  6.7 km wide.
+- The warning lights TORQ (overtorque), RPM (rotor speed under 95 %), FUEL (under 300 kg) and
+  dangerous height by the radar altimeter (under 15 m).
+- The RWR at the top right: a direction light (10, 30, 50, 90° left or right, or behind), a
+  proximity arc and the threat class. Radar is fitted to the ZSU-23-4 (Gun Dish, class 3, 8 km)
+  and the SA-13 (class 4, 10 km). It lights up only when the radar sees the helicopter over the
+  terrain. The SA-9 and the other vehicles have no radar.
 
-Střelec má vpravo panel zbraní: počty na vnitřních a vnějších závěsnících, na koncích křídel
-a náboje kulometu, u vybrané zbraně svítí kontrolka a v okénku je její název.
+The gunner has a weapons panel on the right: the counts on the inner and outer pylons, on the
+wing tips and the machine gun's rounds; the selected weapon has its light on and its name in
+the window.
 
-Cíle: 2,5 km severně od letiště jede na východ kolona (BRDM-2, BMP-2, cisterny) se ZSU-23-4
-a SA-9. Další 1 km na severovýchod stojí tři T-62 a SA-13. Kulomet Jak-B prorazí jen lehce
-pancéřovaná vozidla, tank zničí pouze rakety: S-8 má kumulativní hlavici a tank vydrží tři
-přímé zásahy, BMP jen jeden. Výbuch S-8 zasáhne i vozidla do 10 m. Zničené vozidlo, letadlo nebo vrtulník se rozletí na kusy
-(Mi-17 podle svých částí v datech, ostatní rozdělené podle polohy) a několik minut z místa stoupá kouř. Budova a tank zůstanou jako ohořelý vrak; ruským tankům (T-62, T-72, T-80) odletí věž. R vrátí vrtulník na letiště a obnoví cíle.
+Targets: 2.5 km north of the airfield a convoy (BRDM-2, BMP-2, tankers) drives east with a
+ZSU-23-4 and an SA-9. Another 1 km to the north-east stand three T-62s and an SA-13. The Yak-B
+machine gun pierces only lightly armoured vehicles; a tank is destroyed only by rockets: the S-8
+has a shaped charge warhead and a tank takes three direct hits, a BMP only one. An S-8's
+explosion also hits vehicles within 10 m. A destroyed vehicle, aircraft or helicopter breaks into pieces
+(the Mi-17 by its parts in the data, the others cut up by position) and smoke rises from the spot for a few minutes. A building or a tank stays as a burnt-out wreck; a Russian tank (T-62, T-72, T-80) loses its turret. R returns the helicopter to the airfield and restores
+the targets.
 
-Rolování: odbrzdit (B), collective kolem 50 % (klávesa 5) a cyklika vpřed; pedály zatáčí.
-Zabrzděný vrtulník na zemi pedály neotočí.
+Taxiing: release the brakes (B), collective about 50 % (key 5) and the cyclic forward; the
+pedals steer. The pedals do not turn a braked helicopter on the ground.
 
-### Letové modely
+### Flight models
 
-- **Novice**: collective řídí stoupání (50 % = visení), cyklika vpřed/vzad mění rychlost bez
-  ztráty výšky, automatické vyrovnání a sledování terénu.
-- **Stable**: skutečná fyzika vrtulníku (translační vztlak, přízemní efekt, hustota vzduchu)
-  bez křížových vazeb. Po puštění cykliky drží vrtulník podélný sklon a vyrovná náklon; po vzletu
-  s kniplem uprostřed se nejdřív vyrovná do vodorovné polohy a ve visení ho disk rotoru odkloněný
-  proti pohybu zastaví, takže sám neujíždí dozadu ani do strany.
-- **Realistic**: navíc reakční moment rotoru (při přidání výkonu se stáčí doleva, je potřeba
-  pravý pedál), posun neutrálu cykliky s rychlostí a turbulence ve visení. Pedály v rychlosti
-  vrtulník jen vybočí (kýl ho drží ve směru letu: plný pedál ~50° při 100 km/h, ~10° při
-  200 km/h) a vybočení ho naklání na stranu pedálu; zatáčí se náklonem cykliky.
+- **Novice**: the collective controls the climb (50 % = hover), the cyclic forward/back changes
+  the speed without losing height, automatic levelling and terrain following.
+- **Stable**: real helicopter physics (translational lift, ground effect, air density) without
+  cross-couplings. When the cyclic is released, the helicopter holds its pitch and levels its
+  bank; lifting off with the cyclic centred it first levels its nose, and in the hover the rotor
+  disc flapping back from the drift stops it, so it does not slide off backwards or sideways by
+  itself.
+- **Realistic**: on top of that the rotor's torque reaction (adding power yaws left, it needs
+  right pedal), the cyclic's neutral shifting with speed and turbulence in the hover. At speed
+  the pedals only make the helicopter sideslip (the fin keeps it in the direction of flight:
+  full pedal ~50° at 100 km/h, ~10° at 200 km/h) and the sideslip banks it to the side of the
+  pedal; you turn by banking with the cyclic.
 
-Vzlet ve Stable: klávesou 9 nastavit 90 %. Vrtulník se odlepí kolem 72–78 % a stoupá.
-Ve výšce kolem 20 m nastavit klávesou 8 80 %, což je přibližně visení (doladit Q/A).
-Šipkou vpřed pak sklonit nos a vrtulník zrychlí. Při přistání ubírat výkon tak, aby
-vertikální rychlost u země byla pod 2 m/s.
+Takeoff in Stable: set 90 % with the key 9. The helicopter lifts off at about 72–78 % and
+climbs. At about 20 m set 80 % with the key 8, which is roughly a hover (fine tune with Q/A).
+The forward arrow then lowers the nose and the helicopter speeds up. When landing, reduce power
+so that the vertical speed near the ground is under 2 m/s.
 
-## HUD v navigačním režimu
+## HUD in navigation mode
 
-Navíc k letovým údajům ukazatel dalšího waypointu jako v originálu: pixelovaný kroužek vlevo nebo
-vpravo podle směru k bodu, výš nebo níž podle toho, jak vysoko je bod plánovaný (kroužek na
-středu = letíte přímo na bod ve správné výšce), vlevo dole písmeno bodu a vzdálenost v km,
-vpravo dole čas k němu (`---`, když se k němu nepřibližujete).
+Besides the flight data there is a next waypoint indicator as in the original: a pixelated
+circle to the left or right by the direction to the point, higher or lower by how high the
+point is planned (the circle in the middle = you are flying straight at the point at the right
+height), at the bottom left the point's letter and the distance in km, at the bottom right the
+time to it (`---` when you are not closing on it).
 
-## HUD ve zbraňovém režimu
+## HUD in weapon mode
 
-Podle manuálu originálu (obr. 5.3 a 8.0) a jeho screenshotů:
+After the original's manual (fig. 5.3 and 8.0) and its screenshots:
 
-- rychlost a výška (`R:` radarová) na koncích kurzové stupnice, krouticí moment pod ní;
-- vlevo stupnice dostřelu zbraně s ryskami minimálního a maximálního dostřelu, šipka ukazuje
-  vzdálenost cíle, dokud ho měří laser;
-- pod stupnicí zbraň a počet, např. `FAB250:4`;
-- záměrný kroužek na cíli WSO, kreslený po pixelech jako v originálu: mimo dosah zbraně
-  s křížem, v dosahu jen oblouk („koláč“) od 12 hodin, který se s blížícím se cílem zmenšuje;
-- u pum bod dopadu (CCIP, kroužek s tečkou);
-- se zapnutým silikonovým WSO a cílem pumy shazuje počítač: místo CCIP malý zaměřovací kroužek
-  ukazuje boční odchylku cíle (navést ho na střed HUD), vpravo dole odpočet. Spoušť je potřeba
-  držet, puma odpadne, když odpočet dojde na nulu;
-- u 9M114 odpočet do zásahu.
+- speed and height (`R:` radar) at the ends of the heading scale, torque under it;
+- on the left the weapon's range scale with ticks for the minimum and maximum range; an arrow
+  shows the target's distance while the laser is measuring it;
+- under the scale the weapon and the count, e.g. `FAB250:4`;
+- the aiming circle on the WSO's target, drawn pixel by pixel as in the original: out of the
+  weapon's range with a cross, in range only an arc ("pie") from 12 o'clock that shrinks as
+  the target gets closer;
+- for bombs the impact point (CCIP, a circle with a dot);
+- with the silicon WSO on and a target, the computer drops the bombs: instead of CCIP a small
+  aiming circle shows the target's lateral offset (steer it to the HUD's centre), at the bottom
+  right a countdown. Hold the trigger; the bomb drops when the countdown reaches zero;
+- for the 9M114 a countdown to impact.
 
-## Konfigurace
+## Configuration
 
-Při prvním spuštění se vytvoří `~/.config/hind/hind.ini` (pokud v aktuálním adresáři existuje
-`./hind.ini`, použije se ten). Soubor se zapíše jen jednou. Volby přidané v novějších verzích
-v něm proto chybí a platí pro ně výchozí hodnoty. Kompletní soubor vznikne, když starý smažete.
-Komentáře začínají `;` nebo `#`.
+On the first start `~/.config/hind/hind.ini` is created (if `./hind.ini` exists in the current
+directory, that one is used). The file is written only once. Options added in newer versions are
+therefore missing from it and their defaults apply. Delete the old file to get a complete one.
+Comments start with `;` or `#`.
 
 **[video]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `width`, `height` | 1600, 900 | velikost okna v pixelech |
-| `fullscreen` | 0 | 1 = celá obrazovka v nativním rozlišení (přepíná i F11) |
-| `display` | (prázdné) | monitor pro okno: `left` / `right` = krajní vlevo / vpravo, číslo = displej SDL, prázdné = podle systému |
-| `vsync` | 1 | synchronizace se snímkovou frekvencí monitoru |
-| `msaa` | 4 | vyhlazování hran (počet vzorků, 0 = vypnuto) |
-| `fov` | 65 | svislé zorné pole ve stupních |
-| `view_distance` | 16000 | dohlednost v metrech, dál je mlha |
-| `ui_scale` | 2 | plánování mise: kolik pixelů okna má pixel originálu (0 = podle okna) |
+| `width`, `height` | 1600, 900 | window size in pixels |
+| `fullscreen` | 0 | 1 = full screen at native resolution (F11 toggles it too) |
+| `display` | (empty) | monitor for the window: `left` / `right` = leftmost / rightmost, a number = SDL display, empty = by the system |
+| `vsync` | 1 | sync to the monitor's refresh rate |
+| `msaa` | 4 | antialiasing (number of samples, 0 = off) |
+| `fov` | 65 | vertical field of view in degrees |
+| `view_distance` | 16000 | view distance in metres, beyond is fog |
+| `ui_scale` | 2 | mission planning: window pixels to a pixel of the original (0 = fitted to the window) |
 
 **[audio]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `enabled` | 1 | 0 = bez zvuku |
-| `volume` | 0.8 | celková hlasitost (0–1) |
-| `voices` | 1.0 | hlasitost hlasů proti ostatním zvukům |
-| `speech` | 1 | předčítání briefingů a vyhodnocení misí z CD originálu (viz `[data] cd`) |
-| `music` | 1 | hudba originálu z CD v menu (THEME dokola, na stránce vyznamenání MEDAL) a ve vyhodnocení podle výsledku (SUCCESS, OUTSTAND, FAIL, DEATH, ztišená pod řečí); v letu nehraje. Také na stránce nastavení |
+| `enabled` | 1 | 0 = no sound |
+| `volume` | 0.8 | master volume (0–1) |
+| `voices` | 1.0 | volume of the voices against the other sounds |
+| `speech` | 1 | briefings and mission debriefings read aloud from the original's CD (see `[data] cd`) |
+| `music` | 1 | the original's music from the CD in the menu (THEME on a loop, MEDAL on the medal page) and in the debriefing by result (SUCCESS, OUTSTAND, FAIL, DEATH, lowered under speech); not in flight. Also on the preferences page |
 
 **[flight]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `model` | stable | letový model: `novice`, `stable`, `realistic` (ve hře přepíná M) |
-| `no_crash` | 0 | 1 = náraz do země vrtulník nezničí |
+| `model` | stable | flight model: `novice`, `stable`, `realistic` (M switches it in the game) |
+| `no_crash` | 0 | 1 = hitting the ground does not destroy the helicopter |
 
-**[keyboard]**: jak rychle klávesy hýbou ovládáním (plný rozsah ovládání je 1, hodnoty jsou za sekundu)
+**[keyboard]**: how fast the keys move the controls (the full range of a control is 1, the values are per second)
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `cyclic_rate` | 1.6 | rychlost vychylování cykliky šipkami |
-| `cyclic_return` | 2.5 | rychlost návratu cykliky do středu po puštění |
-| `pedal_rate`, `pedal_return` | 2.0, 3.0 | totéž pro pedály |
-| `collective_rate` | 0.25 | nejvyšší rychlost změny collective klávesami Q / A (0,25 = 25 % za sekundu) |
-| `collective_ramp` | 0.5 | za kolik sekund držení se Q / A rozjede na plnou rychlost (jako v originálu) |
-| `collective_coast` | 0.25 | za kolik sekund po puštění se páka zastaví; z plné rychlosti dojede asi o 3 % |
+| `cyclic_rate` | 1.6 | how fast the arrows deflect the cyclic |
+| `cyclic_return` | 2.5 | how fast the cyclic returns to the centre when released |
+| `pedal_rate`, `pedal_return` | 2.0, 3.0 | the same for the pedals |
+| `collective_rate` | 0.25 | the fastest change of the collective by the Q / A keys (0.25 = 25 % a second) |
+| `collective_ramp` | 0.5 | in how many seconds of holding Q / A it gets up to full speed (as in the original) |
+| `collective_coast` | 0.25 | in how many seconds after release the lever stops; from full speed it moves on about 3 % |
 
-**[keys]**: přiřazení kláves. Názvy jsou názvy kláves podle SDL (`Up`, `Space`, `F2`, `Q`,
-`Keypad +` …). Klávesy 1–0 (collective 10–100 %), Esc, F11 a kombinace s Ctrl / Alt jsou pevné.
+**[keys]**: key bindings. The names are SDL's key names (`Up`, `Space`, `F2`, `Q`,
+`Keypad +` …). The keys 1–0 (collective 10–100 %), Esc, F11 and combinations with Ctrl / Alt are fixed.
 
-| Volba | Výchozí | Funkce |
+| Option | Default | Function |
 |---|---|---|
-| `cyclic_forward`, `cyclic_back`, `cyclic_left`, `cyclic_right` | šipky | cyklika |
+| `cyclic_forward`, `cyclic_back`, `cyclic_left`, `cyclic_right` | arrows | cyclic |
 | `collective_up`, `collective_down` | Q, A | collective |
-| `collective_up_alt`, `collective_down_alt` | =, - | collective, druhá dvojice |
-| `pedal_left`, `pedal_right` | Z, X | pedály |
-| `gear` | U | podvozek |
-| `engines` | O | motory na volnoběh / připojit (autorotace) |
-| `brakes` | B | brzdy na zemi, ve vzduchu WSO hledá jiný cíl |
-| `pause` | P | pauza |
-| `reset` | Backspace | návrat na začátek (také s Ctrl) |
-| `recon` | R | odeslat průzkumná data |
-| `doors` | D | dveře nákladového prostoru; s dveřními kulomety ve vzduchu: dveřní střelci střílí sami / drží palbu |
-| `flight_model` | M | přepnutí letového modelu |
-| `view_pilot`, `view_gunner`, `view_external` | F2, F3, F6 | pohledy |
-| `view_weapon`, `view_target`, `view_lock`, `view_remote`, `view_spectator`, `view_watch` | F7, F8, F9, F10, F12, F5 | další vnější pohledy originálu (v jeho manuálu 7, 8, 9, 0, −, =; číslice tu ovládají kolektiv) |
-| `view_door` | F4 | u dveřního kulometu, znovu: druhé dveře |
-| `interceptor` | G | u dveří a v kokpitu střelce: vypustit stíhací dron a řídit ho; znovu: pustit ho (dál letí sám); jinde: rozkaz střelci vypustit dron na tvůj cíl (bez něj na nejbližší dron) |
-| `view_center` | J | vycentrovat pohled |
-| `zoom_in`, `zoom_out` | ., , | přiblížení / oddálení vnějšího pohledu |
-| `fire` | Space | výstřel |
-| `weapon_select` | E | navigační režim / další zbraň (s Ctrl zajistit); Enter funguje vždy, jako v originálu |
-| `silicon_wso` | S | počítačový střelec zap/vyp |
-| `track_target` | T | sledovat cíl ve směru pohledu. Mimo pohled střelce Shift+T zrychluje čas ×2 → ×4 → ×8 → normál (Ctrl+T vypnout); jen v klidu: samo se vypne, když má WSO či Mi-17 cíl, když po nás někdo střílí nebo je nepřítel blíž než 3 km, a v síťové hře není |
-| `next_waypoint` | W | navigace na další bod trasy mise, se Shiftem na předchozí |
-| `flares` | F | vystřelování světlic zap./vyp. |
-| `chaff` | C | vystřelování chaffu zap./vyp. |
-| `jammer` | K | infračervený rušič (v originálu je automatický, tady jde vypnout; starý `hind.ini` s rušičem na I se přemapuje na K) |
-| `hud_colour` | I | HUD a zaměřovače zelené nebo černé, jako v originálu; let začíná ve dne s černým, v noci se zeleným |
-| `instrument_lights` | L | podsvícení přístrojů: v noci rozsvítí stupnice, ručky a počítadla, jinak jsou ztlumené; kontrolky svítí vždy (jako v originálu) |
-| `night_vision` | V | noční vidění |
-| `screenshot` | F1 | snímek obrazovky |
-| `look_modifier` | Alt | modifikátor, se kterým šipky rozhlížejí: `Alt`, `Ctrl`, `Shift` nebo `Super` |
+| `collective_up_alt`, `collective_down_alt` | =, - | collective, a second pair |
+| `pedal_left`, `pedal_right` | Z, X | pedals |
+| `gear` | U | landing gear |
+| `engines` | O | engines to idle / engaged (autorotation) |
+| `brakes` | B | brakes on the ground, in the air the WSO looks for another target |
+| `pause` | P | pause |
+| `reset` | Backspace | back to the start (also with Ctrl) |
+| `recon` | R | send reconnaissance data |
+| `doors` | D | cargo doors; with door guns in the air: the door gunners fire on their own / hold fire |
+| `flight_model` | M | switch the flight model |
+| `view_pilot`, `view_gunner`, `view_external` | F2, F3, F6 | views |
+| `view_weapon`, `view_target`, `view_lock`, `view_remote`, `view_spectator`, `view_watch` | F7, F8, F9, F10, F12, F5 | the original's other external views (in its manual 7, 8, 9, 0, −, =; here the digits control the collective) |
+| `view_door` | F4 | at the door gun, again: the other doors |
+| `interceptor` | G | at a door and in the gunner's cockpit: send out an interceptor drone and fly it; again: let it go (it flies on by itself); elsewhere: order the gunner to send one at your target (without one, at the nearest drone) |
+| `view_center` | J | centre the view |
+| `zoom_in`, `zoom_out` | ., , | zoom the external view in / out |
+| `fire` | Space | fire |
+| `weapon_select` | E | navigation mode / next weapon (with Ctrl safe); Enter always works, as in the original |
+| `silicon_wso` | S | computer gunner on/off |
+| `track_target` | T | track the target in the direction of view. Outside the gunner's view Shift+T speeds up time ×2 → ×4 → ×8 → normal (Ctrl+T off); only when quiet: it turns itself off when the WSO or the Mi-17 has a target, when someone fires at us or the enemy is closer than 3 km, and not in network play |
+| `next_waypoint` | W | navigate to the next point of the mission's route, with Shift to the previous one |
+| `flares` | F | flare dispensing on/off |
+| `chaff` | C | chaff dispensing on/off |
+| `jammer` | K | infrared jammer (automatic in the original, here it can be turned off; an old `hind.ini` with the jammer on I is remapped to K) |
+| `hud_colour` | I | HUD and sights green or black, as in the original; a flight starts black by day, green at night |
+| `instrument_lights` | L | instrument lighting: at night it lights the scales, needles and counters, otherwise they are dimmed; the warning lights always glow (as in the original) |
+| `night_vision` | V | night vision |
+| `screenshot` | F1 | screenshot |
+| `look_modifier` | Alt | the modifier with which the arrows look around: `Alt`, `Ctrl`, `Shift` or `Super` |
 
 **[hud]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `gunner_hints` | 1 | ukazatel rány dveřních střelců na drony vpravo nahoře v HUD (přepíná i H v seznamu misí) |
+| `gunner_hints` | 1 | the door gunners' shot indicator for drones at the top right of the HUD (H in the list of missions toggles it too) |
 
 **[enemy]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `fire` | 1 | nepřítel v misích střílí (0 = nestřílí) |
-| `skill` | 1.0 | přesnost a rychlost reakce nepřítele: 0.5 slabý, 1.5 ostrý |
+| `fire` | 1 | the enemy fires in missions (0 = does not) |
+| `skill` | 1.0 | the enemy's accuracy and reaction speed: 0.5 weak, 1.5 sharp |
 
 **[weapons]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `inner_pylons` | b8v20 | vnitřní závěsníky: `b8v20`, `ub32`, `upk23`, `fab250`, `fab500`, `ofab250`, `zab500`, `kmgu` nebo `none` |
-| `outer_pylons` | b8v20 | vnější závěsníky: `b8v20`, `fab250`, `ofab250`, `r60`, `9m114` nebo `none` |
-| `wingtip_pylons` | 9m114 | konce křídel: `9m114` nebo `none` |
-| `door_guns` | none | GŠG-7.62 ve dveřích kabiny pro volný let: `none`, `left`, `right` nebo `both`. Mise mají své: oba v misích na Shahedy, jinak žádné (na obrazovce výzbroje jde změnit) |
+| `inner_pylons` | b8v20 | inner pylons: `b8v20`, `ub32`, `upk23`, `fab250`, `fab500`, `ofab250`, `zab500`, `kmgu` or `none` |
+| `outer_pylons` | b8v20 | outer pylons: `b8v20`, `fab250`, `ofab250`, `r60`, `9m114` or `none` |
+| `wingtip_pylons` | 9m114 | wing tips: `9m114` or `none` |
+| `door_guns` | none | GShG-7.62 in the cabin doors for free flight: `none`, `left`, `right` or `both`. Missions have their own: both in the Shahed missions, otherwise none (can be changed on the payload screen) |
 
-Hodnoty přepisuje obrazovka výzbroje při každém vzletu.
+The payload screen overwrites the values at every takeoff.
 
 **[mouse]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `aim` | 1 | myš míří v kokpitu střelce a u dveřního kulometu (0: nemíří a nechytá se v okně) |
-| `sensitivity` | 0.0025 | radiánů na pixel pohybu |
-| `invert_y` | 0 | 1: myš dopředu míří nahoru |
+| `aim` | 1 | the mouse aims in the gunner's cockpit and at the door gun (0: it does not aim and is not captured in the window) |
+| `sensitivity` | 0.0025 | radians per pixel of movement |
+| `invert_y` | 0 | 1: mouse forward aims up |
 
 **[net]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `port` | 7024 | port hry po síti: na něm pilotova hra (`--host`) čeká na střelce (`--join`) |
-| `name` | (pilot z deníku) | tvoje jméno v síťové hře |
-| `game` | (jméno + 's game) | jméno hry, kterou zakládáš |
+| `port` | 7024 | the network game's port: the pilot's game (`--host`) waits on it for the gunner (`--join`) |
+| `name` | (pilot from the log) | your name in network play |
+| `game` | (name + 's game) | the name of the game you host |
 
 **[data]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `original_dir` | (prázdné) | adresář nainstalované originální hry (ten s `HIND.EXE`). Když je prázdný, hledá se v `~/dosbox/c/DI/HIND` a podobných místech |
-| `cd` | (prázdné) | CD originálu: adresář (připojené CD nebo zkopírované soubory) nebo jeho obraz `.iso`. Na CD je adresář `SPEECH` s namluvenými briefingy a `SOUND` s hudbou, které instalace nemá. Když je prázdné, hledá se `SPEECH` v instalaci a pak `.iso` s „hind“ v názvu vedle ní nebo o pár úrovní výš, i v podadresáři `CDs` (např. `~/dosbox/CDs/Hind.iso`) |
-| `screenshots` | (prázdné) | složka pro snímky obrazovky (F1). Když je prázdná, ukládají se do `Hind` ve složce obrázků uživatele |
+| `original_dir` | (empty) | the directory of the installed original game (the one with `HIND.EXE`). When empty, `~/dosbox/c/DI/HIND` and similar places are searched |
+| `cd` | (empty) | the original's CD: a directory (the mounted CD or the copied files) or its `.iso` image. The CD has a `SPEECH` directory with the spoken briefings and `SOUND` with the music, which the installation does not have. When empty, `SPEECH` is looked for in the installation and then an `.iso` with "hind" in its name next to it or a few levels up, also in a `CDs` subdirectory (e.g. `~/dosbox/CDs/Hind.iso`) |
+| `screenshots` | (empty) | the folder for screenshots (F1). When empty, they go to `Hind` in the user's Pictures folder |
 
 **[world]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `zone` | afghan | krajina: `afghan`, `kazak`, `korea`, `saratov` (z originální hry) nebo `procedural` |
-| `mission` | campaign | mise originálu (např. `AFGHNS03`), `campaign` pro kampaň oblasti, nebo `none` |
-| `scenery` | 1 | budovy, mosty, hájky a dráhy letišť válečné zóny (`GNDOBJS.BIN`); 0 = holá krajina s vlastním letištěm |
-| `hour` | 10 | místní čas startu ve volném letu (mise mají svůj) |
-| `weather` | 0 | počasí ve volném letu: 0 jasno, 1 zataženo, 2 slabá mlha, 3 hustá mlha, 4 déšť |
+| `zone` | afghan | landscape: `afghan`, `kazak`, `korea`, `saratov` (from the original game) or `procedural` |
+| `mission` | campaign | an original mission (e.g. `AFGHNS03`), `campaign` for the zone's campaign, or `none` |
+| `scenery` | 1 | the war zone's buildings, bridges, groves and runways (`GNDOBJS.BIN`); 0 = bare landscape with our own airfield |
+| `hour` | 10 | local time of the start in free flight (missions have their own) |
+| `weather` | 0 | weather in free flight: 0 clear, 1 overcast, 2 light fog, 3 thick fog, 4 rain |
 
 **[campaign]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `afghan_level` | 1 | úroveň afghánské kampaně (stejně tak `kazak_`, `korea_`, `ukraine_`) |
-| `afghan_lives` | 3 | zbývající životy |
-| `afghan_failed` | | neúspěšné mise úrovně (čárkami) |
-| `afghan_mission` | | mise vybraná pro úroveň |
-| `afghan_show` | intro | co stránka kampaně řekne příště: intro, situation, stalemate, failure, won |
+| `afghan_level` | 1 | the level of the Afghan campaign (likewise `kazak_`, `korea_`, `ukraine_`) |
+| `afghan_lives` | 3 | lives left |
+| `afghan_failed` | | the level's failed missions (comma separated) |
+| `afghan_mission` | | the mission chosen for the level |
+| `afghan_show` | intro | what the campaign page says next: intro, situation, stalemate, failure, won |
 
-Starší `hind.ini` s číslem mise (`afghan = 5`) pokračuje od úrovně té mise.
+An older `hind.ini` with a mission number (`afghan = 5`) continues from that mission's level.
 
 **[joystick]**
 
-| Volba | Výchozí | Význam |
+| Option | Default | Meaning |
 |---|---|---|
-| `enabled` | 1 | používat joystick (ve hře přepíná Ctrl+J) |
-| `device` | 0 | hlavní ovladač (jeho tlačítka), když je jich připojeno víc (vypisují se při startu) |
-| `device_name` | | totéž podle jména; platí, když je zařízení připojené |
-| `deadzone` | 0.06 | mrtvá zóna kolem středu os (podíl rozsahu) |
-| `expo` | 0.3 | exponenciální křivka: 0 = lineární, víc = jemnější kolem středu |
-| `mapped` | 0 | osy zvolené v Preferences; gamepad pak nemá vlastní rozložení |
-| `cyclic_x_axis`, `cyclic_y_axis` | 0, 1 | osy cykliky |
-| `collective_axis` | 2 | plynová páka, -1 = nepoužívat (collective pak jen z klávesnice) |
-| `pedal_axis` | 3 | kormidlo nebo twist, -1 = nepoužívat |
-| `look_x_axis`, `look_y_axis` | -1, -1 | osy rozhlížení (třeba mini-páčka na plynu), otáčejí pohledem jako klobouček, jen plynule |
-| `…_device` | | zařízení dané osy podle jména (`cyclic_x_device`, `pedal_device`, …); prázdné = hlavní |
-| `invert_…` | 0 | obrátit osu (`invert_cyclic_x`, `invert_cyclic_y`, `invert_collective`, `invert_pedal`, `invert_look_x`, `invert_look_y`) |
-| `look_hat` | 0 | kloboučkový přepínač (hat) na rozhlížení jako Alt + šipky, -1 = nepoužívat; u gamepadu D-pad |
-| `look_hat_device` | | zařízení kloboučku; prázdné = hlavní |
-| `door_device` | GSG Door Gun | lafeta dveřního kulometu podle části názvu; prázdné = žádná |
-| `door_yaw_axis`, `door_pitch_axis` | 0, 1 | osy lafety (plný rozsah = od dorazu k dorazu: ±69° do stran, 69° dolů až 29° nahoru) |
-| `door_fire_button` | 0 | spoušť lafety |
-| `invert_door_yaw`, `invert_door_pitch` | 0 | obrátit osu lafety |
+| `enabled` | 1 | use the joystick (Ctrl+J toggles it in the game) |
+| `device` | 0 | the main controller (its buttons) when more are connected (they are listed at start) |
+| `device_name` | | the same by name; applies when the device is connected |
+| `deadzone` | 0.06 | dead zone around the axes' centre (a fraction of the range) |
+| `expo` | 0.3 | exponential curve: 0 = linear, more = finer around the centre |
+| `mapped` | 0 | axes chosen in Preferences; a gamepad then has no layout of its own |
+| `cyclic_x_axis`, `cyclic_y_axis` | 0, 1 | cyclic axes |
+| `collective_axis` | 2 | throttle lever, -1 = not used (the collective then only from the keyboard) |
+| `pedal_axis` | 3 | rudder or twist, -1 = not used |
+| `look_x_axis`, `look_y_axis` | -1, -1 | look axes (e.g. a mini stick on the throttle), turn the view like the hat, only smoothly |
+| `…_device` | | the device of the given axis by name (`cyclic_x_device`, `pedal_device`, …); empty = the main one |
+| `invert_…` | 0 | reverse an axis (`invert_cyclic_x`, `invert_cyclic_y`, `invert_collective`, `invert_pedal`, `invert_look_x`, `invert_look_y`) |
+| `look_hat` | 0 | the hat switch for looking around like Alt + arrows, -1 = not used; on a gamepad the D-pad |
+| `look_hat_device` | | the hat's device; empty = the main one |
+| `door_device` | GSG Door Gun | the door gun mount, by a part of its name; empty = none |
+| `door_yaw_axis`, `door_pitch_axis` | 0, 1 | the mount's axes (the whole range = stop to stop: ±69° to the sides, 69° down to 29° up) |
+| `door_fire_button` | 0 | the mount's trigger |
+| `invert_door_yaw`, `invert_door_pitch` | 0 | reverse a mount's axis |
 
-Osy se nejsnáz nastaví v Preferences (učení os pohybem). Dvě stejná zařízení se rozliší
-příponou „#2“.
+The axes are easiest to set in Preferences (learning the axes by movement). Two identical
+devices are told apart by the suffix "#2".
 
-Při startu se do konzole vypíšou nalezené ovladače a jejich osy. Gamepad s mapováním SDL se
-(dokud v Preferences nenastavíš osy) ovládá takto: levá páčka je cyklika, pravá páčka X jsou pedály, spouště a pravá páčka Y mění
-collective. Střílí se tlačítkem A.
+At start the controllers found and their axes are printed to the console. A gamepad with an
+SDL mapping is controlled (until you set the axes in Preferences) like this: the left stick is
+the cyclic, the right stick X the pedals, the triggers and the right stick Y change the
+collective. Fire with the A button.
 
-## Vývojářské volby
+## Developer options
 
 ```sh
-./build/hind --width 1280 --height 720 --windowed   # velikost okna a okno místo celé obrazovky (--fullscreen)
-./build/hind --config ~/jiny.ini --setup  # jiná konfigurace; znovu se zeptat, kde je originál
-./build/hind --start-air 60 200          # start ve vzduchu: 60 m nad letištěm, 200 km/h
-./build/hind --start-air 150 150 --start-bank 30   # navíc v náklonu 30° vpravo (záporné = vlevo)
-./build/hind --start-air 50 40 --start-pitch -30 --start-bank -60   # nos 30° dolů a náklon 60° vlevo
+./build/hind --width 1280 --height 720 --windowed   # the window's size, and a window instead of full screen (--fullscreen)
+./build/hind --config ~/other.ini --setup  # another configuration; ask again where the original is
+./build/hind --start-air 60 200          # start in the air: 60 m above the airfield, 200 km/h
+./build/hind --start-air 150 150 --start-bank 30   # also banked 30° right (negative = left)
+./build/hind --start-air 50 40 --start-pitch -30 --start-bank -60   # nose 30° down and banked 60° left
 ./build/hind --view gunner --screenshot shot.ppm   # pilot | gunner | door | door-left | door-right | external
-./build/hind --mission SARATT02 --night-vision --screenshot shot.ppm   # se zapnutým nočním viděním
-./build/hind --instrument-lights --screenshot shot.ppm   # s podsvícenými přístroji, znát v noci (--hud-black: černý HUD)
-./build/hind --mission SARATT22 --view external --orbit 13,215,-7 --clean-shot --screenshot shot.ppm   # obrázek bez HUD (do menu)
-./build/hind --top-ten-score 3000 --menu topten --screenshot shot.ppm   # Top Ten s řádkem pro nové skóre
-./build/hind --virtual-joystick --menu prefs --menu-keys "475,339 frame axis:0:0:0.9 frame" --screenshot shot.ppm   # virtuální knipl a pedály: učení os bez hardwaru
-./build/hind --mission UKRAIC01 --hour 13   # mise ve 13:00 místo jejího času (Shahedy za dne)
-./build/hind --mission SARATT21 --intercept 10   # ve vzduchu u prvního Shahedu: dorovná tě za 10 s (150 m vlevo, 60 m pod tebou;
-                                                 # --intercept 3,100,0: za 3 s 100 m vpravo ve stejné výšce)
-./build/hind --mission SARATT21 --debug-door   # L zapne/vypne výpis: každou sekundu nejbližší Shahed očima dveřních střelců
-./build/hind --fail all --screenshot s.ppm   # všechny systémy vyřazené (kontrolky; --fail 0,4 jen NAV a HUD)
-./build/hind --mission KOREAS01 --abort --screenshot s.ppm   # vyhodnocení přerušené mise (--end-ask: tabulka END MISSION)
-# Hra po síti na jednom počítači: střelec s Jak-B otočeným o 25° doleva, pilot letí, až se střelec připojí
-./build/hind --join 127.0.0.1 --view gunner --fire yakb --look 25 --screenshot strelec.ppm --shot-time 25 &
+./build/hind --mission SARATT02 --night-vision --screenshot shot.ppm   # with night vision on
+./build/hind --instrument-lights --screenshot shot.ppm   # with the instruments lit, visible at night (--hud-black: black HUD)
+./build/hind --mission SARATT22 --view external --orbit 13,215,-7 --clean-shot --screenshot shot.ppm   # a picture without the HUD (for the menu)
+./build/hind --top-ten-score 3000 --menu topten --screenshot shot.ppm   # Top Ten with a row for a new score
+./build/hind --virtual-joystick --menu prefs --menu-keys "475,339 frame axis:0:0:0.9 frame" --screenshot shot.ppm   # a virtual stick and pedals: learning the axes without hardware
+./build/hind --mission UKRAIC01 --hour 13   # the mission at 13:00 instead of its time (Shaheds by day)
+./build/hind --mission SARATT21 --intercept 10   # in the air by the first Shahed: it draws level in 10 s (150 m left, 60 m below you;
+                                                 # --intercept 3,100,0: in 3 s, 100 m right at the same height)
+./build/hind --mission SARATT21 --debug-door   # L toggles a printout: every second the nearest Shahed through the door gunners' eyes
+./build/hind --fail all --screenshot s.ppm   # all systems knocked out (warning lights; --fail 0,4 only NAV and HUD)
+./build/hind --mission KOREAS01 --abort --screenshot s.ppm   # debriefing of an aborted mission (--end-ask: the END MISSION table)
+# Network play on one computer: the gunner with the Yak-B turned 25° left, the pilot flies once the gunner joins
+./build/hind --join 127.0.0.1 --view gunner --fire yakb --look 25 --screenshot gunner.ppm --shot-time 25 &
 ./build/hind --wait-gunner --mission UKRAIC01 --start-air 60 120 --screenshot pilot.ppm --shot-time 25
-./build/hind --start-air 60 80 --fire s8 --screenshot shot.ppm   # drží spoušť: yakb | upk | s8 | s5 | fab250 | fab500 | ofab250 | zab500 | 9m114
+./build/hind --start-air 60 80 --fire s8 --screenshot shot.ppm   # holds the trigger: yakb | upk | s8 | s5 | fab250 | fab500 | ofab250 | zab500 | 9m114
 ./build/hind --model realistic --no-crash
-./build/hind --start-pos 100 -2400 0 --start-air 30 0   # start jinde: x, z (m od letiště; z = jih), kurz
-./build/hind --zone korea --mission none  # jiná oblast originálu (afghan, kazak, korea, saratov, procedural)
-./build/hind --mission AFGHNC05 --plan map --screenshot s.ppm   # plánování: briefing | map | payload (jinak ho snímek přeskočí; --briefing = --plan briefing)
-./build/hind --plan map --plan-keys "Tab S-Right Insert 120,200" --screenshot s.ppm   # a pak klávesy a kliky (X,Y v 640×480; X,Y>X2,Y2 tažení)
+./build/hind --start-pos 100 -2400 0 --start-air 30 0   # start elsewhere: x, z (m from the airfield; z = south), heading
+./build/hind --zone korea --mission none  # another zone of the original (afghan, kazak, korea, saratov, procedural)
+./build/hind --mission AFGHNC05 --plan map --screenshot s.ppm   # planning: briefing | map | payload (otherwise the screenshot skips it; --briefing = --plan briefing)
+./build/hind --plan map --plan-keys "Tab S-Right Insert 120,200" --screenshot s.ppm   # and then keys and clicks (X,Y in 640×480; X,Y>X2,Y2 a drag)
 ./build/hind --menu training --menu-keys "Down Down Return" --screenshot s.ppm   # menu: main | quick | flight | training | single | campaign | exit
-./build/hind --no-menu                    # rovnou do letu podle hind.ini (také s --mission, --plan, --start-air, --start-pos)
-./build/hind --destroy 4 --shot-time 25 --screenshot s.ppm   # zničené cíle; snímek po 25 s
+./build/hind --no-menu                    # straight into flight by hind.ini (also with --mission, --plan, --start-air, --start-pos)
+./build/hind --destroy 4 --shot-time 25 --screenshot s.ppm   # destroyed targets; the screenshot after 25 s
 ./build/hind --mission none --start-pos 0 -1500 0 --start-air 80 0 --arm yakb --screenshot s.ppm --shot-time 3
-                                           # zbraň odjištěná bez střelby: HUD ve zbraňovém režimu
-./build/hind --look 45 --screenshot s.ppm  # pohled z kokpitu otočený o 45° doleva (záporné = doprava)
-./build/hind --view gunner --look-pitch -5 --screenshot s.ppm  # pohled skloněný o 5° dolů (napůl průhledný obrázek)
-# lafeta bez lafety: virtuální joystick na osách X,Y se spouští (v ini door_device = Virtual Joystick, mimo obrazovku
-# ještě SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS=1, jinak SDL vstup bez fokusu zahodí)
+                                           # weapon armed without firing: the HUD in weapon mode
+./build/hind --look 45 --screenshot s.ppm  # the view from the cockpit turned 45° left (negative = right)
+./build/hind --view gunner --look-pitch -5 --screenshot s.ppm  # the view tilted 5° down (the picture half transparent)
+# the mount without a mount: a virtual joystick at axes X,Y with the trigger (door_device = Virtual Joystick in the ini,
+# off screen also SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS=1, or SDL drops input without focus)
 ./build/hind --mission UKRAIC08 --view door-right --start-air 150 150 --virtual-mount 0.5,0,1 --shot-time 4 --screenshot s.ppm
-./build/hind --mission SARATT24 --intercept 25,-1500,-50 --view drone --screenshot s.ppm --shot-time 4  # z pravých dveří hned stíhací dron, pohled z něj
-./build/hind --view gunner --sight-zoom 2 --screenshot s.ppm  # zaměřovač střelce zvětšený (1: 3,3×, 2: 10×)
-./build/hind --join 127.0.0.1 --say 3 --screenshot s.ppm --shot-time 4  # dvě sekundy po startu pošle zprávu Ctrl+3
-./build/hind --view external --orbit 12,150,8 --screenshot s.ppm  # vnější pohled z 12 m, 150° kolem, 8° shora
+./build/hind --mission SARATT24 --intercept 25,-1500,-50 --view drone --screenshot s.ppm --shot-time 4  # an interceptor out of the right door at once, the view from it
+./build/hind --view gunner --sight-zoom 2 --screenshot s.ppm  # the gunner's sight magnified (1: 3.3x, 2: 10x)
+./build/hind --join 127.0.0.1 --say 3 --screenshot s.ppm --shot-time 4  # two seconds into the flight sends message Ctrl+3
+./build/hind --view external --orbit 12,150,8 --screenshot s.ppm  # external view from 12 m, 150° round, 8° from above
 ./build/hind --mission AFGHNS02 --at-waypoint 3 --doors --view external --screenshot s.ppm --shot-time 9
-                                           # na zemi v bodě plánu 3 (výsadek u X), dveře otevřené
-# Se --screenshot (a --model-sheet) se okno nezobrazí: snímek se kreslí mimo obrazovku
-# rychlostí 60 snímků za simulovanou sekundu.
-./build/hind --mission UKRAIC08 --shot-time 5 --shot-frames 120 --screenshot s.ppm  # od 5. s 120 snímků za sebou (s-0000.ppm …), na video
-# kamera 2,2 m vpravo, 0,9 m nahoře a 2,8 m před středem vrtulníku míří na pravé dveře; mezi 4,86 a 4,95 s se stočí
-# na nejbližší nepřátelský dron a zúží záběr na 20°; --shot-slow 8 = osmkrát zpomaleně (8 snímků na 1/60 s);
-# --shot-pan …,0.5 = stočí se jen napůl (kulomet i dron v záběru). Samotné --shot-cam vypíše, kde kamera byla
-# („Shot camera at X,Y,Z“); --shot-eye X,Y,Z,4.4,2 = do 4,4 s kamera stojí v X,Y,Z a přiblíženě sleduje
-# přilétající Hind, poslední 2 s na něj doletí
+                                           # on the ground at the plan's point 3 (the drop at X), doors open
+# With --screenshot (and --model-sheet) no window is shown: the picture is drawn off screen
+# at 60 frames per simulated second.
+./build/hind --mission UKRAIC08 --shot-time 5 --shot-frames 120 --screenshot s.ppm  # from 5 s on 120 frames in a row (s-0000.ppm …), for a video
+# the camera 2.2 m right, 0.9 m up and 2.8 m ahead of the helicopter's middle looking at the right door; between 4.86 and
+# 4.95 s it turns to the nearest enemy drone, narrowing to 20°; --shot-slow 8 = eight times slower (8 frames to 1/60 s);
+# --shot-pan …,0.5 = turning only halfway (the gun and the drone in the picture). --shot-cam alone prints where the
+# camera was ("Shot camera at X,Y,Z"); --shot-eye X,Y,Z,4.4,2 = till 4.4 s the camera stands at X,Y,Z following the
+# Hind flying up zoomed in, the last 2 s gliding onto it
 ./build/hind --mission UKRAIC01 --intercept 6,30,-15 --shot-cam 2.2,0.9,-2.8,door --shot-pan 4.86,4.95,20 --shot-slow 8 --shot-time 4.8 --shot-frames 240 --clean-shot --screenshot s.ppm
-./build/hind --model-sheet mi24.ppm       # Mi-24 z boku, shora, zepředu (100 px/m, pro porovnání s výkresem) a šikmo
-./build/hind --model-sheet o.ppm --sheet-model obj:687   # objekt 687 originálu (Mi-17); shahed = dron Shahed-136, geran3 = Geran-3, litavr = stíhací dron, banderol = střela Banderol, r60 = střela R-60, 9m114 = střela 9M114
-./build/hind --model-sheet mi24.obj       # model jako OBJ s barvami vrcholů (trojúhelníky, i rotory a podvozek)
-./build/hind --mission UKRAIC08 --sheet-model original --model-sheet ua.obj   # model originálu s výzbrojí mise; s dveřními kulomety otevřené dveře, otvory vyříznuté do šedozelené kabiny, kulomet na sloupku u podlahy a střelec za ním
+./build/hind --model-sheet mi24.ppm       # the Mi-24 from the side, top, front (100 px/m, to compare with a drawing) and at an angle
+./build/hind --model-sheet o.ppm --sheet-model obj:687   # the original's object 687 (Mi-17); shahed = the Shahed-136 drone, geran3 = the Geran-3, litavr = the interceptor, banderol = the Banderol cruise missile, r60 = the R-60 missile, 9m114 = the 9M114 missile
+./build/hind --model-sheet mi24.obj       # the model as OBJ with vertex colours (triangles, rotors and gear too)
+./build/hind --mission UKRAIC08 --sheet-model original --model-sheet ua.obj   # the original's model with the mission's stores; with door guns the doors open, the doorways cut into a grey-green cabin, the gun on its post by the floor and its gunner behind it
 ```
 
-## Struktura
+## Structure
 
-- `src/sim/heli.*`: letový model Mi-24, čísla podle originálního manuálu
-- `src/world/terrain.*`: terén: krajina oblasti originálu (výšková mřížka, dráhy letišť), nebo
-  procedurální. Fyzika i grafika používají stejný povrch z trojúhelníků.
-- `src/sim/weapons.*`, `src/sim/targets.*`, `src/sim/wso.*`: zbraně, balistika, pozemní cíle,
-  zásahy a poškození podle pancéřování, počítačový střelec
-- `src/sim/enemy.*`: palba nepřítele (kulomety, RPG, Strely, Rapier), klamné cíle a rušič;
-- `src/sim/battle.*`: boj nepřítele s našimi jednotkami;
-  poškození vrtulníku je v `src/sim/heli.*`
-- `src/sim/threats.*`: co zachytí RWR, tedy radary nepřátel s výhledem na vrtulník
-- `src/gamedata/original.*`: čtení 3D objektů originální hry. Popis formátu je v hlavičce.
-  Každý objekt má vrcholy, normály a display list s BSP uzly a polygony, barvy jsou indexy do
-  palety. Kola a věže jsou podobjekty umístěné z hlavičky.
-- `src/render/vehicles.*`: vozidla a jejich vraky
-- `src/render/original_mi24.*`: Mi-24 z originálu složený z dílů jako ve hře (spodek nosu
-  a zadní části podle podvozku, věž zvlášť, rotory naše); ostatní Hindy z wingmanského modelu
-- `src/render/glcore.*`: vlastní zavaděč OpenGL 3.3. Obsahuje jen funkce a konstanty, které
-  hra používá, a načítá je přes SDL, takže nepotřebuje žádnou další knihovnu. Novou funkci je
-  potřeba přidat do seznamu `HIND_GL_FUNCTIONS`.
-- `src/render/*`: OpenGL 3.3, streamování terénu po chuncích s LOD, HUD s vlastním vektorovým
-  písmem. Mi-24 je model originálu (`original_mi24.*`). Bez dat originálu kreslí `models.cpp`
-  vlastní jednoduchý Mi-24 (trup tažený přes průřezy, motory, křídla, ocas a podvozek
-  z jednoduchých dílů). Rotory, závěsníky a jejich výzbroj a přístrojovou desku v kokpitu
-  dodává `models.cpp` vždy.
-- `tools/collective_chart.py`: změří na letovém modelu kolektiv pro vodorovný let a zapíše graf a tabulku do kapitoly [Jak létat](#jak-létat) (`docs/`). Spustit po každé změně fyziky; test v `hind_tests` jinak selže.
-- `tools/gshg2sprite.py`: vyřízne GŠG-7.62 z fotografie `GShG_762.JPG` (viz `CREDITS.md`, stáhnout do `blueprints/`) a zapíše dva
-  obrázky do `src/menu/gshg_sprite.inc`: kulomet ležící na betonu se stínem a kulomet trčící
-  z okénka. Potřebuje Pillow.
-- `tools/make_icon.py`: ikona hry podle loga HIND REBUILT: Mi-24 z OBJ souboru (nynější ikona je z modelu Pfelpenssona, viz `CREDITS.md`), příď v barvách ukrajinských misí (česká kamufláž s oblými skvrnami, modrožlutý pruh) a od rotoru dozadu drátěný model (`tools/half_wire.py`), na noční obloze. Píše `data/hind.svg`, `data/hind.png`, `data/hind.ico` a `src/render/icon.inc`, potřebuje numpy, Pillow a Inkscape
-- `tools/readme_html.py`: náhledy README a CREDITS, jak je ukáže GitHub (`README.html` …, mimo git;
-  vykresluje cmark-gfm, `build.sh` je obnoví sám, když je nainstalovaný).
-- `tools/stars.py`: z katalogu jasných hvězd (Yale BSC5) zapíše `src/render/stars.inc`.
-- `tools/ukraine_missions.py`: zapíše mise ukrajinské kampaně do `data/missions/` (cíle,
-  hlídkové čáry, nálety dronů a jejich časy).
-- `src/sim/spotter.*`: Mi-17, který hledá a hlásí drony.
-- `src/net/*`: hra po síti. `link.*` je spojení TCP, které nikdy neblokuje snímek, `mirror.*`
-  obsahuje zprávy mezi pilotem a střelcem a stav letu, který se mezi nimi posílá. Jednotky se
-  posílají, jen když se změnily.
-- `src/gamedata/zone.*`: krajina bojových oblastí originálu (`GRIDPOST.BIN`, paleta, letiště,
-  objekty `GNDOBJS.BIN` a dráhy podle jejich značení)
-- `src/gamedata/mission.*`: mise originálu (`MISSDATA/*.MIS`, `.TXT`, `.DTA`) a formace
-  z `HIND.EXE`. Formát je popsaný v hlavičce.
-- `src/sim/mission.*`: rozmístění sil mise, typy objektů originálu (vozidla, vojáci, letadla,
-  stany), navigace po trase a vyhodnocení
-- `src/gamedata/sound.*`: zvuky originálu (`SOUND/MAXIMAL.BLK`) a co který blok je
-- `src/audio/mixer.*`: softwarový mixer nad zvukovým zařízením SDL;
-  `src/audio/game_audio.*`: kdy co zní (motor, zbraně, výbuchy, hlasy)
-- `src/menu/frontend.*`: menu originálu (hlavní, Quickstart, Flight, volba války, seznamy
-  výcvikových a samostatných misí, ukončení)
-- `src/menu/planner.*`: plánování mise jako v originálu (mapa s trasou, Map Tool Box, okna
-  brífinku, výzbroje, bodů trasy, vrstev mapy, počasí, letů a místa pod kurzorem);
-  `src/menu/raster.*`: kreslení po pixelech (čáry, kruhy, polygony) pro mapu;
-  `src/gamedata/zonemap.*`: mapa oblasti pro plánování (`FEATURES.BIN`, `FEATURE1.LYR`,
-  vrstevnice z `GRIDPOST.BIN`, paleta mapy); `src/render/canvas.*`: 2D kreslení obrazovek v souřadnicích 640×480 s písmem
-  originálu
-- `src/gamedata/picture.*`: čtení obrázků originálu (IFF PBM z Deluxe Paintu, `*.LBM`), palet
-  (`*.RGB`) a malých obrázků bez hlavičky (`*.640`).
-- `src/render/overlay.*`: kokpity z originální hry (`COCKPITS/PILOT.LBM`, `GUNNER.LBM`) přes 3D
-  svět. Každý obrázek je panorama 1920×480 ze tří pohledů: doleva, dopředu a doprava. Okna
-  mají barvu s indexem 0 a jsou průhledná. Při rozhlížení do stran se obrázek posouvá jako
-  v originále, asi do 97° na každou stranu. Posledních 32 barev se bere z `COCKPITS.RGB`
-  stejně jako v originálu, takže ciferníky jsou černé jako za letu. Nad obrázky přidává hra
-  domalované řádky s horním rámem kabiny (`data/cockpit/pilot-top.pam`, `gunner-top.pam`,
-  76 a 88 řádků). Při pohledu nahoru se obrázek posouvá dolů a s ním budíky i HUD.
-- `src/render/gauges.*`: co se na originálních cifernících hýbe. Ručičky jsou ocejchované
-  na jejich stupnice. Patří sem i karta kurzového ukazatele (číslice z `SMALLNUM.640`),
-  značky ukazatele sklonu, stáčení a náklonu a kontrolky podvozku a brzd (`UCL*.640`,
-  `BRAKEON.640`). Umělý a záložní horizont a pohyblivá mapa se kreslí pod obrázek, takže je
-  ořízne rámeček okénka. Střelec má ručičky na svých čtyřech přístrojích vlevo.
-  Z originálu jsou i varovné kontrolky (`WARNING.640`), válečková počítadla (`NUMERICS.640`)
-  a panel zbraní střelce (číslice `WEAP_NOS.640`, kurzíva `WEAP_TXT.640`). RWR se rozsvěcuje
-  přebarvením originálního panelu (`RWRBLAT.640`), rozděleného na kontrolky a segmenty.
-- `src/render/cockpit.*`: modelované kokpity pilota a střelce pro pohled nahoru, dolů a dozadu
-  a pro hru bez originálních dat. Mají
-  funkční přístroje. Jsou to rychloměr,
-  umělý a záložní horizont, variometr, oba výškoměry, kurzový ukazatel, g-metr, hodiny,
-  krouticí moment, kontrolky a pohyblivá mapa. Staví se každý snímek a kreslí bez osvětlení.
-- `src/gamedata/campaign.*`: kampaň jako v originálu (úrovně, životy, texty mezi misemi)
-- `src/gamedata/cd.*`: CD originálu (adresář nebo obraz `.iso`): řeč, hudba, animace;
-  `src/gamedata/anim.*`: animace z CD (`ANIMS/*.Q3`)
-- `src/gamedata/install.*`, `src/menu/setup.*`, `src/platform/filedialog.*`: první spuštění
-  (kde je originál, kopie dat z CD, systémový dialog)
-- `src/sim/aircombat.*`: útoky nepřátelských stíhaček a bitevních vrtulníků
-- `src/sim/debris.*`: rozpad Hinda při havárii
-- `src/sim/orders.*`: rozkazy wingmanovi a formaci
-- `src/sim/troops.*`, `src/render/figures.*`: výsadek a evakuace, vojáci a nosítka
-- `src/sim/pilot_log.*`, `src/sim/topten.*`: deník pilotů, Top Ten
-- `src/render/drones.*`: modely Shahedu-136 a Geranu-3; `src/render/livery.*`: barvy českých
-  Hindů v ukrajinských misích
-- `src/render/recognition.*`: otáčející se model v knihovně jednotek (Recognition)
-- `src/render/daylight.*`, `src/render/sky.*`: denní doba, počasí, obloha, hvězdy a měsíc;
-  `src/render/nightvision.*`: noční vidění; `src/render/effects.*`: střely, kouř, výbuchy,
-  světla drah a žhavé motory dronů
-- `src/platform/*`: konfigurace a vstup (klávesnice, joystick, gamepad)
-- `tests/test_flight.cpp`: testy bez okna. Kontrolují křivku potřebného výkonu, vzlet,
-  visení, Vmax, zbraně, zásahy cílů a dekódování originálních modelů (pokud je hra
-  nainstalovaná). Automatický „pilot“ v nich odletí okruh v režimech Stable i Realistic.
+- `src/sim/heli.*`: the Mi-24 flight model, numbers after the original's manual
+- `src/world/terrain.*`: the terrain: the original's war zone (the height grid, the airfields'
+  runways), or procedural. Physics and graphics use the same surface of triangles.
+- `src/sim/weapons.*`, `src/sim/targets.*`, `src/sim/wso.*`: weapons, ballistics, ground targets,
+  hits and damage by armour, the computer gunner
+- `src/sim/enemy.*`: enemy fire (machine guns, RPGs, Strelas, Rapier), flares and the jammer;
+- `src/sim/battle.*`: the enemy's fight with our units;
+  the helicopter's damage is in `src/sim/heli.*`
+- `src/sim/threats.*`: what the RWR picks up, the enemy's radars with a view of the helicopter
+- `src/gamedata/original.*`: reading the original game's 3D objects. The format is described in
+  the header. Each object has vertices, normals and a display list with BSP nodes and polygons;
+  colours are indices into the palette. Wheels and turrets are subobjects placed from the header.
+- `src/render/vehicles.*`: vehicles and their wrecks
+- `src/render/original_mi24.*`: the original's Mi-24 put together from parts as in the game (the
+  underside of the nose and of the rear by the gear, the turret separate, our rotors); the other
+  Hinds from the wingman's model
+- `src/render/glcore.*`: our own OpenGL 3.3 loader. It has only the functions and constants the
+  game uses and loads them through SDL, so no other library is needed. A new function has to be
+  added to the list `HIND_GL_FUNCTIONS`.
+- `src/render/*`: OpenGL 3.3, terrain streaming in chunks with LOD, a HUD with our own vector
+  font. The Mi-24 is the original's model (`original_mi24.*`). Without the original's data
+  `models.cpp` draws a simple Mi-24 of our own (a fuselage lofted through cross sections,
+  engines, wings, tail and gear from simple parts). The rotors, the pylons and their weapons and
+  the instrument panel in the cockpit always come from `models.cpp`.
+- `tools/gshg2sprite.py`: cuts the GShG-7.62 out of the photograph `GShG_762.JPG` (see
+  `CREDITS.md`, download it into `blueprints/`) and writes two pictures into
+  `src/menu/gshg_sprite.inc`: the gun lying on concrete with a shadow and the gun sticking out
+  of the window. Needs Pillow.
+- `tools/make_icon.py`: the game's icon after the HIND REBUILT logo: a Mi-24 from an OBJ file
+  (the present icon is from Pfelpensson's model, see `CREDITS.md`), the nose in the Ukrainian missions'
+  colours (the Czech camouflage with round patches, the blue and yellow stripe) and from the rotor
+  back a wireframe (`tools/half_wire.py`), on a night sky. Writes `data/hind.svg`,
+  `data/hind.png`, `data/hind.ico` and `src/render/icon.inc`; needs numpy, Pillow and Inkscape
+- `tools/collective_chart.py`: measures the collective for level flight on the flight model and writes the chart and table of [How to fly](#how-to-fly) (`docs/`). Run it after any physics change; a test in `hind_tests` fails otherwise.
+- `tools/readme_html.py`: previews of the README and CREDITS as GitHub shows them (`README.html` …,
+  outside git; rendered by cmark-gfm, `build.sh` refreshes them when it is installed).
+- `tools/stars.py`: writes `src/render/stars.inc` from the catalogue of bright stars (Yale BSC5).
+- `tools/ukraine_missions.py`: writes the Ukrainian campaign's missions into `data/missions/`
+  (targets, patrol lines, drone raids and their times).
+- `src/sim/spotter.*`: the Mi-17 that searches for and reports drones.
+- `src/net/*`: network play. `link.*` is a TCP connection that never blocks a frame, `mirror.*`
+  has the messages between the pilot and the gunner and the flight's state sent between them.
+  Units are sent only when they have changed.
+- `src/gamedata/zone.*`: the original's war zone landscapes (`GRIDPOST.BIN`, palette, airfields,
+  `GNDOBJS.BIN` objects and runways by their markings)
+- `src/gamedata/mission.*`: the original's missions (`MISSDATA/*.MIS`, `.TXT`, `.DTA`) and the
+  formations from `HIND.EXE`. The format is described in the header.
+- `src/sim/mission.*`: placing the mission's forces, the original's object types (vehicles,
+  soldiers, aircraft, tents), navigation along the route and the debriefing
+- `src/gamedata/sound.*`: the original's sounds (`SOUND/MAXIMAL.BLK`) and which block is what
+- `src/audio/mixer.*`: a software mixer over SDL's audio device;
+  `src/audio/game_audio.*`: when what sounds (engine, weapons, explosions, voices)
+- `src/menu/frontend.*`: the original's menu (main, Quickstart, Flight, choice of war, lists of
+  training and single missions, quitting)
+- `src/menu/planner.*`: mission planning as in the original (the map with the route, the Map
+  Tool Box, the windows of the briefing, payload, route points, map layers, weather, flights and
+  the place under the cursor);
+  `src/menu/raster.*`: pixel drawing (lines, circles, polygons) for the map;
+  `src/gamedata/zonemap.*`: the zone's map for planning (`FEATURES.BIN`, `FEATURE1.LYR`, contour
+  lines from `GRIDPOST.BIN`, the map's palette); `src/render/canvas.*`: 2D drawing of screens in
+  640×480 coordinates with the original's font
+- `src/gamedata/picture.*`: reading the original's pictures (IFF PBM from Deluxe Paint, `*.LBM`),
+  palettes (`*.RGB`) and small headerless pictures (`*.640`).
+- `src/render/overlay.*`: the original game's cockpits (`COCKPITS/PILOT.LBM`, `GUNNER.LBM`) over
+  the 3D world. Each picture is a 1920×480 panorama of three views: left, ahead and right. The
+  windows have colour index 0 and are transparent. Looking to the sides, the picture slides as
+  in the original, up to about 97° each way. The last 32 colours are taken from `COCKPITS.RGB`
+  as in the original, so the dials are black as in flight. Over the pictures the game puts rows
+  painted on with the cabin's upper frame (`data/cockpit/pilot-top.pam`, `gunner-top.pam`, 76
+  and 88 rows). Looking up, the picture slides down and the dials and HUD with it.
+- `src/render/gauges.*`: what moves on the original's dials. The needles are calibrated to their
+  scales. The heading indicator's card (digits from `SMALLNUM.640`), the marks of the pitch, yaw
+  and bank indicator and the gear and brake lights (`UCL*.640`, `BRAKEON.640`) belong here too.
+  The artificial and standby horizons and the moving map are drawn under the picture, so the
+  window's frame clips them. The gunner has needles on his four instruments on the left.
+  From the original are also the warning lights (`WARNING.640`), the drum counters
+  (`NUMERICS.640`) and the gunner's weapons panel (digits `WEAP_NOS.640`, italics
+  `WEAP_TXT.640`). The RWR lights up by recolouring the original's panel (`RWRBLAT.640`), split
+  into lights and segments.
+- `src/render/cockpit.*`: the pilot's and the gunner's modelled cockpits for looking up, down and
+  back and for the game without the original's data. They have working instruments: the airspeed
+  indicator, the artificial and standby horizons, the variometer, both altimeters, the heading
+  indicator, the g-meter, the clock, torque, the warning lights and the moving map. They are
+  built every frame and drawn without lighting.
+- `src/gamedata/campaign.*`: a campaign as the original's (levels, lives, the texts between the
+  missions)
+- `src/gamedata/cd.*`: the original's CD (a directory or an `.iso` image): speech, music,
+  animations; `src/gamedata/anim.*`: the animations on the CD (`ANIMS/*.Q3`)
+- `src/gamedata/install.*`, `src/menu/setup.*`, `src/platform/filedialog.*`: the first start
+  (where the original is, copying the data off the CD, the system's dialog)
+- `src/sim/aircombat.*`: the enemy fighters' and gunships' attacks
+- `src/sim/debris.*`: the Hind breaking up in a crash
+- `src/sim/orders.*`: orders to the wingman and the formation
+- `src/sim/troops.*`, `src/render/figures.*`: troop drops and evacuations, soldiers and stretchers
+- `src/sim/pilot_log.*`, `src/sim/topten.*`: the pilots' log, the Top Ten
+- `src/render/drones.*`: the Shahed-136 and Geran-3 models; `src/render/livery.*`: the Czech
+  Hinds' colours in the Ukrainian missions
+- `src/render/recognition.*`: the turning model in the units' library (Recognition)
+- `src/render/daylight.*`, `src/render/sky.*`: time of day, weather, sky, stars and moon;
+  `src/render/nightvision.*`: night vision; `src/render/effects.*`: shots, smoke, explosions,
+  runway lights and the drones' hot engines
+- `src/platform/*`: configuration and input (keyboard, joystick, gamepad)
+- `tests/test_flight.cpp`: tests without a window. They check the power required curve, takeoff,
+  hover, Vmax, weapons, hits on targets and decoding of the original's models (if the game is
+  installed). An automatic "pilot" in them flies a circuit in Stable and Realistic.
 
-## Licence
+## License
 
-Kód je pod licencí MIT (`LICENSE`): kdokoli ho může používat, upravovat a šířit, i v jiných
-projektech, jen musí zachovat upozornění na autora a licenci. Modely, obrázky, zvuky
-a knihovny od jiných autorů mají vlastní licence uvedené v `CREDITS.md`; modely M72 LAW
-(`data/models/m72.mesh`, `data/models/m72rocket.mesh`) jsou pod CC BY-NC 4.0, tedy jen
-k nekomerčnímu užití.
-Data originální hry *Hind* součástí projektu nejsou a licence se na ně nevztahuje.
-*Hind* a *Digital Integration* jsou ochranné známky svých vlastníků.
+The code is under the MIT license (`LICENSE`): anyone can use, modify and distribute it, in other
+projects too, as long as the copyright and license notice are kept. Models, pictures, sounds and
+libraries by other authors have their own licenses, listed in `CREDITS.md`; the M72 LAW models
+(`data/models/m72.mesh`, `data/models/m72rocket.mesh`) are under CC BY-NC 4.0, for non-commercial
+use only. The original *Hind* game's data are not part of the project and the license
+does not cover them. *Hind* and *Digital Integration* are trademarks of their respective owners.
 
-Napsáno s pomocí Claude (Anthropic).
+Written with the help of Claude (Anthropic).

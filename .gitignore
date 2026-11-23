@@ -7,10 +7,8 @@ build-win/
 dist/
 blueprints/
 # Náhledy README a CREDITS (tools/readme_html.py)
-/README.html
-/README.en.html
-/CREDITS.html
-/CREDITS.en.html
+/README*.html
+/CREDITS*.html
 # Místní soubory Clauda (pravidla, povolení, testovací konfigurace)
 /CLAUDE.local.md
 /.claude/

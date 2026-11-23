@@ -5,7 +5,7 @@
 
 Runs build/hind_tests --trim-table and writes docs/collective.csv (hind_tests compares the
 simulation with it and fails when they part), docs/collective.cs.svg, docs/collective.en.svg and
-the table between the collective markers in README.md and README.en.md.
+the table between the collective markers in README.md and README.cs.md.
 """
 import csv
 import io
@@ -124,7 +124,7 @@ def main():
         for (m, h), c in sorted(curves.items()):
             for k, v, _ in c:
                 w.writerow([m, h, k, v])
-    for lang, md in (("cs", "README.md"), ("en", "README.en.md")):
+    for lang, md in (("cs", "README.cs.md"), ("en", "README.md")):
         with open(os.path.join(ROOT, "docs", f"collective.{lang}.svg"), "w", encoding="utf-8") as f:
             f.write(svg(curves, lang))
         path = os.path.join(ROOT, md)

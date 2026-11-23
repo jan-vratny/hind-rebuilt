@@ -316,7 +316,7 @@ int main(int argc, char** argv) {
   }
   {
     // The figures of the manual's "Matching speed with a Shahed": when these fail, the physics
-    // changed: measure them anew and correct README.md and README.en.md.
+    // changed: measure them anew and correct README.md and README.cs.md.
     const Flare s = flareOntoShahed(terrain, FlightModel::Stable), r = flareOntoShahed(terrain, FlightModel::Realistic);
     check(s.seconds > 10.0f && s.seconds < 14.0f, "manual: braking onto a Shahed from 300 km/h takes about 12 s (s)", s.seconds);
     check(s.climb > 25.0f && s.climb < 55.0f, "manual: and at 60 % it climbs some 40 m (m)", s.climb);

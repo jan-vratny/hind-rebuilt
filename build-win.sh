@@ -49,7 +49,7 @@ cmake --build build-win -j "$(nproc)" --target hind
 rm -rf dist/hind-win
 mkdir -p dist/hind-win/data
 cp build-win/hind.exe build-win/SDL2.dll dist/hind-win/
-cp LICENSE CREDITS.md CREDITS.en.md dist/hind-win/
+cp LICENSE CREDITS.md CREDITS.cs.md dist/hind-win/
 cp -r data/missions data/sounds data/cockpit data/models dist/hind-win/data/
 if [ -d data/speech ]; then cp -r data/speech dist/hind-win/data/; fi
 if command -v zip >/dev/null; then
