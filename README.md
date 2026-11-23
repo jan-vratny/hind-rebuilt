@@ -64,7 +64,7 @@ bývalých českých Hindů. Vznikají další úpravy a doplňky.
    (balík `innoextract`), nebo se hra nainstaluje přes Heroic či Lutris. Hra ze Steamu se na
    Linuxu stáhne se zapnutým Protonem.
 2. **Stáhni HIND REBUILT.** Pro Windows je připravený balíček `hind-win.zip`
-   ([ke stažení na GitHubu](https://github.com/jan-vratny/hind-rebuilt/releases/latest), rozbalit a spustit `hind.exe`), na Linuxu se hra přeloží jedním příkazem (viz [Sestavení](#sestavení)).
+   ([ke stažení na GitHubu](https://github.com/jan-vratny/hind-rebuilt/releases), rozbalit a spustit `hind.exe`), na Linuxu se hra přeloží jedním příkazem (viz [Sestavení](#sestavení)).
 3. **Spusť ji.** Při prvním spuštění se zeptá, kde je původní hra: sama nabídne, co najde
    (instalaci z GOG, Steamu nebo DOSBoxu, CD v mechanice, obraz `.iso`), jinak stačí cestu
    napsat nebo vybrat v dialogu (viz [První spuštění](#data-originální-hry)).

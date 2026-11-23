@@ -66,7 +66,7 @@ and additions are on the way.
    package), or install the game through Heroic or Lutris. The Steam game downloads on Linux with
    Proton turned on.
 2. **Get HIND REBUILT.** For Windows there is a ready package, `hind-win.zip`
-   ([download it from GitHub](https://github.com/jan-vratny/hind-rebuilt/releases/latest), unpack it and run `hind.exe`); on Linux the game builds with one command (see [Building](#building)).
+   ([download it from GitHub](https://github.com/jan-vratny/hind-rebuilt/releases), unpack it and run `hind.exe`); on Linux the game builds with one command (see [Building](#building)).
 3. **Start it.** At the first start it asks where the original game is: it offers what it finds
    itself (a GOG, Steam or DOSBox installation, a CD in a drive, an `.iso` image), otherwise type
    the path or choose it in a dialog (see [The first start](#the-original-games-data)).
