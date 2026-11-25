@@ -1587,7 +1587,7 @@ int main(int argc, char** argv) {
     const menu::Choice& c = front.choice();
     cfg.set("world", "zone", c.zone);
     cfg.set("world", "mission", c.mission);
-    if (c.arcade) cfg.set("flight", "model", "novice");
+    if (c.arcade) cfg.set("flight", "model", "stable");
     if (c.noCrash) cfg.set("flight", "no_crash", "1");
     infiniteWeapons = c.infiniteWeapons;
     arcadeRun = c.arcade && !c.noCrash;
