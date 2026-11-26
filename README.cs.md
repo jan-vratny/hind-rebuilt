@@ -169,8 +169,8 @@ Hra začíná v menu originálu (obrázky a tlačítka z `MENUSCRN`, stisknuté 
 samostatný obrázek originálu):
 
 - **Quickstart**: **Arcade** a **Invincible** nabídnou válku (jako v originálu, manuál str. 5)
-  a vzlétnou rovnou do její náhodné samostatné mise s nejsnazším letovým modelem a nekonečnou
-  municí; Invincible navíc bez havárií a poškození. Quickstart se nehodnotí podle cílů mise: havárie je FAILURE, přežití SUCCESS a přežití s 3000 body OUTSTANDING; debrief ukáže skóre, čas ve vzduchu a co jsi sestřelil. V Arcade má jen dveřní GŠG počítanou munici: po 1500 ranách 6 s nabíjí („RELOADING GSG“) a pak má zase plno.
+  a vzlétnou rovnou do její náhodné samostatné mise s letovým modelem Stable (jiný jde přepnout klávesou M) a nekonečnou
+  municí; Invincible navíc bez havárií a poškození. Quickstart se nehodnotí podle cílů mise: havárie je FAILURE, přežití SUCCESS a přežití s 3000 body OUTSTANDING; debrief ukáže skóre, čas ve vzduchu a co jsi sestřelil. Vlastní a spojenecké jednotky se odečítají dvojnásobkem své ceny (spojenecký Hind −600), skóre tak může být i záporné. V Arcade má jen dveřní GŠG počítanou munici: po 1500 ranách 6 s nabíjí („RELOADING GSG“) a pak má zase plno.
   - **Ukrajina** v Quickstartu: mise ve dne (noční nálety se posunou na 11:00) a bez letu na
     hlídkovou čáru. Bojiště se přetočí, až je první dron 7 km od středu čáry, a Hind, wingman
     i Hip startují tam ve vzduchu čelem k němu. Pak se nečeká: ve vzduchu je 16 dronů v nepřetržitém proudu, každý přilétá z 2,5–8,5 km před Hindem

@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -41,7 +42,7 @@ struct HudData {
   std::string flightModel;
   bool gearDown = true, gearMoving = false, brakes = false, joystick = false;
   int timeScale = 1;  // time compression (T): shown while above 1
-  int score = -1;     // Quickstart Arcade's score, -1: none
+  std::optional<int> score;  // Quickstart Arcade's score (below zero too)
   std::string message;
   float time = 0;
   std::string weapon;          // selected weapon and rounds left, or SAFE

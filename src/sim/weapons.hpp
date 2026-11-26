@@ -77,6 +77,9 @@ bool parseDoorGuns(const std::string& key, Loadout& l);
 // The stores of the reference mass (Helicopter::kRefMass): four B-8V20 pods.
 float referenceStoresMass();
 
+// The game's physics step (s): the helicopter steps, then the weapons, each this long.
+inline constexpr float kPhysicsDt = 1.0f / 240.0f;
+
 struct Projectile {
   WeaponType type;
   glm::vec3 pos, vel;

@@ -72,7 +72,7 @@
 
 namespace {
 
-constexpr float kPhysicsDt = 1.0f / 240.0f;
+constexpr float kPhysicsDt = sim::kPhysicsDt;
 constexpr Uint64 kNetSilenceMs = 10000;   // the network game: the other side silent this long in a flight is gone
 constexpr float kShadowRange = 4000.0f;  // m: the aircraft's shadows drawn this far from the eye
 constexpr float kTimeHaltRange = 3000.0f;  // m: an enemy this close stops time compression
@@ -3593,7 +3593,7 @@ int main(int argc, char** argv) {
             if (impacts[k].destroyed && impacts[k].target >= 0 && impacts[k].target < int(targets.list.size())) {
               const sim::Vehicle& v = targets.list[size_t(impacts[k].target)];
               const int points = sim::arcadePoints(v);
-              if (arcadeRun) arcadeScore = std::max(0, arcadeScore + points);
+              if (arcadeRun) arcadeScore += points;  // (below zero too: a friend shot down costs)
               sim::ArcadeKill& kill = arcadeKills[sim::vehicleType(v.kind).name];
               ++kill.count, kill.points += points;
             }
@@ -4412,7 +4412,20 @@ int main(int argc, char** argv) {
       {
         // Tracers, rockets, smoke and explosions: unlit, translucent, not hiding each other.
         render::MeshBuilder eb;
-        effects.build(eb, allShots(), cs.eye, pos - heli.pos);
+        std::vector<sim::Projectile> shotsSeen = allShots();
+        // From a door the gun is drawn in our cabin (render::buildDoorView), not where it stands
+        // in the original's doorway, which the rounds leave: that door's rounds drawn from the
+        // gun seen (the same offset all the way; 0.9 m makes nothing at the target).
+        if (camera.mode == render::ViewMode::Door && meshes.original && !bowmanGame) {
+          const glm::vec3 mirror{camera.doorSide ? 1.0f : -1.0f, 1.0f, 1.0f};
+          const glm::vec3 offset = orient * ((sim::Weapons::kDoorPoint - sim::Weapons::doorPivot) * mirror);
+          const glm::mat3 toBody = glm::transpose(glm::mat3(orient));
+          for (size_t i = 0; i < weapons.shots.size() && i < shotsSeen.size(); ++i) {
+            sim::Projectile& s = shotsSeen[i];
+            if (s.type == sim::WeaponType::DoorGun && (toBody * (s.vel - s.carrier)).x * mirror.x > 0.0f) s.pos += offset;
+          }
+        }
+        effects.build(eb, shotsSeen, cs.eye, pos - heli.pos);
         for (const auto& [hp, hw] : otherHinds)
           if (hw && hw != &weapons) effects.build(eb, hw->shots, cs.eye);
         effects.buildEnemy(eb, enemy.shots(), enemy.flaresInAir(), cs.eye);
@@ -4462,12 +4475,17 @@ int main(int argc, char** argv) {
         // The original's polygons are one-sided.
         if (orig) glEnable(GL_CULL_FACE);
         if (orig) scene.set("uLivery", ukrainianLivery ? 1.0f : 0.0f);
-        if (orig) (heli.gearPos > 0.5f ? meshes.origGearDown : meshes.origGearUp).draw();
         // With door guns the doors are open, the gunners at them in the cabin.
         const bool gunsOut = orig && !door && (weapons.loadout().doorGun[0] || weapons.loadout().doorGun[1]);
-        if (orig) (troops.doorsOpen() || gunsOut ? meshes.origDoorsOpen : meshes.origDoorsShut).draw();
+        const auto drawOrig = [&](bool body) {
+          (heli.gearPos > 0.5f ? meshes.origGearDown : meshes.origGearUp).draw();
+          (troops.doorsOpen() || gunsOut ? meshes.origDoorsOpen : meshes.origDoorsShut).draw();
+          if (body) meshes.origBody.draw();
+        };
         if (door) {
-          if (orig) meshes.origBody.draw();
+          // Our cabin first, and of the original's airframe only what is not on it: its fuselage
+          // is narrower than our cabin, so its intakes and the like stand inside it (and showed
+          // through its walls).
           scene.set("uLivery", 0.0f);
           glDisable(GL_CULL_FACE);
           // The gun points where its gunner looks: ours, or the computer's where he aims.
@@ -4476,10 +4494,21 @@ int main(int argc, char** argv) {
           render::MeshBuilder db;
           render::buildDoorView(db, camera.doorSide, gunDir);
           meshes.doorView.upload(db.verts);
+          glClear(GL_STENCIL_BUFFER_BIT);
+          glEnable(GL_STENCIL_TEST);
+          glStencilFunc(GL_ALWAYS, 1, 0xff);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
           meshes.doorView.draw();
-          if (orig) glEnable(GL_CULL_FACE);
-          if (orig) scene.set("uLivery", ukrainianLivery ? 1.0f : 0.0f);
+          glStencilFunc(GL_NOTEQUAL, 1, 0xff);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+          if (orig) {
+            glEnable(GL_CULL_FACE);
+            scene.set("uLivery", ukrainianLivery ? 1.0f : 0.0f);
+            drawOrig(true);
+          }
+          glDisable(GL_STENCIL_TEST);
         } else {
+          if (orig) drawOrig(false);
           if (!cockpit) (orig ? (gunsOut ? meshes.origBodyOpen : meshes.origBody) : meshes.exterior).draw();
           if (!cockpit && gunsOut) {
             scene.set("uLivery", 0.0f);

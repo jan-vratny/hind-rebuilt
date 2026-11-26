@@ -346,7 +346,7 @@ void Hud::draw(const HudData& d, int w, int h) {
     color_ = kGreen;
   }
   if (!d.message.empty()) text(d.message, {w * 0.5f, h - 120.0f * s}, 30.0f * s, 0);
-  if (d.score >= 0 && d.page.empty()) text("SCORE " + std::to_string(d.score), {w - 30.0f * s, h - 50.0f * s}, 26.0f * s, 1);
+  if (d.score && d.page.empty()) text("SCORE " + std::to_string(*d.score), {w - 30.0f * s, h - 50.0f * s}, 26.0f * s, 1);
   if (d.timeScale > 1 && d.page.empty()) text("TIME X" + std::to_string(d.timeScale), {w * 0.5f, h - 160.0f * s}, 26.0f * s, 0);
   if (!d.page.empty()) drawPage(d.page, w, h);
 

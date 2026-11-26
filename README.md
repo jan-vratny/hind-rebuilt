@@ -177,8 +177,8 @@ The game starts in the original's menu (pictures and buttons from `MENUSCRN`; a 
 is a separate picture of the original):
 
 - **Quickstart**: **Arcade** and **Invincible** offer a war (as in the original, manual p. 5)
-  and take off straight into a random single mission of it with the easiest flight model and
-  infinite ammunition; Invincible also without crashes and damage. Quickstart is not judged by the mission's targets: a crash is FAILURE, coming through SUCCESS and coming through with 3000 points OUTSTANDING; the debriefing shows the score, the time in the air and what you shot down. In Arcade only the door GShG counts its rounds: after 1500 it reloads for 6 s ("RELOADING GSG") and is full again.
+  and take off straight into a random single mission of it with the Stable flight model (M switches to another) and
+  infinite ammunition; Invincible also without crashes and damage. Quickstart is not judged by the mission's targets: a crash is FAILURE, coming through SUCCESS and coming through with 3000 points OUTSTANDING; the debriefing shows the score, the time in the air and what you shot down. Own and allied units take off twice their worth (an allied Hind −600), so the score can go below zero. In Arcade only the door GShG counts its rounds: after 1500 it reloads for 6 s ("RELOADING GSG") and is full again.
   - **Ukraine** in Quickstart: the mission by day (the night raids move to 11:00) and with no
     flight out to the patrol line. The battlefield runs ahead until the first drone is 7 km
     from the line's middle, and the Hind, the wingman and the Hip start there in the air,

@@ -224,8 +224,10 @@ void Effects::build(MeshBuilder& mb, const std::vector<sim::Projectile>& shotsAt
     } else if (s.tracer) {
       // The streak as the crew sees it, flying on with the gun: no longer than the round's flight
       // so far, so that one just fired comes out of the muzzle (not from inside the gun, nor from
-      // where the muzzle was a moment ago).
-      streak(mb, s.pos - (s.vel - s.carrier) * std::min(0.012f, s.age), s.pos, w, kTracer, eye);
+      // where the muzzle was a moment ago). (Fired after the helicopter's step, the round's first
+      // step is not one the muzzle made: one step less of the helicopter's travel.)
+      const float a = std::min(0.012f, s.age);
+      streak(mb, s.pos - (s.vel - s.carrier) * a - s.carrier * std::min(a, sim::kPhysicsDt), s.pos, w, kTracer, eye);
     }
   }
 }
